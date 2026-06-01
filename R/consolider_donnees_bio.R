@@ -19,7 +19,7 @@
 #'
 #' @return le data.frame() consolidé
 #'
-consoliderDonneesBio <- function(input_dir) {
+consolider_donnees_bio <- function(input_dir) {
   donnees.init <- readxl::read_excel(path = file.path(input_dir, '1995DB.xls'))
   print(1995)
   donnees.init <- as.data.frame(donnees.init)
