@@ -11,9 +11,8 @@ Le package `evalSaguenay` contient les codes nécessaires pour compléter
 l’évaluation des stocks de la pêche récréative hivernale sur le
 Saguenay.
 
-0)  La fonction `consoliderDonneesBio()` permet de mettre lire les
-    différents format et mettre ensemble les données biologiques
-    pré-2021.
+0)  La fonction `lire_donnees_pre2021())` permet de mettre lire les
+    différents format et mettre ensemble les données pré-2021.
 
 1)  Lire et mettre en forme les données disponibles avec
     `lire_donnees()`
