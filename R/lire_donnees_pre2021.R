@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @examples
-lire_donnees_pre2021 <- function(dir_input, output_dir) {
+lire_donnees_pre2021 <- function(dir_input, dir_output) {
   ## données biologiques
   db.2020etMoins <- consolider_donnees_bio(
     input_dir = file.path(dir_input, 'DB')
@@ -44,12 +44,12 @@ lire_donnees_pre2021 <- function(dir_input, output_dir) {
   ech.2020etMoins.complete <- ech.2020etMoins.init[['ech.prime']]
   write.csv2(
     ech.2020etMoins,
-    file = file.path(dir_input, 'echantillonneurs_1995-2020.csv')
+    file = file.path(dir_output, 'echantillonneurs_1995-2020.csv')
   )
   write.csv2(
     ech.2020etMoins.complete,
     file = file.path(
-      dir_input,
+      dir_output,
       'echantillonneurs_1995-2020_donneesCompletes.csv'
     )
   )
