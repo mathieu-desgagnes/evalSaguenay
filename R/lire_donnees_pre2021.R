@@ -26,7 +26,10 @@ lire_donnees_pre2021 <- function(dir_input, dir_output) {
     db.2020etMoins,
     file = file.path(dir_output, 'donneeBiologique_1995-2020.csv')
   )
-  save(db.2020etMoins, file = file.path(dir_output, 'donnees_db.RData'))
+  save(
+    db.2020etMoins,
+    file = file.path(dir_output, 'donneeBiologique_1995-2020.RData')
+  )
 
   ## journaux de bord
   jb.2020etMoins <- consolider_journaux_de_bords(
@@ -36,7 +39,10 @@ lire_donnees_pre2021 <- function(dir_input, dir_output) {
     jb.2020etMoins,
     file = file.path(dir_output, 'journauxBords_2015-2020.csv')
   )
-  save(jb.2020etMoins, file = file.path(dir_output, 'donnees_jb.RData'))
+  save(
+    jb.2020etMoins,
+    file = file.path(dir_output, 'journauxBords_2015-2020.RData')
+  )
 
   ## échantillonneurs
   ech.2020etMoins.init <- consolider_echantillonneurs(
@@ -48,7 +54,10 @@ lire_donnees_pre2021 <- function(dir_input, dir_output) {
     ech.2020etMoins,
     file = file.path(dir_output, 'echantillonneurs_1995-2020.csv')
   )
-  save(ech.2020etMoins, file = file.path(dir_output, 'donnees_ech.RData'))
+  save(
+    ech.2020etMoins,
+    file = file.path(dir_output, 'echantillonneurs_1995-2020.RData')
+  )
   write.csv2(
     ech.2020etMoins.complete,
     file = file.path(
