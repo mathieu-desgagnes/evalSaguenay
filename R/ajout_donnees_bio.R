@@ -1,6 +1,6 @@
 #' Ajouter les données récentes aux données historiques de données biologiques.
 #'
-#' Les nouvelles données sont présentent dans le dossier "dirInput2021etPlus", chaque nouvelle années dans un dossier avec comme nom "Saison AAAA"
+#' Les nouvelles données sont présentent dans le dossier "input_2021_et_plus_dir", chaque nouvelle années dans un dossier avec comme nom "Saison AAAA"
 #'
 #' @param donnees_2020_et_moins `data.frame` contenant les données historique consolidées
 #' @param input_2021_et_plus_dir chemin du dossier contenant des dossier "Saison 20xx" avec les nouvelles données
@@ -13,8 +13,9 @@ ajout_donnees_bio <- function(
   donnees_2020_et_moins = NULL,
   input_2021_et_plus_dir
 ) {
-  db.init <- db.2020etMoins
-  temp <- dir(dirInput2021etPlus)
+  ##
+  db.init <- donnees_2020_et_moins
+  temp <- dir(input_2021_et_plus_dir)
   annee <- substr(temp[which(substr(temp, 1, 7) == 'Saison ')], 8, 11)
   db.temp <- as.data.frame(array(
     NA,
