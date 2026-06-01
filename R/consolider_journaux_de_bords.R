@@ -4,7 +4,7 @@
 #'
 #' @param input_dir Chemin vers le dossier où sont les fichiers de données brutes
 #'
-#' @importFrom readxl readxl::read_excel
+#' @importFrom readxl read_excel
 #' @import lubridate
 #'
 #' @return le data.frame() consolidé
