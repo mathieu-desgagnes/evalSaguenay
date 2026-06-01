@@ -9,17 +9,17 @@
 #'  - Les journaux de bord
 #'  - les échantillonneurs
 #'
-#' @param input_dir Chemin vers le dossier contenant les fichiers de données brutes
-#' @param output_dir Chemin vers le dossier où sauvegarder les fichier .csv produits
+#' @param dir_input Chemin vers le dossier contenant les fichiers de données brutes
+#' @param dir_output Chemin vers le dossier où sauvegarder les fichier .csv produits
 #'
 #' @returns Aucun objet n'est retourné.
 #' Les fichiers générés sont sauvegardés dans le dossier spécifié par \code{output_dir}
 #' @export
 #'
 #' @examples
-lire_donnees_pre2021 <- function(input_dir, output_dir) {
+lire_donnees_pre2021 <- function(dir_input, output_dir) {
   ## données biologiques
-  db.2020etMoins <- consoliderDonneesBio(dirInput = file.path(input_dir, 'DB'))
+  db.2020etMoins <- consoliderDonneesBio(input_dir = file.path(dir_input, 'DB'))
   save(
     db.2020etMoins,
     file = file.path(dirSag, 'Données', 'donneeBiologique_1995-2020.RData')
