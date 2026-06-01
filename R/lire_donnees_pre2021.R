@@ -19,56 +19,37 @@
 #' @examples
 lire_donnees_pre2021 <- function(dir_input, output_dir) {
   ## données biologiques
-  db.2020etMoins <- consoliderDonneesBio(input_dir = file.path(dir_input, 'DB'))
-  save(
-    db.2020etMoins,
-    file = file.path(dirSag, 'Données', 'donneeBiologique_1995-2020.RData')
+  db.2020etMoins <- consolider_donnees_bio(
+    input_dir = file.path(dir_input, 'DB')
   )
   write.csv2(
     db.2020etMoins,
-    file = file.path(dirSag, 'Données', 'donneeBiologique_1995-2020.csv')
+    file = file.path(dir_output, 'donneeBiologique_1995-2020.csv')
   )
 
   ## journaux de bord
-  jb.2020etMoins <- consoliderJournauxBords(
-    dirInput = file.path(dirSag, 'Pêche hivernale', 'JB')
-  )
-  save(
-    jb.2020etMoins,
-    file = file.path(dirSag, 'Données', 'journauxBords_2015-2020.RData')
+  jb.2020etMoins <- consolider_journaux_de_bords(
+    input_dir = file.path(dir_input, 'JB')
   )
   write.csv2(
     jb.2020etMoins,
-    file = file.path(dirSag, 'Données', 'journauxBords_2015-2020.csv')
+    file = file.path(dir_output, 'journauxBords_2015-2020.csv')
   )
 
   ## échantillonneurs
-  ech.2020etMoins.init <- consoliderEchantillonneurs(
-    dirInput = file.path(dirSag, 'Pêche hivernale')
+  ech.2020etMoins.init <- consolider_echantillonneurs(
+    input_dir = dir_input
   )
   ech.2020etMoins <- ech.2020etMoins.init[['ech']]
   ech.2020etMoins.complete <- ech.2020etMoins.init[['ech.prime']]
-  save(
-    ech.2020etMoins,
-    file = file.path(dirSag, 'Données', 'echantillonneurs_1995-2020.RData')
-  )
   write.csv2(
     ech.2020etMoins,
-    file = file.path(dirSag, 'Données', 'echantillonneurs_1995-2020.csv')
-  )
-  save(
-    ech.2020etMoins.complete,
-    file = file.path(
-      dirSag,
-      'Données',
-      'echantillonneurs_1995-2020_donneesCompletes.RData'
-    )
+    file = file.path(dir_input, 'echantillonneurs_1995-2020.csv')
   )
   write.csv2(
     ech.2020etMoins.complete,
     file = file.path(
-      dirSag,
-      'Données',
+      dir_input,
       'echantillonneurs_1995-2020_donneesCompletes.csv'
     )
   )
