@@ -40,42 +40,48 @@ ajout_donnees_bio <- function(
   ))
   for (i.an in annee) {
     print(i.an)
-    if(file.exists(file.path(
-      input_2021_et_plus_dir,
-      paste0('Saison ', i.an),
-      paste0('donneeBiologique_', i.an, '.xlsx'))){
-      db.new <- as.data.frame(readxl::read_excel(
-      path = file.path(
+    if (
+      file.exists(file.path(
         input_2021_et_plus_dir,
         paste0('Saison ', i.an),
         paste0('donneeBiologique_', i.an, '.xlsx')
-      ),
-      sheet = 1,
-      na = 'NA'
-    ))
+      ))
+    ) {
+      db.new <- as.data.frame(readxl::read_excel(
+        path = file.path(
+          input_2021_et_plus_dir,
+          paste0('Saison ', i.an),
+          paste0('donneeBiologique_', i.an, '.xlsx')
+        ),
+        sheet = 1,
+        na = 'NA'
+      ))
       names(db.new) <- c(
-      'partenaire',
-      'nomSite',
-      'echantillonneur',
-      'annee',
-      'mois',
-      'jour',
-      'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+        'partenaire',
+        'nomSite',
+        'echantillonneur',
+        'annee',
+        'mois',
+        'jour',
+        'espece',
+        'longueur',
+        'poids',
+        'commentaire'
       )
       if (nrow(db.new) > 0) {
-      db.new$anneeGestion <- as.numeric(i.an)
-      db.new$date <- as.POSIXct(
-        paste(db.new$annee, db.new$mois, db.new$jour, sep = '-'),
-        format = '%Y-%m-%d'
-      )
-      db.new$nomSite <- standardiser_nom_site(sites = db.new$nomSite)[, 'sites']
-      db.new$espece <- standardiser_nom_espece(espece = db.new$espece)
-      db.temp <- merge(db.temp, db.new, all = TRUE)
+        db.new$anneeGestion <- as.numeric(i.an)
+        db.new$date <- as.POSIXct(
+          paste(db.new$annee, db.new$mois, db.new$jour, sep = '-'),
+          format = '%Y-%m-%d'
+        )
+        db.new$nomSite <- standardiser_nom_site(sites = db.new$nomSite)[,
+          'sites'
+        ]
+        db.new$espece <- standardiser_nom_espece(espece = db.new$espece)
+        db.temp <- merge(db.temp, db.new, all = TRUE)
+      }
     }
-  }}
+  }
   ##
   ## nrow(db.init); nrow(db.temp)
   db <- merge(db.init, db.temp, all = TRUE)
