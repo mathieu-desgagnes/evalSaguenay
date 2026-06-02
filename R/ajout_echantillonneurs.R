@@ -20,94 +20,102 @@ ajout_echantillonneurs <- function(
   annee <- substr(temp[which(substr(temp, 1, 7) == 'Saison ')], 8, 11)
   for (i.an in annee) {
     print(i.an)
-    ech.new <- as.data.frame(readxl::read_excel(
-      path = file.path(
+    if (
+      file.exists(file.path(
         input_2021_et_plus_dir,
         paste0('Saison ', i.an),
         paste0('echantillonneur_', i.an, '.xlsx')
-      ),
-      sheet = 1,
-      na = 'NA'
-    ))
-    names(ech.new) <- c(
-      'affiliationEchantillonneur',
-      'echantillonneur',
-      'annee',
-      'mois',
-      'jour',
-      'heure',
-      'sfs',
-      'nomSite',
-      'nbPecheursFond',
-      'noPecheur',
-      'secteur',
-      'engin',
-      'nbLignes',
-      'nbHamecons',
-      'nbHeures',
-      'echosondeur',
-      'prof',
-      'nbMorue',
-      'nbOgac',
-      'nbSebastes',
-      'nbTurbot',
-      'nbCrabe',
-      'nbLycode',
-      'nbRaie',
-      'nbMerluche',
-      'nbEperlan',
-      'nbFletan',
-      'nbSaida',
-      'commentaires'
-    )
-    if (nrow(ech.new) > 0) {
-      ech.new$anneeGestion <- i.an
-      ech.new$date <- as.POSIXct(
-        paste(ech.new$annee, ech.new$mois, ech.new$jour, sep = '-'),
-        format = '%Y-%m-%d'
+      ))
+    ) {
+      ech.new <- as.data.frame(readxl::read_excel(
+        path = file.path(
+          input_2021_et_plus_dir,
+          paste0('Saison ', i.an),
+          paste0('echantillonneur_', i.an, '.xlsx')
+        ),
+        sheet = 1,
+        na = 'NA'
+      ))
+      names(ech.new) <- c(
+        'affiliationEchantillonneur',
+        'echantillonneur',
+        'annee',
+        'mois',
+        'jour',
+        'heure',
+        'sfs',
+        'nomSite',
+        'nbPecheursFond',
+        'noPecheur',
+        'secteur',
+        'engin',
+        'nbLignes',
+        'nbHamecons',
+        'nbHeures',
+        'echosondeur',
+        'prof',
+        'nbMorue',
+        'nbOgac',
+        'nbSebastes',
+        'nbTurbot',
+        'nbCrabe',
+        'nbLycode',
+        'nbRaie',
+        'nbMerluche',
+        'nbEperlan',
+        'nbFletan',
+        'nbSaida',
+        'commentaires'
       )
-      ech.new$nomSite <- standardiser_nom_site(site = ech.new$nomSite)[,
-        'sites'
-      ]
-      ech.new$annee <- lubridate::year(ech.new$date)
-      ech.new$mois <- lubridate::month(ech.new$date)
-      ech.new$jour <- lubridate::day(ech.new$date)
-      ech.new$jourSemaine <- lubridate::wday(ech.new$date) #1=dimanche
-      ech.new$lundiAuVendredi <- ech.new$jourSemaine %in% 2:6
-      ##
-      ## Nettoyer les données
-      ## table(ech.new$echosondeur, useNA='ifany')
-      ## table(ech.new$nbSebastes, useNA='ifany')
-      ## table(ech.new$nbMorue, useNA='ifany')
-      ## table(ech.new$nbOgac, useNA='ifany')
-      ## table(ech.new$nbTurbot, useNA='ifany')
-      ## table(ech.new$nbAutre, useNA='ifany') # pas sur quoi faire avec ca!
-      ##
-      ## les nombres == NA transformés en 0
-      temp <- names(ech.new)[which(substr(names(ech.new), 1, 2) == 'nb')]
-      especes <- temp[which(
-        !temp %in%
-          c(
-            "nbPecheursPelag",
-            "nbPecheursFond",
-            "nbLignes",
-            "nbHamecons",
-            "nbHeures",
-            "nbPecheursTot",
-            "nbCabanesOccFond",
-            "nbPecheursFondSScabane",
-            "nbCabanesOccPelag",
-            "nbPecheursPelagSScabane",
-            "nbPecheursSecteur",
-            "nbPecheursMorue",
-            "nbPecheursSebastes"
-          )
-      )]
-      for (i.esp in especes) {
-        ech.new[is.na(ech.new[i.esp]), i.esp] <- 0
+      if (nrow(ech.new) > 0) {
+        ech.new$anneeGestion <- i.an
+        ech.new$date <- as.POSIXct(
+          paste(ech.new$annee, ech.new$mois, ech.new$jour, sep = '-'),
+          format = '%Y-%m-%d'
+        )
+        ech.new$nomSite <- standardiser_nom_site(site = ech.new$nomSite)[,
+          'sites'
+        ]
+        ech.new$annee <- lubridate::year(ech.new$date)
+        ech.new$mois <- lubridate::month(ech.new$date)
+        ech.new$jour <- lubridate::day(ech.new$date)
+        ech.new$jourSemaine <- lubridate::wday(ech.new$date) #1=dimanche
+        ech.new$lundiAuVendredi <- ech.new$jourSemaine %in% 2:6
+        ##
+        ## Nettoyer les données
+        ## table(ech.new$echosondeur, useNA='ifany')
+        ## table(ech.new$nbSebastes, useNA='ifany')
+        ## table(ech.new$nbMorue, useNA='ifany')
+        ## table(ech.new$nbOgac, useNA='ifany')
+        ## table(ech.new$nbTurbot, useNA='ifany')
+        ## table(ech.new$nbAutre, useNA='ifany') # pas sur quoi faire avec ca!
+        ##
+        ## les nombres == NA transformés en 0
+        temp <- names(ech.new)[which(substr(names(ech.new), 1, 2) == 'nb')]
+        especes <- temp[which(
+          !temp %in%
+            c(
+              "nbPecheursPelag",
+              "nbPecheursFond",
+              "nbLignes",
+              "nbHamecons",
+              "nbHeures",
+              "nbPecheursTot",
+              "nbCabanesOccFond",
+              "nbPecheursFondSScabane",
+              "nbCabanesOccPelag",
+              "nbPecheursPelagSScabane",
+              "nbPecheursSecteur",
+              "nbPecheursMorue",
+              "nbPecheursSebastes"
+            )
+        )]
+        for (i.esp in especes) {
+          ech.new[is.na(ech.new[i.esp]), i.esp] <- 0
+        }
+        ##
+        ech.init <- merge(ech.init, ech.new, all = TRUE)
       }
-      ##
-      ech.init <- merge(ech.init, ech.new, all = TRUE)
     }
   }
   ##

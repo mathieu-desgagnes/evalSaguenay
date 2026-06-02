@@ -40,16 +40,20 @@ ajout_donnees_bio <- function(
   ))
   for (i.an in annee) {
     print(i.an)
-    db.new <- as.data.frame(readxl::read_excel(
+    if(file.exists(file.path(
+      input_2021_et_plus_dir,
+      paste0('Saison ', i.an),
+      paste0('donneeBiologique_', i.an, '.xlsx'))){
+      db.new <- as.data.frame(readxl::read_excel(
       path = file.path(
-        dirInput2021etPlus,
+        input_2021_et_plus_dir,
         paste0('Saison ', i.an),
         paste0('donneeBiologique_', i.an, '.xlsx')
       ),
       sheet = 1,
       na = 'NA'
     ))
-    names(db.new) <- c(
+      names(db.new) <- c(
       'partenaire',
       'nomSite',
       'echantillonneur',
@@ -60,8 +64,8 @@ ajout_donnees_bio <- function(
       'longueur',
       'poids',
       'commentaire'
-    )
-    if (nrow(db.new) > 0) {
+      )
+      if (nrow(db.new) > 0) {
       db.new$anneeGestion <- as.numeric(i.an)
       db.new$date <- as.POSIXct(
         paste(db.new$annee, db.new$mois, db.new$jour, sep = '-'),
@@ -71,7 +75,7 @@ ajout_donnees_bio <- function(
       db.new$espece <- standardiser_nom_espece(espece = db.new$espece)
       db.temp <- merge(db.temp, db.new, all = TRUE)
     }
-  }
+  }}
   ##
   ## nrow(db.init); nrow(db.temp)
   db <- merge(db.init, db.temp, all = TRUE)
