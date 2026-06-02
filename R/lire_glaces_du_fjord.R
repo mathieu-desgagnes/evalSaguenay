@@ -85,6 +85,7 @@ lire_glaces_du_fjord <- function(
         df$mois_fin,
         df$jour_fin
       ))
+      ##
       gdf.new <- read.csv(
         file = file.path(
           input_2021_et_plus_dir,
@@ -94,37 +95,89 @@ lire_glaces_du_fjord <- function(
         na.strings = ''
       )
       if (nrow(gdf.new) > 0) {
-        gdf.new$Date <- as.Date(gdf.new$Date)
-        gdf.new$DateHeure.de.début = as.POSIXct(
-          paste(gdf.new$Date, gsub(" h ", ":", gdf.new$Heure.de.début)),
-          format = "%Y-%m-%d %H:%M"
-        )
-        gdf.new$Heure.de.début = lubridate::hm(gsub(
-          " h ",
-          ":",
-          gdf.new$Heure.de.début
-        ))
-        gdf.new$DateHeure.de.fin = as.POSIXct(
-          paste(gdf.new$Date, gsub(" h ", ":", gdf.new$Heure.de.fin)),
-          format = "%Y-%m-%d %H:%M"
-        )
-        gdf.new$Heure.de.fin = lubridate::hm(gsub(
-          " h ",
-          ":",
-          gdf.new$Heure.de.fin
-        ))
-        gdf.new$annee <- lubridate::year(gdf.new$Date)
-        gdf.new$mois <- lubridate::month(gdf.new$Date)
-        gdf.new$jour <- lubridate::day(gdf.new$Date)
-        gdf.new$jourSemaine <- lubridate::wday(gdf.new$Date) #1=dimanche
-        gdf.new$lundiAuVendredi <- gdf.new$jourSemaine %in% 2:6
-        ##
         gdf.init <- merge(gdf.init, gdf.new, all = TRUE)
       }
     }
   }
+  nouveaux.noms <-
+    c(
+      "date",
+      "heure_debut",
+      "heure_fin",
+      "duree_minutes",
+      "identifiant_peche",
+      "identifiant_utilisateur",
+      "espece",
+      "quantite",
+      "poids",
+      "taille",
+      "appat",
+      "echosondeur",
+      "nombre_hamecons",
+      "latitude",
+      "longitude",
+      "nombre_pecheurs",
+      "nombre_lignes_actives",
+      "nombre_lignes_dormantes",
+      "dateHeure_debut",
+      "dateHeure_fin",
+      "annee",
+      "mois",
+      "jour",
+      "jour_de_la_semaine",
+      "lundi_au_vendredi"
+    )
   ##
-  gdf <- gdf.init
+  names(gdf.init) <- nouveaux.noms[match(
+    names(gdf.init),
+    c(
+      "Date",
+      "Heure.de.début",
+      "Heure.de.fin",
+      "Durée..minutes.",
+      "Identifiant.de.la.pêche",
+      "Identifiant.de.l.utilisateur",
+      "Espèce",
+      "Quantité",
+      "Poids",
+      "Taille",
+      "Type.d.appât",
+      "Utilisation.de.sonar",
+      "Nombre.d.hameçons",
+      "Latitude",
+      "Longitude",
+      "Nombre.de.pêcheurs",
+      "Nombre.de.lignes.actives",
+      "Nombre.de.lignes.dormantes",
+      "DateHeure.de.début",
+      "DateHeure.de.fin",
+      "annee",
+      "mois",
+      "jour",
+      "jourSemaine",
+      "lundiAuVendredi"
+    )
+  )]
+  ##
+  gdf.init$date <- as.Date(gdf.init$date)
+  gdf.init$dateHeure_debut = as.POSIXct(
+    paste(gdf.init$date, gsub(" h ", ":", gdf.init$heure_debut)),
+    format = "%Y-%m-%d %H:%M"
+  )
+  gdf.init$dateHeure_fin = as.POSIXct(
+    paste(gdf.init$date, gsub(" h ", ":", gdf.init$heure_fin)),
+    format = "%Y-%m-%d %H:%M"
+  )
+  gdf.init$annee <- lubridate::year(gdf.init$date)
+  gdf.init$mois <- lubridate::month(gdf.init$date)
+  gdf.init$jour <- lubridate::day(gdf.init$date)
+  gdf.init$jour_de_la_semaine <- lubridate::wday(gdf.init$date) #1=dimanche
+  gdf.init$lundi_au_vendredi <- gdf.init$jour_de_la_semaine %in% 2:6
+  ##
+  gdf.init$taille_po <- gdf.init$taille
+  gdf.init$taille <- gdf.init$taille_po * 2.54
+  ##
+  gdf <- gdf.init[gdf.init$espece != 'Éperlan', ]
   ##
   return(gdf)
 }

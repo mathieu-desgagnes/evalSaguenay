@@ -76,8 +76,8 @@ lire_donnees <- function(
     input_2021_et_plus_dir = dir_input
   )
   ## sauvegarder la base de donnée consolidée
-  save(ech, file = file.path(dir_input, 'donnees_ech.RData'))
-  write.csv2(ech, file = file.path(dir_input, 'donnees_ech.csv'))
+  save(gdf, file = file.path(dir_input, 'donnees_gdf.RData'))
+  write.csv2(gdf, file = file.path(dir_input, 'donnees_gdf.csv'))
 
   ##
   ## Exploration des résultats
