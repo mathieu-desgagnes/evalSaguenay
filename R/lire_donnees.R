@@ -192,7 +192,7 @@ lire_donnees <- function(
     )
     ##
 
-    pdf(file.path('dev', 'exploration.pdf'), height = 8.5, width = 14)
+    #pdf(file.path('dev', 'exploration.pdf'), height = 8.5, width = 14)
     # vioplot(pue~annee, data=na.omit(subset(ech,secteur=='fond'&is.finite(pue))[,c('annee','pue')]), ylim=c(0,0.03))
     # for(i.an in 1995:2023){
     #   par(mfrow=c(1,3))
