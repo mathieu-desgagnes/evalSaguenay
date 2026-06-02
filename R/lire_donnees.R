@@ -31,7 +31,7 @@ lire_donnees <- function(
 
   ##
   ##
-  ## ajouter les données de 2021 et plus
+  ## données biologiques: ajouter les données de 2021 et plus aux données historiques
   db <- ajout_donnees_bio(
     donnees_2020_et_moins = data$db,
     input_2021_et_plus_dir = dir_input
@@ -47,6 +47,9 @@ lire_donnees <- function(
   ##
   ######
 
+  ##
+  ##
+  ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
   jb <- ajout_journaux_de_bord(
     donnees_2020_et_moins = data$jb,
     input_2021_et_plus_dir = dir_input
@@ -55,8 +58,21 @@ lire_donnees <- function(
   save(jb, file = file.path(dir_input, 'donnees_JB.RData'))
   write.csv2(jb, file = file.path(dir_input, 'donnees_JB.csv'))
 
+  ##
+  ##
+  ## échantillonneurs: ajouter les données de 2021 et plus aux données historiques
   ech <- ajout_echantillonneurs(
     donnees_2020_et_moins = data$ech,
+    input_2021_et_plus_dir = dir_input
+  )
+  ## sauvegarder la base de donnée consolidée
+  save(ech, file = file.path(dir_input, 'donnees_ech.RData'))
+  write.csv2(ech, file = file.path(dir_input, 'donnees_ech.csv'))
+
+  ##
+  ##
+  ## application Glaces du Fjord: lire les données à partir de 2025
+  gdf <- lire_glaces_du_fjord(
     input_2021_et_plus_dir = dir_input
   )
   ## sauvegarder la base de donnée consolidée
