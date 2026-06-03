@@ -9,7 +9,7 @@
 #'
 #' @return le data.frame() consolidé
 #'
-consolider_journaux_de_bords <- function(
+lire_journaux_de_bord_pre2021 <- function(
   input_dir = file.path('S:', 'Saguenay', 'Pêche hivernale', 'JB')
 ) {
   print(2015)

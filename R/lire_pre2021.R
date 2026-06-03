@@ -19,7 +19,7 @@
 #' @examples
 lire_donnees_pre2021 <- function(dir_input, dir_output) {
   ## données biologiques
-  db.2020etMoins <- consolider_donnees_bio(
+  db.2020etMoins <- lire_donnees_bio_pre2021(
     input_dir = file.path(dir_input, 'DB')
   )
   write.csv2(
@@ -32,20 +32,20 @@ lire_donnees_pre2021 <- function(dir_input, dir_output) {
   )
 
   ## journaux de bord
-  jb.2020etMoins <- consolider_journaux_de_bords(
+  jb.2020etMoins <- lire_journaux_de_bord_pre2021(
     input_dir = file.path(dir_input, 'JB')
   )
   write.csv2(
     jb.2020etMoins,
-    file = file.path(dir_output, 'journauxBords_2015-2020.csv')
+    file = file.path(dir_output, 'journauxBord_2015-2020.csv')
   )
   save(
     jb.2020etMoins,
-    file = file.path(dir_output, 'journauxBords_2015-2020.RData')
+    file = file.path(dir_output, 'journauxBord_2015-2020.RData')
   )
 
   ## échantillonneurs
-  ech.2020etMoins.init <- consolider_echantillonneurs(
+  ech.2020etMoins.init <- lire_echantillonneurs_pre2021(
     input_dir = dir_input
   )
   ech.2020etMoins <- ech.2020etMoins.init[['ech']]

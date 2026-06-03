@@ -11,7 +11,7 @@
 #' @return une list() avec le data.frame() consolidé ($ech) et le data.frame() incluant des données mise de côté pour l'évaluation mais potentiellement
 #' d'intérêt pour d'autres travaux
 #'
-consolider_echantillonneurs <- function(input_dir) {
+lire_echantillonneurs_pre2021 <- function(input_dir) {
   ##
   i.an <- 1995
   print(i.an)

@@ -1,6 +1,19 @@
+#' Lire les données disponibles pour l'évaluation
+#'
+#' Quatres sources sont combinées dans la liste retournée, soit:
+#'  - Les enquêtes des échantillonneurs
+#'  - Les journaux de bord distribués à certains pêcheurs
+#'  - Les données biologiques liées aux mesures de poissons individuels
+#'  - Les informations collectées par l'application "Glaces du fjord"
+#'
+#' @param dir_input chemin vers le dossier où sont situées les donnée
+#'
+#' @returns une liste des données de chacune des sources
+#' @export
+#'
+#' @examples
 lire_donnees <- function(
-  dir_input,
-  dir_output
+  dir_input
 ) {
   ##
   ## vérifier si les données biologiques pré-2021 existent et les charger
@@ -79,135 +92,5 @@ lire_donnees <- function(
   save(gdf, file = file.path(dir_input, 'donnees_gdf.RData'))
   write.csv2(gdf, file = file.path(dir_input, 'donnees_gdf.csv'))
 
-  ##
-  ## Exploration des résultats
-  if (FALSE) {
-    jb$pue <- jb$nbTot / (jb$nbHeureImmersion * 60 + jb$nbMinuteImmersion)
-    ech$nbTot <- apply(
-      ech[, c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')],
-      1,
-      sum,
-      na.rm = TRUE
-    )
-    hist(ech$nbTot, breaks = seq(0, 650), xlim = c(0, 15))
-    ech$pue <- apply(
-      ech[, c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')],
-      1,
-      sum,
-      na.rm = TRUE
-    ) /
-      (as.numeric(ech$nbHeures) * 60)
-    ##
-    hist(
-      apply(
-        ech[
-          ech$annee == 2019,
-          c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')
-        ],
-        1,
-        sum,
-        na.rm = TRUE
-      ),
-      breaks = seq(0, 650),
-      xlim = c(0, 15),
-      main = 2019
-    )
-    hist(
-      apply(
-        ech[
-          ech$annee == 2022,
-          c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')
-        ],
-        1,
-        sum,
-        na.rm = TRUE
-      ),
-      breaks = seq(0, 650),
-      xlim = c(0, 15),
-      main = 2022
-    )
-    hist(
-      apply(
-        ech[
-          ech$annee == 2023,
-          c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')
-        ],
-        1,
-        sum,
-        na.rm = TRUE
-      ),
-      breaks = seq(0, 650),
-      xlim = c(0, 15),
-      main = 2023
-    )
-    hist(
-      apply(
-        ech[
-          ech$annee == 2024,
-          c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')
-        ],
-        1,
-        sum,
-        na.rm = TRUE
-      ),
-      breaks = seq(0, 650),
-      xlim = c(0, 15),
-      main = 2024
-    )
-    hist(
-      apply(
-        ech[
-          ech$annee == 2025,
-          c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')
-        ],
-        1,
-        sum,
-        na.rm = TRUE
-      ),
-      breaks = seq(0, 650),
-      xlim = c(0, 15),
-      main = 2025
-    )
-    hist(
-      apply(
-        ech[
-          ech$annee == 2026,
-          c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')
-        ],
-        1,
-        sum,
-        na.rm = TRUE
-      ),
-      breaks = seq(0, 650),
-      xlim = c(0, 15),
-      main = 2026
-    )
-    ##
-    par(mfrow = c(1, 2))
-    boxplot(pue ~ annee, data = jb, ylim = c(0, 0.05))
-    boxplot(
-      pue ~ annee,
-      data = subset(ech, secteur == 'fond' & annee %in% 2015:2026),
-      ylim = c(0, 0.05)
-    )
-    ##
-
-    #pdf(file.path('dev', 'exploration.pdf'), height = 8.5, width = 14)
-    # vioplot(pue~annee, data=na.omit(subset(ech,secteur=='fond'&is.finite(pue))[,c('annee','pue')]), ylim=c(0,0.03))
-    # for(i.an in 1995:2023){
-    #   par(mfrow=c(1,3))
-    #   temp <- subset(ech, annee==i.an & secteur=='fond')
-    #   if(nrow(temp)>0){
-    #       hist(temp$pue, main=i.an, breaks=seq(0,10,by=0.002), xlim=c(0,0.1), freq=FALSE, ylim=c(0,100))
-    #       ## boxplot(pue~annee, data=subset(ech,secteur=='fond'), ylim=c(0,0.05))
-    #   }else{
-    #       frame()
-    #   }
-    #   temp <- subset(jb, annee==i.an)
-    #   if(nrow(temp)>0){
-    #       hist(temp$pue, main=i.an, breaks=seq(0,10,by=0.002), xlim=c(0,0.1), freq=FALSE, ylim=c(0,100))
-    #       ## boxplot(pue~annee, data=subset(ech,secteur=='fond'), ylim=c(0,0.05))
-    #       hist(temp$nbTot, main=i.an, breaks=seq(0,100,by=1), xlim=c(0,10))
-    #   }
-  }
+  list(echant = ech, journaux = jb, dbio = db, glace_du_fjord = gdf)
 }
