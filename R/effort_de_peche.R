@@ -9,7 +9,8 @@
 #' @param output_dir chemin vers le répertoire où sont enregistrés les graphiques et données correspondantes.
 #' Doit contenir les dossiers 'fr','en','bil'et'csv'
 #'
-#' @returns Aucun objet est retourné mais des fichiers sont créés (images et données).
+#' @returns Une liste de données compilées utilisées dans la réalisation d'autres graphiques,
+#' des fichiers sont aussi créés (images et données).
 #' @export
 #'
 #' @examples ##À venir

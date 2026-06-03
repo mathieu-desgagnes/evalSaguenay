@@ -71,7 +71,8 @@ lire_donnees <- function(
     save(jb, file = file.path(dir_input, 'donnees_JB.RData'))
     write.csv2(jb, file = file.path(dir_input, 'donnees_JB.csv'))
   }
-  jb <- load(file.path(dir_input, 'donnees_JB.RData'))
+  load(file.path(dir_input, 'donnees_JB.RData'), verbose = 1)
+  jb <- jb.2020etMoins
 
   ##
   ##
