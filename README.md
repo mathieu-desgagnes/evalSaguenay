@@ -17,6 +17,10 @@ Saguenay.
 1)  La fonction `lire_donnees()` joint les données récentes aux données
     pré-2021 et retourne une liste de toutes les données disponibles.
 
+2a) La fonction `effort_de_peche()` produit les graphiques liés aux
+ouvertures de la pêche, aux dates d’échantillonnage, et à l’estimation
+par les échantillonneurs de la fréquentation des sites
+
 ## Installation
 
 You can install the development version of evalSaguenay from
