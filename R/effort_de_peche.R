@@ -4,6 +4,8 @@
 #' Certaines figures limites l'effort aux activités de moins de 12 heures...
 #'
 #' @param ech données récolétées dans le volet 1 du projet (échantillonneurs).
+#' @param dates_officielles_fichier Chemin vers le fichier de format .csv contenant les dates officielles
+#' d'ouverture et de fermeture des sites de pêche
 #' @param output_dir chemin vers le répertoire où sont enregistrés les graphiques et données correspondantes.
 #' Doit contenir les dossiers 'fr','en','bil'et'csv'
 #'
@@ -11,7 +13,7 @@
 #' @export
 #'
 #' @examples ##À venir
-effort_de_peche <- function(ech, output_dir) {
+effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
   ech$anneeGestion <- as.numeric(ech$anneeGestion)
   # plot(ech$annee, ech$anneeGestion)
   annees <- sort(unique(ech$anneeGestion))
@@ -320,6 +322,46 @@ effort_de_peche <- function(ech, output_dir) {
       sfs.nbJour.an[i.an, ] <- c(0, 0)
     }
   }
+
+  ##
+  ## dates d'échantillonnage
+  ## lire les dates officielles d'ouverture et de fermeture
+  datesOfficielles <- read.csv2(dates_officielles_fichier) # dates officielles
+  ## nbJourJDL <- read.csv2("longueurSaisonJDL.csv",header=TRUE)  # longueurs de saisons utilisées par JDL (avant 2010) (non-utilisé depuis)
+  datesOfficielles$ouverture <- as.POSIXct(paste(
+    datesOfficielles$anneeOuverture,
+    datesOfficielles$moisOuverture,
+    datesOfficielles$jourOuverture,
+    sep = '-'
+  ))
+  datesOfficielles$fermeture <- as.POSIXct(paste(
+    datesOfficielles$anneeFermeture,
+    datesOfficielles$moisFermeture,
+    datesOfficielles$jourFermeture,
+    sep = '-'
+  ))
+  nomPng <- 'dateEch'
+  for (i.langue in c('fr', 'en', 'bil')) {
+    png(
+      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      height = 8,
+      width = 9,
+      units = 'in',
+      res = 300
+    )
+    temp <- datesEch(
+      ech = ech,
+      visites = visites.init,
+      ouvertureOfficielle = datesOfficielles[, c(
+        'anneeGestion',
+        'ouverture',
+        'fermeture'
+      )],
+      langue = i.langue
+    )
+    dev.off()
+  }
+  ## write.csv2(temp, file=file.path(dir.output,'csv',paste0(nomPng,'.csv')))
 
   ########
   ## Attention ici: on restreint aux efforts de moins de 12 heures...
