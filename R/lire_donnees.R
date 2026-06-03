@@ -11,7 +11,7 @@
 #' @returns une liste des données de chacune des sources
 #' @export
 #'
-#' @examples
+#' @examples ##À venir
 lire_donnees <- function(
   dir_input
 ) {
@@ -59,17 +59,19 @@ lire_donnees <- function(
   ## Le fichier semble changer de format à 2023
   ##
   ######
-
-  ##
-  ##
-  ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
-  jb <- ajout_journaux_de_bord(
-    donnees_2020_et_moins = data$jb,
-    input_2021_et_plus_dir = dir_input
-  )
-  ## sauvegarder la base de donnée consolidée
-  save(jb, file = file.path(dir_input, 'donnees_JB.RData'))
-  write.csv2(jb, file = file.path(dir_input, 'donnees_JB.csv'))
+  if (FALSE) {
+    ##
+    ##
+    ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
+    jb <- ajout_journaux_de_bord(
+      donnees_2020_et_moins = data$jb,
+      input_2021_et_plus_dir = dir_input
+    )
+    ## sauvegarder la base de donnée consolidée
+    save(jb, file = file.path(dir_input, 'donnees_JB.RData'))
+    write.csv2(jb, file = file.path(dir_input, 'donnees_JB.csv'))
+  }
+  jb <- load(file.path(dir_input, 'donnees_JB.RData'))
 
   ##
   ##

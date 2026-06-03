@@ -1,11 +1,11 @@
-#' Calcul l'effort de pêche sur le Saguenay et produit les graphiques correspondants
+#' Calcul l'effort de pêche sur le Saguenay et produit les graphiques correspondants.
 #'
-#' @param ech données récolétées dans le volet 1 du projet (échantillonneurs)
+#' @param ech données récolétées dans le volet 1 du projet (échantillonneurs).
 #'
-#' @returns
+#' @returns Aucun objet est retourné mais deux fichiers sont créés (image et données).
 #' @export
 #'
-#' @examples
+#' @examples ##À venir
 effort_de_peche <- function(ech) {
   ech.init$anneeGestion <- as.numeric(ech.init$anneeGestion)
   ech.init <- ech.init[ech.init$anneeGestion %in% annees, ]

@@ -16,7 +16,7 @@
 #' Les fichiers générés sont sauvegardés dans le dossier spécifié par \code{output_dir}
 #' @export
 #'
-#' @examples
+#' @examples ##À venir
 lire_donnees_pre2021 <- function(dir_input, dir_output) {
   ## données biologiques
   db.2020etMoins <- lire_donnees_bio_pre2021(
