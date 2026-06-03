@@ -486,4 +486,9 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
     dev.off()
   }
   write.csv2(temp, file = file.path(output_dir, 'csv', paste0(nomPng, '.csv')))
+
+  effort <- list(
+    nb_pecheurs_moy_par_strate = nbPecheursMoy.site.sfs,
+    nb_jours_par_strate = sfs.nbJour.an
+  )
 }
