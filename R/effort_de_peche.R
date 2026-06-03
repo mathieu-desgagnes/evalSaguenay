@@ -349,7 +349,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
       units = 'in',
       res = 300
     )
-    temp <- dates_ech(
+    temp <- graph_dates_ech(
       ech = ech,
       visites = visites.init,
       ouvertureOfficielle = datesOfficielles[, c(

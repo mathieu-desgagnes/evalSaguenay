@@ -8,7 +8,7 @@
 #'
 #' @return
 #'
-dates_ech <- function(
+graph_dates_ech <- function(
   ech,
   visites,
   ouvertureOfficielle,
