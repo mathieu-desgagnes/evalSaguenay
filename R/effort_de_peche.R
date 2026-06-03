@@ -340,16 +340,16 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
     datesOfficielles$jourFermeture,
     sep = '-'
   ))
-  nomPng <- 'dateEch'
+  nomPng <- 'date_ech'
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
-      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
       height = 8,
       width = 9,
       units = 'in',
       res = 300
     )
-    temp <- datesEch(
+    temp <- dates_ech(
       ech = ech,
       visites = visites.init,
       ouvertureOfficielle = datesOfficielles[, c(
