@@ -28,13 +28,19 @@ graph_effort_peche <- function(
     }
   )
   op <- par(mar = c(4, 4, 1, 1) + 0.1)
-  annees <- as.numeric(dimnames(nbJours)[[1]])
+  annees <- min(as.numeric(dimnames(nbJours)[[1]])):max(
+    (as.numeric(dimnames(nbJours)[[1]]))
+  )
   val <- array(
     dim = c(3, length(annees)),
     dimnames = list(site = c('Tout', 'LaBaie', 'PMSSL'), annee = annees)
   )
   for (i.an in seq_along(annees)) {
-    if (sum(nbJours[as.character(annees[i.an]), ]) != 0) {
+    if (
+      annees[i.an] %in%
+        dimnames(nbJours)[[1]] &&
+        sum(nbJours[as.character(annees[i.an]), ]) != 0
+    ) {
       ## Tout
       val['Tout', as.character(annees[i.an])] <- sum(
         nbPecheurs[, as.character(annees[i.an]), 'semaine', 'moyenne'] *
