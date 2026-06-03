@@ -1,5 +1,8 @@
 #' Calcul l'effort de pêche sur le Saguenay et produit les graphiques correspondants.
 #'
+#' Note à valider:
+#' Certaines figures limites l'effort aux activités de moins de 12 heures...
+#'
 #' @param ech données récolétées dans le volet 1 du projet (échantillonneurs).
 #' @param output_dir chemin vers le répertoire où sont enregistrés les graphiques et données correspondantes.
 #' Doit contenir les dossiers 'fr','en','bil'et'csv'
@@ -95,7 +98,7 @@ effort_de_peche <- function(ech, output_dir) {
     )
     lines(x$mids, x$density, col = 6)
   }
-  ech <- ech[which(ech$secteur == "fond"), ]
+  ech <- ech[which(ech$secteur %in% c('fond', 'Fond')), ]
 
   ## visites
   ## lorsqu'il y a plusieurs échantillons (visites) d'un même site une même journée,
@@ -318,6 +321,10 @@ effort_de_peche <- function(ech, output_dir) {
     }
   }
 
+  ########
+  ## Attention ici: on restreint aux efforts de moins de 12 heures...
+  ########
+
   ##
   ## effort de pêche par site
   ##
@@ -330,8 +337,13 @@ effort_de_peche <- function(ech, output_dir) {
       units = 'in',
       res = 300
     )
+    # temp <- graph_effort_peche_par_site(
+    #   ech = subset(ech, nbHeures < 12),
+    #   visites = visites.init,
+    #   langue = i.langue
+    # )
     temp <- graph_effort_peche_par_site(
-      ech = subset(ech, nbHeures < 12),
+      ech = ech,
       visites = visites.init,
       langue = i.langue
     )
