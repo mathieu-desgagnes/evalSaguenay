@@ -1,43 +1,57 @@
 #' Calcul l'effort de pêche sur le Saguenay et produit les graphiques correspondants.
 #'
 #' @param ech données récolétées dans le volet 1 du projet (échantillonneurs).
+#' @param output_dir chemin vers le répertoire où sont enregistrés les graphiques et données correspondantes.
+#' Doit contenir les dossiers 'fr','en','bil'et'csv'
 #'
-#' @returns Aucun objet est retourné mais deux fichiers sont créés (image et données).
+#' @returns Aucun objet est retourné mais des fichiers sont créés (images et données).
 #' @export
 #'
 #' @examples ##À venir
-effort_de_peche <- function(ech) {
-  ech.init$anneeGestion <- as.numeric(ech.init$anneeGestion)
-  ech.init <- ech.init[ech.init$anneeGestion %in% annees, ]
+effort_de_peche <- function(ech, output_dir) {
+  ech$anneeGestion <- as.numeric(ech$anneeGestion)
+  # plot(ech$annee, ech$anneeGestion)
+  annees <- sort(unique(ech$anneeGestion))
+  # ech <- ech[ech$anneeGestion %in% annees, ]
+  sites <- c(
+    'AnseBenjamin',
+    'AnseStJean',
+    'GrandeBaie',
+    'LesBattures',
+    'RiviereEternite',
+    'SteRose',
+    'StFelix',
+    'StFulgence'
+  )
 
   ## préparation des données
   ##
   ## echantillons
-  ech.init$nbHeures <- as.numeric(ech.init$nbHeures)
-  ech.init$nbHeures[which(ech.init$nbHeures < 0.25)] <- 0.25 #si le nombre d'heure est inférieur à 0.25 alors on met 0.25
-  ech.init$nbGadide <- ech.init$nbMorue + ech.init$nbOgac
-  ech.init[ech.init$anneeGestion < 2001, c('nbMorue', 'nbOgac')] <- NA
-  ech.init$ue <- ech.init$nbLignes * ech.init$nbHamecons * ech.init$nbHeures #unite d'effort
-  ech.init$logUE <- log(ech.init$ue)
-  ech.init$sfs.ori <- ech.init$sfs
-  ech.init$sfs <- as.numeric(wday(ech.init$date) %in% c(1, 7)) #semaine=0, fds=1
+  ech$nbHeures <- as.numeric(ech$nbHeures)
+  ech$nbHeures[which(ech$nbHeures < 0.25)] <- 0.25 #si le nombre d'heure est inférieur à 0.25 alors on met 0.25
+  ech$nbGadide <- ech$nbMorue + ech$nbOgac
+  ech[ech$anneeGestion < 2001, c('nbMorue', 'nbOgac')] <- NA
+  ech$ue <- ech$nbLignes * ech$nbHamecons * ech$nbHeures #unite d'effort
+  ech$logUE <- log(ech$ue)
+  ech$sfs.ori <- ech$sfs
+  ech$sfs <- as.numeric(wday(ech$date) %in% c(1, 7)) #semaine=0, fds=1
   ## as.numeric(wday(as.POSIXct('2023-11-01')) %in% c(1,7))
   ## as.numeric(wday(as.POSIXct('2023-10-29')) %in% c(1,7))
-  ## which(ech.init$sfs.ori != ech.init$sfs)
+  ## which(ech$sfs.ori != ech$sfs)
   if (FALSE) {
     #exploration du nombre d'heures de pêche
-    nrow(ech.init[which(ech.init$secteur == "fond"), ])
-    nrow(ech.init[
-      which(ech.init$secteur == "fond" & ech.init$nbHeures <= 12),
+    nrow(ech[which(ech$secteur == "fond"), ])
+    nrow(ech[
+      which(ech$secteur == "fond" & ech$nbHeures <= 12),
     ])
-    nrow(ech.init[which(ech.init$secteur == "fond" & ech.init$nbHeures < 12), ])
-    nrow(ech.init[which(ech.init$secteur == "fond" & ech.init$nbHeures <= 8), ])
-    nrow(ech.init[which(ech.init$secteur == "fond" & ech.init$nbHeures < 8), ])
-    nrow(ech.init[which(ech.init$secteur == "fond" & ech.init$nbHeures <= 6), ])
-    nrow(ech.init[which(ech.init$secteur == "fond" & ech.init$nbHeures < 6), ])
+    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures < 12), ])
+    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures <= 8), ])
+    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures < 8), ])
+    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures <= 6), ])
+    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures < 6), ])
     ##
     hist(
-      ech.init[, 'nbHeures'],
+      ech[, 'nbHeures'],
       breaks = seq(-0.25, 200, by = 1),
       xlim = c(0, 30),
       ylim = c(0, 0.2),
@@ -45,46 +59,47 @@ effort_de_peche <- function(ech) {
       freq = FALSE
     )
     x <- hist(
-      ech.init[ech.init$annee %in% c(1994:1998), 'nbHeures'],
+      ech[ech$annee %in% c(1994:1998), 'nbHeures'],
       breaks = seq(-0.25, 200, by = 1),
       plot = FALSE
     )
     lines(x$mids, x$density, col = 1)
     x <- hist(
-      ech.init[ech.init$annee %in% c(1999:2003), 'nbHeures'],
+      ech[ech$annee %in% c(1999:2003), 'nbHeures'],
       breaks = seq(-0.25, 200, by = 1),
       plot = FALSE
     )
     lines(x$mids, x$density, col = 2)
     x <- hist(
-      ech.init[ech.init$annee %in% c(2004:2008), 'nbHeures'],
+      ech[ech$annee %in% c(2004:2008), 'nbHeures'],
       breaks = seq(-0.25, 200, by = 1),
       plot = FALSE
     )
     lines(x$mids, x$density, col = 3)
     x <- hist(
-      ech.init[ech.init$annee %in% c(2009:2013), 'nbHeures'],
+      ech[ech$annee %in% c(2009:2013), 'nbHeures'],
       breaks = seq(-0.25, 200, by = 1),
       plot = FALSE
     )
     lines(x$mids, x$density, col = 4)
     x <- hist(
-      ech.init[ech.init$annee %in% c(2014:2018), 'nbHeures'],
+      ech[ech$annee %in% c(2014:2018), 'nbHeures'],
       breaks = seq(-0.25, 200, by = 1),
       plot = FALSE
     )
     lines(x$mids, x$density, col = 5)
     x <- hist(
-      ech.init[ech.init$annee %in% c(2019:2023), 'nbHeures'],
+      ech[ech$annee %in% c(2019:2023), 'nbHeures'],
       breaks = seq(-0.25, 200, by = 1),
       plot = FALSE
     )
     lines(x$mids, x$density, col = 6)
   }
-  ech <- ech.init[which(ech.init$secteur == "fond"), ]
+  ech <- ech[which(ech$secteur == "fond"), ]
 
   ## visites
-  ## lorsqu'il y a plusieurs échantillons (visites) d'un même site une même journée, faire la moyenne des nombres de pêcheurs
+  ## lorsqu'il y a plusieurs échantillons (visites) d'un même site une même journée,
+  ## faire la moyenne des nombres de pêcheurs
   ## modif: ne pas tenir compte du nombre de pêcheurs Pelag -> retire 7 cas seulement
   a.enlever <- vector() #lignes de "fausses" visite à retirer de la liste après traitement
   visites.ori <- ech[
@@ -168,7 +183,8 @@ effort_de_peche <- function(ech) {
   ## nrow(visites.temp); nrow(visites.init)
   ## étude des données de visites
   if (FALSE) {
-    ## à plusieurs endroit, il semble y avoir "visite multiple" simplement parce que la deuxième ligne est "NA" pour le nombre de pêcheurs
+    ## à plusieurs endroit, il semble y avoir "visite multiple" simplement parce que la deuxième ligne est "NA" pour
+    ## le nombre de pêcheurs
     ## l'approche de faire la moyenne gere ces cas sans difficulté
     visites.ori <- ech[
       !duplicated(ech[, c(
@@ -201,7 +217,7 @@ effort_de_peche <- function(ech) {
         temp <- rbind(temp, visites.temp[i.vis:j, ])
       }
     }
-    write.csv2(temp, file = file.path(dir.output, 'exploDonneesVisite.csv'))
+    write.csv2(temp, file = file.path(output_dir, 'exploDonneesVisite.csv'))
   }
 
   aggregate(
@@ -226,20 +242,20 @@ effort_de_peche <- function(ech) {
     aggregate(ech$anneeGestion, ech['anneeGestion'], FUN = length)$x,
     15
   ))
-  ## nombre de poisson mesurés
-  plot(aggregate(db$anneeGestion, db['anneeGestion'], FUN = length))
-  temp <- aggregate(db$anneeGestion, db['anneeGestion'], FUN = length)
-  mean(tail(temp$x, 10))
-  ## nombre de journaux de bord
-  plot(aggregate(jb$anneeGestion, jb['anneeGestion'], FUN = length))
-  mean(aggregate(jb$anneeGestion, jb['anneeGestion'], FUN = length)$x)
-  mean(table(
-    aggregate(
-      jb$anneeGestion,
-      jb[, c('echantillonneur', 'anneeGestion')],
-      FUN = length
-    )$anneeGestion
-  ))
+  # ## nombre de poisson mesurés
+  # plot(aggregate(db$anneeGestion, db['anneeGestion'], FUN = length))
+  # temp <- aggregate(db$anneeGestion, db['anneeGestion'], FUN = length)
+  # mean(tail(temp$x, 10))
+  # ## nombre de journaux de bord
+  # plot(aggregate(jb$anneeGestion, jb['anneeGestion'], FUN = length))
+  # mean(aggregate(jb$anneeGestion, jb['anneeGestion'], FUN = length)$x)
+  # mean(table(
+  #   aggregate(
+  #     jb$anneeGestion,
+  #     jb[, c('echantillonneur', 'anneeGestion')],
+  #     FUN = length
+  #   )$anneeGestion
+  # ))
 
   ## nbespeces autres
   ## dimnames(ech)[[2]][which(substring(dimnames(ech)[[2]], 1, 2)=='nb')]
@@ -263,7 +279,7 @@ effort_de_peche <- function(ech) {
     sum,
     na.rm = TRUE
   )
-  ## aggregate(ech$toutAutre, ech['anneeGestion'], FUN=sum, na.rm=TRUE)
+  ## aggregate(ech$nbToutAutre, ech['anneeGestion'], FUN=sum, na.rm=TRUE)
 
   ##
   ## clacul de nombre de jour de pêche par site par année
@@ -305,17 +321,17 @@ effort_de_peche <- function(ech) {
   ##
   ## effort de pêche par site
   ##
-  nomPng <- 'effortPeche.site'
+  nomPng <- 'effort_peche_par_site'
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
-      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
       height = 8,
       width = 9,
       units = 'in',
       res = 300
     )
-    temp <- effortPeche.site(
-      ech = subset(ech.init, nbHeures < 12),
+    temp <- graph_effort_peche_par_site(
+      ech = subset(ech, nbHeures < 12),
       visites = visites.init,
       langue = i.langue
     )
@@ -342,43 +358,43 @@ effort_de_peche <- function(ech) {
   }
   write.csv2(
     nbPecheursTot.site,
-    file = file.path(dir.output, 'csv', paste0(nomPng, '.csv'))
+    file = file.path(output_dir, 'csv', paste0(nomPng, '.csv'))
   )
   save(
     nbPecheursTot.site,
-    file = file.path(dir.output, 'csv', 'nbPecheursTot_site.RData')
+    file = file.path(output_dir, 'csv', 'nbPecheursTot_site.RData')
   )
   write.csv2(
     nbPecheursMoy.site.sfs,
-    file = file.path(dir.output, 'csv', 'nbPecheursMoy_strate.csv')
+    file = file.path(output_dir, 'csv', 'nbPecheursMoy_strate.csv')
   )
   save(
     nbPecheursMoy.site.sfs,
-    file = file.path(dir.output, 'csv', 'nbPecheursMoy_strate.RData')
+    file = file.path(output_dir, 'csv', 'nbPecheursMoy_strate.RData')
   )
 
   load(
-    file = file.path(dir.output, 'csv', 'nbPecheursTot_site.RData'),
+    file = file.path(output_dir, 'csv', 'nbPecheursTot_site.RData'),
     verbose = 1
   )
   load(
-    file = file.path(dir.output, 'csv', 'nbPecheursMoy_strate.RData'),
+    file = file.path(output_dir, 'csv', 'nbPecheursMoy_strate.RData'),
     verbose = 1
   )
 
   ##
   ## effort de pêche total
   ##
-  nomPng <- 'effortPeche'
+  nomPng <- 'effort_peche'
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
-      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
       height = 5,
       width = 8,
       units = 'in',
       res = 300
     )
-    temp <- effortPeche(
+    temp <- graph_effort_peche(
       nbPecheurs = nbPecheursMoy.site.sfs,
       nbJours = sfs.nbJour.an,
       langue = i.langue
@@ -386,34 +402,34 @@ effort_de_peche <- function(ech) {
     dev.off()
   }
   nbPecheursTot.secteur <- temp
-  write.csv2(temp, file = file.path(dir.output, 'csv', paste0(nomPng, '.csv')))
+  write.csv2(temp, file = file.path(output_dir, 'csv', paste0(nomPng, '.csv')))
   save(
     nbPecheursTot.secteur,
-    file = file.path(dir.output, 'csv', paste0(nomPng, '.RData'))
+    file = file.path(output_dir, 'csv', paste0(nomPng, '.RData'))
   )
 
   load(
-    file = file.path(dir.output, 'csv', paste0(nomPng, '.RData')),
+    file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')),
     verbose = 1
   )
 
   ##
   ## effort de pêche total, en barplot, 1x2
   ##
-  nomPng <- 'effortPeche.barplot'
+  nomPng <- 'effort_peche_barplot'
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
-      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
       height = 4.5,
       width = 9,
       units = 'in',
       res = 300
     )
-    temp <- effortPeche.barplot(
+    temp <- graph_effort_peche_barplot(
       nbPecheursTot = nbPecheursTot.secteur,
       langue = i.langue
     )
     dev.off()
   }
-  write.csv2(temp, file = file.path(dir.output, 'csv', paste0(nomPng, '.csv')))
+  write.csv2(temp, file = file.path(output_dir, 'csv', paste0(nomPng, '.csv')))
 }
