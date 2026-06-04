@@ -79,7 +79,7 @@ lire_donnees <- function(
   ## échantillonneurs: ajouter les données de 2021 et plus aux données historiques
   ech <- ajout_echantillonneurs(
     donnees_2020_et_moins = data$ech,
-    input_2021_et_plus_dir = dir_input
+    input_2021_et_plus_fichier = dir_input
   )
   ## sauvegarder la base de donnée consolidée
   save(ech, file = file.path(dir_input, 'donnees_ech.RData'))
