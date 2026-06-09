@@ -28,7 +28,7 @@ lire_donnees <- function(
     )) &&
       file.exists(file.path(
         donnees_2020_et_moins_dir,
-        'journauxBords_2015-2020.RData'
+        'journauxBord_2015-2020.RData'
       )) &&
       file.exists(file.path(
         donnees_2020_et_moins_dir,
@@ -47,10 +47,11 @@ lire_donnees <- function(
     load(
       file = file.path(
         donnees_2020_et_moins_dir,
-        'journauxBords_2015-2020.RData'
+        'journauxBord_2015-2020.RData'
       ),
       verbose = TRUE
     )
+    ##file.info( file.path(donnees_2020_et_moins_dir,'journauxBords_2015-2020.RData'))
     data$jb <- jb.2020etMoins
     load(
       file = file.path(
@@ -77,6 +78,11 @@ lire_donnees <- function(
   save(db, file = file.path(dir_input, 'donnees_DB.RData'))
   write.csv2(db, file = file.path(dir_input, 'donnees_DB.csv'))
 
+  ###
+  ##
+  ## Problème dnas les années couvertes par les deux sources, historiques et récentes, a valider
+  ##
+  #####
   ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
   jb <- ajout_journaux_de_bord(
     donnees_2020_et_moins = data$jb,
@@ -107,7 +113,10 @@ lire_donnees <- function(
   ##
   ## application Glaces du Fjord: lire les données à partir de 2025
   gdf <- lire_glaces_du_fjord(
-    input_2021_et_plus_dir = dir_input
+    input_2021_et_plus_fichier = file.path(
+      dir_input,
+      'Donnees_Glaces_du_fjord.xlsx'
+    )
   )
   ## sauvegarder la base de donnée consolidée
   save(gdf, file = file.path(dir_input, 'donnees_gdf.RData'))
