@@ -4,12 +4,12 @@
 \alias{ajout_donnees_bio}
 \title{Ajouter les données récentes aux données historiques de données biologiques.}
 \usage{
-ajout_donnees_bio(donnees_2020_et_moins = NULL, input_2021_et_plus_dir)
+ajout_donnees_bio(donnees_2020_et_moins = NULL, input_2021_et_plus_fichier)
 }
 \arguments{
 \item{donnees_2020_et_moins}{\code{data.frame} contenant les données historique consolidées}
 
-\item{input_2021_et_plus_dir}{chemin du dossier contenant des dossier "Saison 20xx" avec les nouvelles données}
+\item{input_2021_et_plus_fichier}{chemin du fichier contenant les données récentes}
 }
 \value{
 le data.frame() consolidé

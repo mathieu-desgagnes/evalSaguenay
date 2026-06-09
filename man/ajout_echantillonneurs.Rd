@@ -4,16 +4,19 @@
 \alias{ajout_echantillonneurs}
 \title{Ajouter les données récentes aux données historiques des journaux de bord.}
 \usage{
-ajout_echantillonneurs(donnees_2020_et_moins = NULL, input_2021_et_plus_dir)
+ajout_echantillonneurs(
+  donnees_2020_et_moins = NULL,
+  input_2021_et_plus_fichier
+)
 }
 \arguments{
 \item{donnees_2020_et_moins}{\code{data.frame} contenant les données historique consolidées}
 
-\item{input_2021_et_plus_dir}{chemin du dossier contenant des dossier "Saison 20xx" avec les nouvelles données}
+\item{fichier_2021_et_plus_fichier}{chemin le fichier contenant les données récentes}
 }
 \value{
 le data.frame() consolidé
 }
 \description{
-Les nouvelles données sont présentent dans le dossier "input_2021_et_plus_dir", chaque nouvelle années dans un dossier avec comme nom "Saison AAAA"
+Les nouvelles données sont présentent dans le fichier "input_2021_et_plus_fichier"
 }

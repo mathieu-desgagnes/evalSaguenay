@@ -64,7 +64,6 @@ lire_donnees <- function(
     stop('Vérifier la disponibilité des données pré-2021.')
   }
 
-
   ##
   ## données biologiques: ajouter les données de 2021 et plus aux données historiques
   db <- ajout_donnees_bio(
@@ -78,25 +77,17 @@ lire_donnees <- function(
   save(db, file = file.path(dir_input, 'donnees_DB.RData'))
   write.csv2(db, file = file.path(dir_input, 'donnees_DB.csv'))
 
-  ######
-  ##
-  ## PROBLÈME ICI AVEC LA LECTURE DES NOUVEAUX JOURNAUX DE BORD
-  ## Le fichier semble changer de format à 2023
-  ##
-  ######
-  ##
-    ##
-    ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
-    jb <- ajout_journaux_de_bord(
-      donnees_2020_et_moins = data$jb,
-      input_2021_et_plus_dir = dir_input
+  ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
+  jb <- ajout_journaux_de_bord(
+    donnees_2020_et_moins = data$jb,
+    input_2021_et_plus_fichier = file.path(
+      dir_input,
+      'Donnees_Journaux_de_bord.xlsx'
     )
-    ## sauvegarder la base de donnée consolidée
-    save(jb, file = file.path(dir_input, 'donnees_JB.RData'))
-    write.csv2(jb, file = file.path(dir_input, 'donnees_JB.csv'))
-  }
-  load(file.path(dir_input, 'donnees_JB.RData'), verbose = 1)
-  jb <- jb.2020etMoins
+  )
+  ## sauvegarder la base de donnée consolidée
+  save(jb, file = file.path(dir_input, 'donnees_JB.RData'))
+  write.csv2(jb, file = file.path(dir_input, 'donnees_JB.csv'))
 
   ##
   ##

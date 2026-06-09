@@ -2,7 +2,7 @@
 
 export(effort_de_peche)
 export(lire_donnees)
-export(lire_donnees_pre2021)
+export(lire_pre2021)
 import(lubridate)
 importFrom(readxl,read_excel)
 importFrom(stringr,str_match)

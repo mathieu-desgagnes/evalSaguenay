@@ -4,16 +4,24 @@
 \alias{effort_de_peche}
 \title{Calcul l'effort de pêche sur le Saguenay et produit les graphiques correspondants.}
 \usage{
-effort_de_peche(ech)
+effort_de_peche(ech, dates_officielles_fichier, output_dir)
 }
 \arguments{
 \item{ech}{données récolétées dans le volet 1 du projet (échantillonneurs).}
+
+\item{dates_officielles_fichier}{Chemin vers le fichier de format .csv contenant les dates officielles
+d'ouverture et de fermeture des sites de pêche}
+
+\item{output_dir}{chemin vers le répertoire où sont enregistrés les graphiques et données correspondantes.
+Doit contenir les dossiers 'fr','en','bil'et'csv'}
 }
 \value{
-Aucun objet est retourné mais deux fichiers sont créés (image et données).
+Une liste de données compilées utilisées dans la réalisation d'autres graphiques,
+des fichiers sont aussi créés (images et données).
 }
 \description{
-Calcul l'effort de pêche sur le Saguenay et produit les graphiques correspondants.
+Note à valider:
+Certaines figures limites l'effort aux activités de moins de 12 heures...
 }
 \examples{
 ##À venir

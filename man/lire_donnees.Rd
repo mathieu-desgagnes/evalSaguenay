@@ -4,10 +4,14 @@
 \alias{lire_donnees}
 \title{Lire les données disponibles pour l'évaluation}
 \usage{
-lire_donnees(dir_input)
+lire_donnees(donnees_2020_et_moins_dir = NULL, dir_input, dir_output)
 }
 \arguments{
+\item{donnees_2020_et_moins_dir}{chemin du répertoire des données récentes}
+
 \item{dir_input}{chemin vers le dossier où sont situées les donnée}
+
+\item{dir_output}{chemin vers le dossier où sont enregistrés les fichiers d'info consolidés}
 }
 \value{
 une liste des données de chacune des sources
