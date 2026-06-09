@@ -7,34 +7,56 @@
 #'  - Les informations collectées par l'application "Glaces du fjord"
 #'
 #' @param dir_input chemin vers le dossier où sont situées les donnée
+#' @param donnees_2020_et_moins_dir chemin du répertoire des données récentes
+#' @param dir_output chemin vers le dossier où sont enregistrés les fichiers d'info consolidés
 #'
 #' @returns une liste des données de chacune des sources
 #' @export
 #'
 #' @examples ##À venir
 lire_donnees <- function(
-  dir_input
+  donnees_2020_et_moins_dir = NULL,
+  dir_input,
+  dir_output
 ) {
   ##
   ## vérifier si les données biologiques pré-2021 existent et les charger
   if (
-    file.exists(file.path(dir_input, 'donneeBiologique_1995-2020.RData')) &&
-      file.exists(file.path(dir_input, 'journauxBords_2015-2020.RData')) &&
-      file.exists(file.path(dir_input, 'echantillonneurs_1995-2020.RData'))
+    file.exists(file.path(
+      donnees_2020_et_moins_dir,
+      'donneeBiologique_1995-2020.RData'
+    )) &&
+      file.exists(file.path(
+        donnees_2020_et_moins_dir,
+        'journauxBords_2015-2020.RData'
+      )) &&
+      file.exists(file.path(
+        donnees_2020_et_moins_dir,
+        'echantillonneurs_1995-2020.RData'
+      ))
   ) {
     data <- list()
     load(
-      file = file.path(dir_input, 'donneeBiologique_1995-2020.RData'),
+      file = file.path(
+        donnees_2020_et_moins_dir,
+        'donneeBiologique_1995-2020.RData'
+      ),
       verbose = TRUE
     )
     data$db <- db.2020etMoins
     load(
-      file = file.path(dir_input, 'journauxBords_2015-2020.RData'),
+      file = file.path(
+        donnees_2020_et_moins_dir,
+        'journauxBords_2015-2020.RData'
+      ),
       verbose = TRUE
     )
     data$jb <- jb.2020etMoins
     load(
-      file = file.path(dir_input, 'echantillonneurs_1995-2020.RData'),
+      file = file.path(
+        donnees_2020_et_moins_dir,
+        'echantillonneurs_1995-2020.RData'
+      ),
       verbose = TRUE
     )
     data$ech <- ech.2020etMoins
@@ -42,12 +64,15 @@ lire_donnees <- function(
     stop('Vérifier la disponibilité des données pré-2021.')
   }
 
-  ##
+
   ##
   ## données biologiques: ajouter les données de 2021 et plus aux données historiques
   db <- ajout_donnees_bio(
     donnees_2020_et_moins = data$db,
-    input_2021_et_plus_dir = dir_input
+    input_2021_et_plus_fichier = file.path(
+      dir_input,
+      'Donnees_Biologiques.xlsx'
+    )
   )
   ## sauvegarder la base de donnée consolidée
   save(db, file = file.path(dir_input, 'donnees_DB.RData'))
@@ -59,8 +84,7 @@ lire_donnees <- function(
   ## Le fichier semble changer de format à 2023
   ##
   ######
-  if (FALSE) {
-    ##
+  ##
     ##
     ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
     jb <- ajout_journaux_de_bord(
@@ -79,11 +103,14 @@ lire_donnees <- function(
   ## échantillonneurs: ajouter les données de 2021 et plus aux données historiques
   ech <- ajout_echantillonneurs(
     donnees_2020_et_moins = data$ech,
-    input_2021_et_plus_fichier = dir_input
+    input_2021_et_plus_fichier = file.path(
+      dir_input,
+      'Donnees_Echantillonneur.xlsx'
+    )
   )
   ## sauvegarder la base de donnée consolidée
-  save(ech, file = file.path(dir_input, 'donnees_ech.RData'))
-  write.csv2(ech, file = file.path(dir_input, 'donnees_ech.csv'))
+  save(ech, file = file.path(dir_output, 'donnees_ech.RData'))
+  write.csv2(ech, file = file.path(dir_output, 'donnees_ech.csv'))
 
   ##
   ##
