@@ -186,7 +186,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     'espece',
     'longueur_mm',
     'poids_g',
-    'remrques'
+    'remarques'
   )
   donnees.temp[which(lubridate::year(donnees.temp$date) > 2002), 'date'] <- NA #quelques données le 13 octobre 2073
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
@@ -434,7 +434,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     'espece',
     'longueur_mm',
     'poids_g',
-    'remrques'
+    'remarques'
   )
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
   donnees.temp$mois <- lubridate::month(donnees.temp$date)
@@ -452,7 +452,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   print(2015)
@@ -466,7 +466,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   donnees.temp <- rbind(donnees.temp, donnees.temp2)
@@ -481,7 +481,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   donnees.temp4 <- readxl::read_excel(
@@ -494,7 +494,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   test <- rbind(donnees.temp, donnees.temp3, donnees.temp4)
@@ -521,7 +521,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   print(2016)
@@ -536,7 +536,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   test <- rbind(donnees.temp, donnees.temp2)
@@ -563,7 +563,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   print(2017)
@@ -577,7 +577,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   donnees.temp <- rbind(donnees.temp, donnees.temp2)
@@ -591,7 +591,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   donnees.temp2$date <- as.POSIXct('2017-02-09', format = '%Y-%m-%d')
@@ -605,7 +605,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   donnees.temp3$date <- as.POSIXct(donnees.temp3$date, format = '%d/%m/%Y')
@@ -626,7 +626,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   print(2018)
@@ -641,7 +641,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
       'espece',
       'longueur_mm',
       'poids_g',
-      'remrques'
+      'remarques'
     )
   )
   test <- rbind(donnees.temp, donnees.temp2)
@@ -674,7 +674,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     'espece',
     'longueur_mm',
     'poids_g',
-    'remrques'
+    'remarques'
   )
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
   donnees.temp$mois <- lubridate::month(donnees.temp$date)
@@ -691,7 +691,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     'espece',
     'longueur_mm',
     'poids_g',
-    'remrques',
+    'remarques',
     'inutile1',
     'inutile2',
     'inutile3',
