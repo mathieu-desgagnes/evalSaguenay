@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @examples ##À venir
-lire_donnees_pre2021 <- function(dir_input, dir_output) {
+lire_pre2021 <- function(dir_input, dir_output) {
   ## données biologiques
   db.2020etMoins <- lire_donnees_bio_pre2021(
     input_dir = file.path(dir_input, 'DB')

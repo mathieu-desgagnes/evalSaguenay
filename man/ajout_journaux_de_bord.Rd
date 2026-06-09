@@ -4,12 +4,15 @@
 \alias{ajout_journaux_de_bord}
 \title{Ajouter les données récentes aux données historiques de journaux de bords.}
 \usage{
-ajout_journaux_de_bord(donnees_2020_et_moins = NULL, input_2021_et_plus_dir)
+ajout_journaux_de_bord(
+  donnees_2020_et_moins = NULL,
+  input_2021_et_plus_fichier
+)
 }
 \arguments{
 \item{donnees_2020_et_moins}{\code{data.frame} contenant les données historique consolidées}
 
-\item{input_2021_et_plus_dir}{chemin du dossier contenant des dossier "Saison 20xx" avec les nouvelles données}
+\item{input_2021_et_plus_fichier}{chemin du fichier contenant les données récentes}
 }
 \value{
 le data.frame() consolidé
