@@ -26,11 +26,11 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   names(donnees.init) <- c(
     'annee',
     'noSite',
-    'nomSite',
+    'site',
     'date',
     'espece',
-    'longueur',
-    'poids',
+    'longueur_mm',
+    'poids_g',
     'echGonade',
     'echEstomac',
     'echantillonneur'
@@ -40,11 +40,11 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   donnees.init$mois <- floor(donnees.init$date / 100) -
     floor(donnees.init$date / 10000) * 100
   donnees.init$jour <- donnees.init$date - floor(donnees.init$date / 100) * 100
-  ligneErreur <- which(donnees.init$longueur == '3.05 M')
-  donnees.init$longueur <- as.numeric(donnees.init$longueur)
-  donnees.init$poids <- as.numeric(donnees.init$poids)
-  donnees.init[ligneErreur, 'longueur'] <- 305
-  donnees.init[ligneErreur, 'poids'] <- 272000
+  ligneErreur <- which(donnees.init$longueur_mm == '3.05 M')
+  donnees.init$longueur_mm <- as.numeric(donnees.init$longueur_mm)
+  donnees.init$poids_g <- as.numeric(donnees.init$poids_g)
+  donnees.init[ligneErreur, 'longueur_mm'] <- 305
+  donnees.init[ligneErreur, 'poids_g'] <- 272000
   donnees.init$anneeGestion <- 1995
   ## 1996
   donnees.temp <- readxl::read_excel(path = file.path(input_dir, '1996DB.xls'))
@@ -52,11 +52,11 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   names(donnees.temp) <- c(
     'annee',
     'noSite',
-    'nomSite',
+    'site',
     'date',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   donnees.temp[which(donnees.temp$espece == 'morue'), 'espece'] <- 'morueSp' #voir "Note identification des morues.txt"
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
@@ -69,12 +69,12 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   print(1997)
   names(donnees.temp) <- c(
     'noSite',
-    'nomSite',
+    'site',
     'echantillonneur',
     'date',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   donnees.temp[which(donnees.temp$espece == 'morue'), 'espece'] <- 'morueSp' #voir "Note identification des morues.txt"
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
@@ -87,13 +87,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   print(1998)
   names(donnees.temp) <- c(
     'noSite',
-    'nomSite',
+    'site',
     'echantillonneur',
     'date',
     'dateAlt',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   donnees.temp$annee <- 1900 + floor(donnees.temp$date / 10000)
   donnees.temp$mois <- floor(donnees.temp$date / 100) -
@@ -106,12 +106,12 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   donnees.temp <- readxl::read_excel(path = file.path(input_dir, '1999DB.xls'))
   print(1999)
   names(donnees.temp) <- c(
-    'nomSite',
+    'site',
     'echantillonneur',
     'date',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   donnees.temp$annee <- 1900 + floor(donnees.temp$date / 10000)
   donnees.temp$mois <- floor(donnees.temp$date / 100) -
@@ -125,13 +125,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   print(2000)
   names(donnees.temp) <- c(
     'espece',
-    'nomSite',
+    'site',
     'date',
-    'longueur',
-    'poids',
+    'longueur_mm',
+    'poids_g',
     'espece2'
   )
-  donnees.temp$longueur <- donnees.temp$longueur * 10 #de cm à mm
+  donnees.temp$longueur_mm <- donnees.temp$longueur_mm * 10 #de cm à mm
   donnees.temp[which(donnees.temp$espece == 'morue'), 'espece'] <- 'morueSp' #voir "Note identification des morues.txt"
   temp <- donnees.temp[which(lubridate::year(donnees.temp$date) < 1999), ]$date
   donnees.temp[
@@ -152,12 +152,12 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   donnees.temp <- readxl::read_excel(path = file.path(input_dir, '2001DB.xls'))
   print(2001)
   names(donnees.temp) <- c(
-    'nomSite',
+    'site',
     'echantillonneur',
     'date',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   temp <- donnees.temp[which(lubridate::year(donnees.temp$date) < 2000), ]$date
   donnees.temp[
@@ -180,13 +180,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   donnees.temp <- readxl::read_excel(path = file.path(input_dir, '2002DB.xls'))
   print(2002)
   names(donnees.temp) <- c(
-    'nomSite',
+    'site',
     'echantillonneur',
     'date',
     'espece',
-    'longueur',
-    'poids',
-    'commentaire'
+    'longueur_mm',
+    'poids_g',
+    'remrques'
   )
   donnees.temp[which(lubridate::year(donnees.temp$date) > 2002), 'date'] <- NA #quelques données le 13 octobre 2073
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
@@ -199,12 +199,12 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   print(2003)
   names(donnees.temp) <- c(
     'noSite',
-    'nomSite',
+    'site',
     'echantillonneur',
     'date',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   temp <- donnees.temp[which(lubridate::year(donnees.temp$date) < 2002), ]$date #
   donnees.temp[
@@ -227,11 +227,11 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   names(donnees.temp) <- c(
     'annee',
     'noSite',
-    'nomSite',
+    'site',
     'date',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
   donnees.temp$mois <- lubridate::month(donnees.temp$date)
@@ -244,10 +244,10 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   names(donnees.temp) <- c(
     'annee',
     'noSite',
-    'nomSite',
+    'site',
     'espece',
-    'longueur',
-    'poids',
+    'longueur_mm',
+    'poids_g',
     'echantillonneur',
     'date'
   )
@@ -273,10 +273,10 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     'echantillonneur',
     'date',
     'noSite',
-    'nomSite',
+    'site',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   temp <- donnees.temp[which(lubridate::year(donnees.temp$date) < 2005), ]$date
   donnees.temp[
@@ -297,12 +297,12 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   donnees.temp <- readxl::read_excel(path = file.path(input_dir, '2007DB.xls'))
   print(2007)
   names(donnees.temp) <- c(
-    'nomSite',
+    'site',
     'date',
     'echantillonneur',
     'espece',
-    'poids',
-    'longueur'
+    'poids_g',
+    'longueur_mm'
   )
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
   donnees.temp$mois <- lubridate::month(donnees.temp$date)
@@ -314,12 +314,12 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   print(2008)
   names(donnees.temp) <- c(
     'noSite',
-    'nomSite',
+    'site',
     'date',
     'echantillonneur',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
   donnees.temp$mois <- lubridate::month(donnees.temp$date)
@@ -337,10 +337,10 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     'echantillonneur',
     'annee',
     'noSite',
-    'nomSite',
+    'site',
     'espece',
-    'longueur',
-    'poids',
+    'longueur_mm',
+    'poids_g',
     'indiceCondition',
     'inutile1',
     'inutile2',
@@ -350,7 +350,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     'inutile6',
     'inutile7'
   )
-  donnees.temp$longueur <- donnees.temp$longueur * 10 #de cm à mm
+  donnees.temp$longueur_mm <- donnees.temp$longueur_mm * 10 #de cm à mm
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
   donnees.temp$mois <- lubridate::month(donnees.temp$date)
   donnees.temp$jour <- lubridate::day(donnees.temp$date)
@@ -364,12 +364,12 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   )
   print(2010)
   names(donnees.temp) <- c(
-    'nomSite',
+    'site',
     'date',
     'echantillonneur',
     'espece',
-    'longueur',
-    'poids'
+    'longueur_mm',
+    'poids_g'
   )
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
   donnees.temp$mois <- lubridate::month(donnees.temp$date)
@@ -379,12 +379,12 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2010DB.xls'),
     skip = 110,
     col_names = c(
-      'nomSite',
+      'site',
       'date',
       'echantillonneur',
       'espece',
-      'longueur',
-      'poids'
+      'longueur_mm',
+      'poids_g'
     )
   )
   donnees.temp2$date <- as.POSIXct(paste(
@@ -411,12 +411,12 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     )
     print(i.an)
     names(donnees.temp) <- c(
-      'nomSite',
+      'site',
       'date',
       'echantillonneur',
       'espece',
-      'longueur',
-      'poids'
+      'longueur_mm',
+      'poids_g'
     )
     donnees.temp$annee <- lubridate::year(donnees.temp$date)
     donnees.temp$mois <- lubridate::month(donnees.temp$date)
@@ -428,13 +428,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   donnees.temp <- readxl::read_excel(path = file.path(input_dir, '2014DB.xls'))
   print(2014)
   names(donnees.temp) <- c(
-    'nomSite',
+    'site',
     'date',
     'echantillonneur',
     'espece',
-    'longueur',
-    'poids',
-    'commentaire'
+    'longueur_mm',
+    'poids_g',
+    'remrques'
   )
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
   donnees.temp$mois <- lubridate::month(donnees.temp$date)
@@ -446,13 +446,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2015DB.xlsx'),
     range = 'A2:G393',
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   print(2015)
@@ -460,13 +460,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2015DB.xlsx'),
     range = 'A501:G534',
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   donnees.temp <- rbind(donnees.temp, donnees.temp2)
@@ -475,26 +475,26 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2015DB.xlsx'),
     range = 'A394:G500',
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   donnees.temp4 <- readxl::read_excel(
     path = file.path(input_dir, '2015DB.xlsx'),
     skip = 534,
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   test <- rbind(donnees.temp, donnees.temp3, donnees.temp4)
@@ -515,13 +515,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2016DB.xlsx'),
     range = 'A2:G350',
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   print(2016)
@@ -530,13 +530,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2016DB.xlsx'),
     skip = 350,
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   test <- rbind(donnees.temp, donnees.temp2)
@@ -557,13 +557,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2017DB.xlsx'),
     range = 'A2:G121',
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   print(2017)
@@ -571,13 +571,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2017DB.xlsx'),
     range = 'A125:G196',
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   donnees.temp <- rbind(donnees.temp, donnees.temp2)
@@ -585,13 +585,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2017DB.xlsx'),
     range = 'A122:G124',
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   donnees.temp2$date <- as.POSIXct('2017-02-09', format = '%Y-%m-%d')
@@ -599,13 +599,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2017DB.xlsx'),
     skip = 196,
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   donnees.temp3$date <- as.POSIXct(donnees.temp3$date, format = '%d/%m/%Y')
@@ -620,13 +620,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2018DB.xlsx'),
     range = 'A2:G747',
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   print(2018)
@@ -635,13 +635,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     path = file.path(input_dir, '2018DB.xlsx'),
     skip = 747,
     col_names = c(
-      'nomSite',
+      'site',
       'echantillonneur',
       'date',
       'espece',
-      'longueur',
-      'poids',
-      'commentaire'
+      'longueur_mm',
+      'poids_g',
+      'remrques'
     )
   )
   test <- rbind(donnees.temp, donnees.temp2)
@@ -668,13 +668,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   donnees.temp <- readxl::read_excel(path = file.path(input_dir, '2019DB.xlsx'))
   print(2019)
   names(donnees.temp) <- c(
-    'nomSite',
+    'site',
     'echantillonneur',
     'date',
     'espece',
-    'longueur',
-    'poids',
-    'commentaire'
+    'longueur_mm',
+    'poids_g',
+    'remrques'
   )
   donnees.temp$annee <- lubridate::year(donnees.temp$date)
   donnees.temp$mois <- lubridate::month(donnees.temp$date)
@@ -685,13 +685,13 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
   donnees.temp <- readxl::read_excel(path = file.path(input_dir, '2020DB.xlsx'))
   print(2020)
   names(donnees.temp) <- c(
-    'nomSite',
+    'site',
     'echantillonneur',
     'date',
     'espece',
-    'longueur',
-    'poids',
-    'commentaire',
+    'longueur_mm',
+    'poids_g',
+    'remrques',
     'inutile1',
     'inutile2',
     'inutile3',
@@ -710,7 +710,7 @@ lire_donnees_bio_pre2021 <- function(input_dir) {
     format = '%Y-%m-%d'
   )
   donnees <- donnees.init
-  donnees$nomSite <- standardiser_nom_site(donnees$nomSite)[, 'sites']
+  donnees$site <- standardiser_nom_site(donnees$site)[, 'sites']
   donnees$espece <- standardiser_nom_espece(donnees$espece)
   ##
   return(donnees)
