@@ -17,37 +17,37 @@ lire_journaux_de_bord_pre2021 <- function(
     path = file.path(input_dir, paste0('Sag_journal_', 2015, '.xlsx'))
   ))
   names(jb.init) <- c(
-    'echantillonneur',
+    'nom',
     'telephone1',
     'telephone2',
     'date',
     'heureDebut',
     'heureFin',
     'immersion',
-    'nomSite',
+    'site',
     'village',
     'horsVillage',
     'latitude',
     'longitude',
-    'mareeMontante',
-    'mareeDescendante',
+    'montante',
+    'descendante',
     'mareeAutre',
-    'echosondeur',
-    'profSite',
-    'profPeche',
+    'sonar_1_0',
+    'prof_maxSite_m',
+    'prof_min_m',
     'engin',
-    'enginTypeCanne',
-    'appatType',
-    'nbLignes',
-    'nbHamecons',
-    'especeVisee',
-    'nbSebastes',
+    'typeCanne',
+    'typeAppat',
+    'nb_linge',
+    'ng_hamecon',
+    'espece_recherche',
+    'nbSebaste',
     'nbMorue',
     'nbOgac',
     'nbTurbot',
     'autreEspece',
     'nbAutre',
-    'remarques'
+    'notes'
   )
   jb.init$anneeGestion <- 2015
   for (i.an in 2016:2017) {
@@ -56,37 +56,37 @@ lire_journaux_de_bord_pre2021 <- function(
       path = file.path(input_dir, paste0('Sag_journal_', i.an, '.xlsx'))
     ))
     names(temp) <- c(
-      'echantillonneur',
+      'nom',
       'telephone1',
       'telephone2',
       'date',
       'heureDebut',
       'heureFin',
       'immersion',
-      'nomSite',
+      'site',
       'village',
       'horsVillage',
       'latitude',
       'longitude',
-      'mareeMontante',
-      'mareeDescendante',
+      'montante',
+      'descendante',
       'mareeAutre',
-      'echosondeur',
-      'profSite',
-      'profPeche',
+      'sonar_1_0',
+      'prof_maxSite_m',
+      'prof_min_m',
       'engin',
-      'enginTypeCanne',
-      'appatType',
-      'nbLignes',
-      'nbHamecons',
-      'especeVisee',
-      'nbSebastes',
+      'typeCanne',
+      'typeAppat',
+      'nb_linge',
+      'ng_hamecon',
+      'espece_recherche',
+      'nbSebaste',
       'nbMorue',
       'nbOgac',
       'nbTurbot',
       'autreEspece',
       'nbAutre',
-      'remarques'
+      'notes'
     )
     temp$anneeGestion <- i.an
     jb.init <- merge(jb.init, temp, all = TRUE)
@@ -97,37 +97,37 @@ lire_journaux_de_bord_pre2021 <- function(
     path = file.path(input_dir, paste0('Sag_journal_', i.an, '.xlsx'))
   )[, 1:31])
   names(temp) <- c(
-    'echantillonneur',
+    'nom',
     'telephone1',
     'telephone2',
     'date',
     'heureDebut',
     'heureFin',
     'immersion',
-    'nomSite',
+    'site',
     'village',
     'horsVillage',
     'latitude',
     'longitude',
-    'mareeMontante',
-    'mareeDescendante',
+    'montante',
+    'descendante',
     'mareeAutre',
-    'echosondeur',
-    'profSite',
-    'profPeche',
+    'sonar_1_0',
+    'prof_maxSite_m',
+    'prof_min_m',
     'engin',
-    'enginTypeCanne',
-    'appatType',
-    'nbLignes',
-    'nbHamecons',
-    'especeVisee',
-    'nbSebastes',
+    'typeCanne',
+    'typeAppat',
+    'nb_linge',
+    'ng_hamecon',
+    'espece_recherche',
+    'nbSebaste',
     'nbMorue',
     'nbOgac',
     'nbTurbot',
     'autreEspece',
     'nbAutre',
-    'remarques'
+    'notes'
   )
   temp$anneeGestion <- 2018
   jb.init <- merge(jb.init, temp, all = TRUE)
@@ -137,35 +137,35 @@ lire_journaux_de_bord_pre2021 <- function(
       path = file.path(input_dir, paste0('Sag_journal_', i.an, '.xlsx'))
     ))
     names(temp) <- c(
-      'echantillonneur',
+      'nom',
       'telephone1',
       'telephone2',
       'date',
       'heureDebut',
       'heureFin',
       'immersion',
-      'nomSite',
+      'site',
       'village',
       'horsVillage',
-      'mareeMontante',
-      'mareeDescendante',
+      'montante',
+      'descendante',
       'mareeAutre',
-      'echosondeur',
-      'profSite',
-      'profPeche',
+      'sonar_1_0',
+      'prof_maxSite_m',
+      'prof_min_m',
       'engin',
-      'enginTypeCanne',
-      'appatType',
-      'nbLignes',
-      'nbHamecons',
-      'especeVisee',
-      'nbSebastes',
+      'typeCanne',
+      'typeAppat',
+      'nb_linge',
+      'ng_hamecon',
+      'espece_recherche',
+      'nbSebaste',
       'nbMorue',
       'nbOgac',
       'nbTurbot',
       'autreEspece',
       'nbAutre',
-      'remarques'
+      'notes'
     )
     temp$anneeGestion <- i.an
     jb.init <- merge(jb.init, temp, all = TRUE)
@@ -177,14 +177,14 @@ lire_journaux_de_bord_pre2021 <- function(
   jb.init$lundiAuVendredi <- jb.init$jourSemaine %in% 2:6
   ##
   ## Nettoyer les données
-  ## table(jb.init$echosondeur, useNA='ifany')
-  jb.init[jb.init$echosondeur %in% c('O', 'o', 'oui'), 'echosondeur'] <- TRUE
-  jb.init[jb.init$echosondeur %in% c('N', 'n', 'non'), 'echosondeur'] <- FALSE
+  ## table(jb.init$sonar_1_0, useNA='ifany')
+  jb.init[jb.init$sonar_1_0 %in% c('O', 'o', 'oui'), 'sonar_1_0'] <- TRUE
+  jb.init[jb.init$sonar_1_0 %in% c('N', 'n', 'non'), 'sonar_1_0'] <- FALSE
   ## table(jb.init$village, useNA='ifany')
   jb.init[jb.init$village %in% c('O', 'o', 'oui', '1'), 'village'] <- TRUE
   jb.init[jb.init$village %in% c('N', 'n', 'non', '0'), 'village'] <- FALSE
-  ## table(jb.init$nbSebastes, useNA='ifany')
-  jb.init[which(is.na(jb.init$nbSebastes)), 'nbSebastes'] <- 0
+  ## table(jb.init$nbSebaste, useNA='ifany')
+  jb.init[which(is.na(jb.init$nbSebaste)), 'nbSebaste'] <- 0
   ## table(jb.init$nbMorue, useNA='ifany')
   jb.init[which(is.na(jb.init$nbMorue)), 'nbMorue'] <- 0
   ## table(jb.init$nbOgac, useNA='ifany')
@@ -193,7 +193,7 @@ lire_journaux_de_bord_pre2021 <- function(
   jb.init[which(is.na(jb.init$nbTurbot)), 'nbTurbot'] <- 0
   ## table(jb.init$nbAutre, useNA='ifany') # pas sur quoi faire avec ca!
   jb.init$nbTot <- apply(
-    jb.init[, c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')],
+    jb.init[, c('nbSebaste', 'nbMorue', 'nbOgac', 'nbTurbot')],
     1,
     sum
   )
@@ -209,7 +209,7 @@ lire_journaux_de_bord_pre2021 <- function(
   ##
   ## ajuster les noms utilisés
   jb <- jb.init
-  jb$nomSite <- standardiser_nom_site(jb$nomSite)[, 'sites']
+  jb$site <- standardiser_nom_site(jb$site)[, 'sites']
   jb$espece <- standardiser_nom_espece(jb$espece)
   ##
   return(jb)
