@@ -294,10 +294,6 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
   }
   ## write.csv2(temp, file=file.path(dir.output,'csv',paste0(nomPng,'.csv')))
 
-  ########
-  ## Attention ici: on restreint aux efforts de moins de 12 heures...
-  ########
-
   ##
   ## effort de pêche par site
   ##
@@ -310,16 +306,16 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
       units = 'in',
       res = 300
     )
-    # temp <- graph_effort_peche_par_site(
-    #   ech = subset(ech, nbHeures < 12),
-    #   visites = visites.init,
-    #   langue = i.langue
-    # )
     temp <- graph_effort_peche_par_site(
-      ech = ech,
+      ech = subset(ech, nbHeures < 12),
       visites = visites.init,
       langue = i.langue
     )
+    # temp <- graph_effort_peche_par_site(
+    #   ech = ech,
+    #   visites = visites.init,
+    #   langue = i.langue
+    # )
     dev.off()
   }
   nbPecheursMoy.site.sfs <- temp
