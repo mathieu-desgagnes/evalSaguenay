@@ -74,9 +74,9 @@ lire_donnees <- function(
       'Donnees_Bio.xlsx'
     )
   )
-  ## sauvegarder la base de donnée consolidée
-  save(db, file = file.path(dir_output, 'donnees_DB.RData'))
-  write.csv2(db, file = file.path(dir_output, 'donnees_DB.csv'))
+  # ## sauvegarder la base de donnée consolidée
+  # save(db, file = file.path(dir_output, 'donnees_DB.RData'))
+  # write.csv2(db, file = file.path(dir_output, 'donnees_DB.csv'))
 
   ##
   ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
@@ -87,9 +87,9 @@ lire_donnees <- function(
       'Donnees_Journaux_de_bord.xlsx'
     )
   )
-  ## sauvegarder la base de donnée consolidée
-  save(jb, file = file.path(dir_output, 'donnees_JB.RData'))
-  write.csv2(jb, file = file.path(dir_output, 'donnees_JB.csv'))
+  # ## sauvegarder la base de donnée consolidée
+  # save(jb, file = file.path(dir_output, 'donnees_JB.RData'))
+  # write.csv2(jb, file = file.path(dir_output, 'donnees_JB.csv'))
 
   ##
   ## échantillonneurs: ajouter les données de 2021 et plus aux données historiques
@@ -100,22 +100,22 @@ lire_donnees <- function(
       'Donnees_Echantillonneurs(PUE).xlsx'
     )
   )
-  ## sauvegarder la base de donnée consolidée
-  save(ech, file = file.path(dir_output, 'donnees_ech.RData'))
-  write.csv2(ech, file = file.path(dir_output, 'donnees_ech.csv'))
+  # ## sauvegarder la base de donnée consolidée
+  # save(ech, file = file.path(dir_output, 'donnees_ech.RData'))
+  # write.csv2(ech, file = file.path(dir_output, 'donnees_ech.csv'))
 
   ##
   ##
   ## application Glaces du Fjord: lire les données à partir de 2025
+  ## nécessite le dossier où sont les fichier .csv envoyés par le partenaire
   gdf <- lire_glaces_du_fjord(
-    input_2021_et_plus_fichier = file.path(
-      dir_input,
-      'Donnees_Glaces_du_fjord.xlsx'
-    )
+    input_2021_et_plus_dossier = dir_input
   )
-  ## sauvegarder la base de donnée consolidée
-  save(gdf, file = file.path(dir_input, 'donnees_gdf.RData'))
-  write.csv2(gdf, file = file.path(dir_input, 'donnees_gdf.csv'))
+  # ## sauvegarder la base de donnée consolidée
+  # save(gdf, file = file.path(dir_output, 'donnees_gdf.RData'))
+  # write.csv2(gdf, file = file.path(dir_output, 'donnees_gdf.csv'))
 
-  list(echant = ech, journaux = jb, dbio = db, glace_du_fjord = gdf)
+  obj <- list(echant = ech, journaux = jb, dbio = db, glace_du_fjord = gdf)
+  save(obj, file = file.path(dir_output, 'donnees.RData'))
+  obj
 }

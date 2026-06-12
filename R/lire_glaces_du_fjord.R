@@ -5,25 +5,22 @@
 #'
 #' Note à développer: associer à des sites ou non?
 #'
-#' @param input_2021_et_plus_fichier chemin du fichier contenant les données récentes
+#' @param input_2021_et_plus_dossier chemin le dossier contenant le ou les fichiers de données
 #'
-#' @importFrom readxl read_excel
 #' @import lubridate
 #'
 #' @return le data.frame() consolidé
 #'
 lire_glaces_du_fjord <- function(
-  input_2021_et_plus_fichier
+  input_2021_et_plus_dossier
 ) {
-  if (file.exists(input_2021_et_plus_fichier)) {
-    gdf <- as.data.frame(readxl::read_excel(
-      path = input_2021_et_plus_fichier,
-      sheet = 1,
-      na = ''
-    ))
-  } else {
-    stop('Aucun fichier à lire.')
-  }
+  fichiers <- list.files(
+    path = input_2021_et_plus_dossier,
+    pattern = "^prises.*\\.csv$",
+    full.names = TRUE
+  )
+  liste_df <- lapply(fichiers, read.csv)
+  gdf <- do.call(rbind, liste_df)
 
   nouveaux.noms <-
     c(
