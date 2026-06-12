@@ -15,10 +15,12 @@
 #'
 #' @examples ##À venir
 effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
-  ech$anneeGestion <- as.numeric(ech$anneeGestion)
-  # plot(ech$annee, ech$anneeGestion)
+  #########
+  ###à faire: changer les lignes transformant "ech" vers le fichier "ajout_echantillonneurs.R"
+  ### et poursuivre avec capture.r et graph_capture_totale.r (où il manquait nbGadide à ech)
+  #########
+
   annees <- sort(unique(ech$anneeGestion))
-  # ech <- ech[ech$anneeGestion %in% annees, ]
   sites <- c(
     'AnseBenjamin',
     'AnseStJean',
@@ -29,79 +31,6 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
     'StFelix',
     'StFulgence'
   )
-
-  ## préparation des données
-  ##
-  ## echantillons
-  ech$nbHeures <- as.numeric(ech$nbHeures)
-  ech$nbHeures[which(ech$nbHeures < 0.25)] <- 0.25 #si le nombre d'heure est inférieur à 0.25 alors on met 0.25
-  ech$nbGadide <- ech$nbMorue + ech$nbOgac
-  ech[ech$anneeGestion < 2001, c('nbMorue', 'nbOgac')] <- NA
-  ech$ue <- ech$nbLignes * ech$nbHamecons * ech$nbHeures #unite d'effort
-  ech$logUE <- log(ech$ue)
-  ech$sfs.ori <- ech$sfs
-  ech$sfs <- as.numeric(wday(ech$date) %in% c(1, 7)) #semaine=0, fds=1
-  ## as.numeric(wday(as.POSIXct('2023-11-01')) %in% c(1,7))
-  ## as.numeric(wday(as.POSIXct('2023-10-29')) %in% c(1,7))
-  ## which(ech$sfs.ori != ech$sfs)
-  if (FALSE) {
-    #exploration du nombre d'heures de pêche
-    nrow(ech[which(ech$secteur == "fond"), ])
-    nrow(ech[
-      which(ech$secteur == "fond" & ech$nbHeures <= 12),
-    ])
-    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures < 12), ])
-    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures <= 8), ])
-    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures < 8), ])
-    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures <= 6), ])
-    nrow(ech[which(ech$secteur == "fond" & ech$nbHeures < 6), ])
-    ##
-    hist(
-      ech[, 'nbHeures'],
-      breaks = seq(-0.25, 200, by = 1),
-      xlim = c(0, 30),
-      ylim = c(0, 0.2),
-      main = 'Nombre heures de pêche',
-      freq = FALSE
-    )
-    x <- hist(
-      ech[ech$annee %in% c(1994:1998), 'nbHeures'],
-      breaks = seq(-0.25, 200, by = 1),
-      plot = FALSE
-    )
-    lines(x$mids, x$density, col = 1)
-    x <- hist(
-      ech[ech$annee %in% c(1999:2003), 'nbHeures'],
-      breaks = seq(-0.25, 200, by = 1),
-      plot = FALSE
-    )
-    lines(x$mids, x$density, col = 2)
-    x <- hist(
-      ech[ech$annee %in% c(2004:2008), 'nbHeures'],
-      breaks = seq(-0.25, 200, by = 1),
-      plot = FALSE
-    )
-    lines(x$mids, x$density, col = 3)
-    x <- hist(
-      ech[ech$annee %in% c(2009:2013), 'nbHeures'],
-      breaks = seq(-0.25, 200, by = 1),
-      plot = FALSE
-    )
-    lines(x$mids, x$density, col = 4)
-    x <- hist(
-      ech[ech$annee %in% c(2014:2018), 'nbHeures'],
-      breaks = seq(-0.25, 200, by = 1),
-      plot = FALSE
-    )
-    lines(x$mids, x$density, col = 5)
-    x <- hist(
-      ech[ech$annee %in% c(2019:2023), 'nbHeures'],
-      breaks = seq(-0.25, 200, by = 1),
-      plot = FALSE
-    )
-    lines(x$mids, x$density, col = 6)
-  }
-  ech <- ech[which(ech$secteur %in% c('fond', 'Fond')), ]
 
   ## visites
   ## lorsqu'il y a plusieurs échantillons (visites) d'un même site une même journée,
@@ -118,8 +47,9 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
       "echantillonneur"
     )]),
   ]
-  visites.temp <- visites.ori[
-    order(visites.ori[, 'date'], visites.ori[, 'nomSite']),
+  visites.temp <- visites.ori[which(!is.na(visites.ori$date)), ]
+  visites.temp <- visites.temp[
+    order(visites.temp[, 'date'], visites.temp[, 'nomSite']),
   ]
   visites.temp$rowNb <- 1:nrow(visites.temp)
   for (i.vis in 1:(length(visites.temp$rowNb) - 1)) {
@@ -150,6 +80,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
       a.enlever <- c(a.enlever, (i.vis + 1):j)
     }
   }
+  ##
   visites.init <- visites.temp[
     -a.enlever,
     c(
@@ -181,8 +112,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
       'nbPecheursSecteur',
       'nbPecheursMorue',
       'nbPecheursSebastes',
-      'pecheurDedie',
-      'nomSite.ori'
+      'pecheurDedie'
     )
   ]
   ##
@@ -279,7 +209,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
       "nbPlie",
       "nbGoberge",
       "nbHareng",
-      "nbMerlucheEcureuil"
+      "nbMerluche"
     )],
     1,
     sum,
@@ -292,7 +222,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
   ## déterminer le nombre de jours entre premier et dernier échantillon d'une année (de fin de semaine et de semaine)
   sfs.nbJour.an <- array(
     dim = c(length(annees), 2),
-    dimnames = list(annee = annees, c('semaine', 'fds'))
+    dimnames = list(anneeGestion = annees, c('semaine', 'fds'))
   )
   for (i.an in seq_along(annees)) {
     cetteAnnee <- visites.init[
