@@ -92,13 +92,12 @@ lire_donnees <- function(
   write.csv2(jb, file = file.path(dir_output, 'donnees_JB.csv'))
 
   ##
-  ##
   ## échantillonneurs: ajouter les données de 2021 et plus aux données historiques
   ech <- ajout_echantillonneurs(
     donnees_2020_et_moins = data$ech,
     input_2021_et_plus_fichier = file.path(
       dir_input,
-      'Donnees_Echantillonneur.xlsx'
+      'Donnees_Echantillonneurs(PUE).xlsx'
     )
   )
   ## sauvegarder la base de donnée consolidée
