@@ -18,12 +18,14 @@ ajout_donnees_bio <- function(
   if (file.exists(input_2021_et_plus_fichier)) {
     db.new <- as.data.frame(readxl::read_excel(
       path = input_2021_et_plus_fichier,
-      sheet = 2,
-      na = 'NA'
+      sheet = 'Formulaire de saisie',
+      na = c('', 'NA')
     ))
-  }
 
-  db <- merge(db.init, db.new, all = TRUE)
+    db <- merge(db.init, db.new, all = TRUE)
+  } else {
+    db <- db.init
+  }
   ## nrow(db.init); nrow(db.new); nrow(db)
 
   db$date <- as.POSIXct(
