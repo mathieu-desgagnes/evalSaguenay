@@ -75,14 +75,10 @@ lire_donnees <- function(
     )
   )
   ## sauvegarder la base de donnée consolidée
-  save(db, file = file.path(dir_input, 'donnees_DB.RData'))
-  write.csv2(db, file = file.path(dir_input, 'donnees_DB.csv'))
+  save(db, file = file.path(dir_output, 'donnees_DB.RData'))
+  write.csv2(db, file = file.path(dir_output, 'donnees_DB.csv'))
 
-  ###
   ##
-  ## Problème dnas les années couvertes par les deux sources, historiques et récentes, a valider
-  ##
-  #####
   ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
   jb <- ajout_journaux_de_bord(
     donnees_2020_et_moins = data$jb,
@@ -92,8 +88,8 @@ lire_donnees <- function(
     )
   )
   ## sauvegarder la base de donnée consolidée
-  save(jb, file = file.path(dir_input, 'donnees_JB.RData'))
-  write.csv2(jb, file = file.path(dir_input, 'donnees_JB.csv'))
+  save(jb, file = file.path(dir_output, 'donnees_JB.RData'))
+  write.csv2(jb, file = file.path(dir_output, 'donnees_JB.csv'))
 
   ##
   ##

@@ -21,7 +21,6 @@ ajout_donnees_bio <- function(
       sheet = 'Formulaire de saisie',
       na = c('', 'NA')
     ))
-
     db <- merge(db.init, db.new, all = TRUE)
   } else {
     db <- db.init
@@ -34,7 +33,6 @@ ajout_donnees_bio <- function(
   )
   db$site <- standardiser_nom_site(sites = db$site)[, 'sites']
   db$espece <- standardiser_nom_espece(espece = db$espece)
-  db$annee <- db$anneeGestion
   ##
   return(db)
 }
