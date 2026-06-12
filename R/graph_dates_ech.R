@@ -6,7 +6,7 @@
 #'  de fermeture de la pêche blanche pour chaque année de gestion
 #' @param langue trois choix de langue du texte dans le graphique, soit français ('fr'), anglais('en') ou bilingue('bil')
 #'
-#' @return
+#' @return Ne retourne rien, produit un graphique
 #'
 graph_dates_ech <- function(
   ech,
@@ -62,28 +62,28 @@ graph_dates_ech <- function(
     }
   }
   for (i.an in 1:nrow(ouvertureOfficielle)) {
-    if (ouvertureOfficielle$anneeGestion[i.an] %in% annees) {
-      lines(
-        c(
-          yday(ouvertureOfficielle[i.an, 'ouverture']) +
-            365 *
-              (year(ouvertureOfficielle[i.an, 'ouverture']) -
-                ouvertureOfficielle[i.an, 'anneeGestion']),
-          yday(ouvertureOfficielle[i.an, 'fermeture'])
-        ),
-        rep(ouvertureOfficielle[i.an, 'anneeGestion'], 2)
-      )
-      points(
-        c(
-          yday(ouvertureOfficielle[i.an, 'ouverture']) +
-            365 *
-              (year(ouvertureOfficielle[i.an, 'ouverture']) -
-                ouvertureOfficielle[i.an, 'anneeGestion']),
-          yday(ouvertureOfficielle[i.an, 'fermeture'])
-        ),
-        rep(ouvertureOfficielle[i.an, 'anneeGestion'], 2)
-      )
-    }
+    # if (ouvertureOfficielle$anneeGestion[i.an] %in% annees) {
+    lines(
+      c(
+        yday(ouvertureOfficielle[i.an, 'ouverture']) +
+          365 *
+            (year(ouvertureOfficielle[i.an, 'ouverture']) -
+              ouvertureOfficielle[i.an, 'anneeGestion']),
+        yday(ouvertureOfficielle[i.an, 'fermeture'])
+      ),
+      rep(ouvertureOfficielle[i.an, 'anneeGestion'], 2)
+    )
+    points(
+      c(
+        yday(ouvertureOfficielle[i.an, 'ouverture']) +
+          365 *
+            (year(ouvertureOfficielle[i.an, 'ouverture']) -
+              ouvertureOfficielle[i.an, 'anneeGestion']),
+        yday(ouvertureOfficielle[i.an, 'fermeture'])
+      ),
+      rep(ouvertureOfficielle[i.an, 'anneeGestion'], 2)
+    )
+    # }
   }
   abline(v = 0)
   legend(
