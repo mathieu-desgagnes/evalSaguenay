@@ -11,7 +11,7 @@
 #'
 #' @return data.frame() des captures totales par strate
 #'
-captureTotale <- function(
+graph_capture_totale <- function(
   capt.pecheur,
   nbPecheursMoy.strate,
   nbJour.strate,
@@ -161,6 +161,11 @@ captureTotale <- function(
     espSeb,
     ', total 1996 à 2020:',
     round(sum(val[as.character(1996:2020), ])) * 1000
+  ))
+  print(paste(
+    espSeb,
+    ', total 2022 à 2026:',
+    round(sum(val[as.character(2022:2026), ])) * 1000
   ))
   ## morue
   val <- apply(pueEch[,, 'morue', ], c(1, 2), sum, na.rm = TRUE) / 1000

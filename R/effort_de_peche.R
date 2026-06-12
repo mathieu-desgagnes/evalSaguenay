@@ -416,6 +416,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
 
   effort <- list(
     nb_pecheurs_moy_par_strate = nbPecheursMoy.site.sfs,
+    nb_pecheurs_tot_par_site = nbPecheursTot.site,
     nb_jours_par_strate = sfs.nbJour.an
   )
 }
