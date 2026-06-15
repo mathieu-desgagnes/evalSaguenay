@@ -164,7 +164,9 @@ standardiser_nom_site <- function(sites) {
         'baie eternitée'
       )
   ] <- 'RiviereEternite'
-  sites.ori[sites.ori %in% c('cap jaseux', 'Cap Jaseux')] <- 'CapJaseux'
+  sites.ori[
+    sites.ori %in% c('cap jaseux', 'Cap Jaseux', 'Cap jaseux')
+  ] <- 'CapJaseux'
   sites.ori[
     sites.ori %in%
       c(
@@ -190,9 +192,37 @@ standardiser_nom_site <- function(sites) {
       c(
         "St-Félix d'Otis (Anse aux érables)",
         'Anse aux érables',
-        'anse aux érables'
+        'anse aux érables',
+        'Anse aux Érables'
       )
   ] <- 'AnseErables'
+  sites.ori[
+    sites.ori %in%
+      c(
+        'Anse à Simon'
+      )
+  ] <- 'AnseSimon'
+  sites.ori[
+    sites.ori %in%
+      c(
+        'Anse à Didier'
+      )
+  ] <- 'AnseDidier'
+  sites.ori[
+    sites.ori %in%
+      c(
+        'Robe noire',
+        'Robe Noir'
+      )
+  ] <- 'RobeNoire'
+  sites.ori[
+    sites.ori %in%
+      c(
+        'à la croix',
+        'Anse à la Croix',
+        'Anse à la croix'
+      )
+  ] <- 'AnseCroix'
   sites.ori[
     sites.ori %in%
       c(
@@ -235,20 +265,33 @@ standardiser_nom_site <- function(sites) {
         'Ecorceur',
         'Bagotville',
         'AnseBenjaminPhilippe',
-        'à la croix',
-        "Quai d'escale",
-        'Anse à la Croix'
+        "Quai d'escale"
       )
   ] <- 'AnseBenjamin'
   sites[sites.ori %in% c('AnseStJean')] <- 'AnseStJean'
-  sites[sites.ori %in% c('LesBattures', 'AnseBillots')] <- 'LesBattures'
+  sites[
+    sites.ori %in%
+      c(
+        'LesBattures',
+        'AnseBillots'
+      )
+  ] <- 'LesBattures'
   sites[sites.ori %in% c('GrandeBaie')] <- 'GrandeBaie'
   sites[sites.ori %in% c('RiviereEternite')] <- 'RiviereEternite'
   sites[
     sites.ori %in% c('CapJaseux', 'StFulgence', 'AnsePelletier')
   ] <- 'StFulgence'
   sites[
-    sites.ori %in% c('StFelix', 'AnseChaine', 'AnseErables', 'Robe noire')
+    sites.ori %in%
+      c(
+        'StFelix',
+        'AnseChaine',
+        'AnseErables',
+        'AnseDidier',
+        'AnseSimon',
+        'RobeNoire',
+        'AnseCroix'
+      )
   ] <- 'StFelix'
   sites[sites.ori %in% c('SteRose', 'SteRose_Quai')] <- 'SteRose'
   sites[
@@ -258,6 +301,7 @@ standardiser_nom_site <- function(sites) {
         'La Baie',
         'Tableau',
         "Cap au l'est",
+        "Cap au lest",
         'Indetermine',
         'Anse à platte'
       )

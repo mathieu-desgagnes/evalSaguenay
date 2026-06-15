@@ -22,6 +22,7 @@ ajout_journaux_de_bord <- function(
       sheet = 'Formulaire de saisie',
       na = c('', 'NA')
     ))
+    jb.new$site <- standardiser_nom_site(sites = jb.new$site)[, 'sites']
     jb <- merge(jb.init, jb.new, all = TRUE)
   } else {
     jb <- jb.init
