@@ -18,6 +18,8 @@
 struct_taille <- function(
   donnees,
   donnees_gdf = NULL,
+  courbe_croissance = TRUE,
+  seulement_sebaste = FALSE,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(
@@ -41,7 +43,11 @@ struct_taille <- function(
       legende.gadide <- 'Gadidae, non-spécifié/unspecified '
     }
   )
-  op <- par(mfrow = c(1, 2), mar = c(4, 4, 1, 1) + 0.1)
+  if (seulement_sebaste) {
+    op <- par(mfrow = c(1, 1), mar = c(4, 4, 1, 1) + 0.1)
+  } else {
+    op <- par(mfrow = c(1, 2), mar = c(4, 4, 1, 1) + 0.1)
+  }
   ##
   ## Sébastes
   if (FALSE) {
@@ -110,10 +116,12 @@ struct_taille <- function(
   x <- vioplot::vioplot(
     longueur ~ anneeGestion,
     data = db.sebaste,
-    h = 8,
+    h = 6,
+    wex = table(db.sebaste$anneeGestion) / mean(table(db.sebaste$anneeGestion)),
     at = sort(unique(db.sebaste$anneeGestion)),
     col = 3,
     lineCol = NA,
+    pchMed = 18,
     ## main='Sébaste, Saguenay',
     xlab = xlab1,
     ylab = ylab1,
@@ -138,20 +146,22 @@ struct_taille <- function(
   ##
   if (!is.null(donnees_gdf)) {
     # donnees_gdf$taille <- donnees_gdf$taille*10
-    temp <- subset(donnees_gdf, espece == 'Sébaste' & taille < 100)
+    temp <- subset(donnees_gdf, espece == 'Sébaste' & taille < 100 & taille > 7)
     x <- vioplot::vioplot(
       10 * taille ~ annee,
       data = temp,
-      # h = 8,
+      h = 6,
+      wex = table(donnees_gdf$annee) / max(table(donnees_gdf$annee)),
       at = sort(unique(donnees_gdf$annee)) + 0.3,
       col = 6,
       lineCol = NA,
+      pchMed = 18,
       ## main='Sébaste, Saguenay',
       add = TRUE
     )
     axis(
       3,
-      at = sort(unique(temp$annee)),
+      at = sort(unique(temp$annee)) + 0.3,
       labels = table(temp$annee),
       cex.axis = 0.4,
       tick = FALSE,
@@ -159,32 +169,42 @@ struct_taille <- function(
       las = 2,
       col.axis = 6
     )
-    x <- vioplot::vioplot(
-      longueur ~ anneeGestion,
-      data = db.sebaste,
-      h = 8,
-      at = sort(unique(db.sebaste$anneeGestion)),
-      col = 3,
-      lineCol = NA,
-      ## main='Sébaste, Saguenay',
-      add = TRUE
-    )
+    # x <- vioplot::vioplot(
+    #   longueur ~ anneeGestion,
+    #   data = db.sebaste,
+    #   h = 6,
+    #   wex=table(db.sebaste$anneeGestion)/mean(table(db.sebaste$anneeGestion)),
+    #   at = sort(unique(db.sebaste$anneeGestion)),
+    #   col = 3,
+    #   lineCol = NA,
+    #   pchMed=18,
+    #   ## main='Sébaste, Saguenay',
+    #   add = TRUE
+    # )
   }
-  x <- 0:60
-  y <- 33 * (1 - exp(-0.11 * (x - (0)))) * 10 #; cbind(x,y)
-  lines(x + 1980, y, lwd = 3, lty = 2)
-  lines(x + 2011, y, lwd = 3, lty = 2)
-  if (FALSE) {
-    #données du GSL
-    x <- 0:60 #1980, non-contraint
-    y <- 37 * (1 - exp(-0.153 * (x - (0.07)))) * 10 #; cbind(x,y)
-    lines(x + 1980, y, lwd = 3, lty = 3, col = 2)
-    x <- 0:60 #2011, non-contraint
-    y <- 28 * (1 - exp(-0.2 * (x - (-0.17)))) * 10 #; cbind(x,y)
-    lines(x + 2011, y, lwd = 3, lty = 3, col = 2)
-    x <- 0:60 #1980, contraint
-    y <- 42 * (1 - exp(-0.086 * (x - (-1.57)))) * 10 #; cbind(x,y)
-    lines(x + 1980, y, lwd = 3, lty = 3, col = 4)
+  if (courbe_croissance) {
+    x <- 0:60
+    y <- 33 * (1 - exp(-0.11 * (x - (0)))) * 10 #; cbind(x,y)
+    lines(x + 1980, y, lwd = 3, lty = 2)
+    lines(x + 2011, y, lwd = 3, lty = 2)
+    if (FALSE) {
+      #données du GSL
+      x <- 0:60 #1980, non-contraint
+      y <- 37 * (1 - exp(-0.153 * (x - (0.07)))) * 10 #; cbind(x,y)
+      lines(x + 1980, y, lwd = 3, lty = 3, col = 2)
+      x <- 0:60 #2011, non-contraint
+      y <- 28 * (1 - exp(-0.2 * (x - (-0.17)))) * 10 #; cbind(x,y)
+      lines(x + 2011, y, lwd = 3, lty = 3, col = 2)
+      x <- 0:60 #1980, contraint
+      y <- 42 * (1 - exp(-0.086 * (x - (-1.57)))) * 10 #; cbind(x,y)
+      lines(x + 1980, y, lwd = 3, lty = 3, col = 4)
+    }
+    legend(
+      'topleft',
+      inset = 0.03,
+      legend = paste(c('Linf', 'K', 't0'), ':', c(33, 0.11, 0)),
+      bg = 'white'
+    )
   }
   j.text <- 1
   text(
@@ -193,13 +213,7 @@ struct_taille <- function(
     labels = c('A', 'B', 'C', 'D')[j.text],
     cex = 1.5
   )
-  j.text = j.text + 1
-  legend(
-    'topleft',
-    inset = 0.03,
-    legend = paste(c('Linf', 'K', 't0'), ':', c(33, 0.11, 0)),
-    bg = 'white'
-  )
+
   ##
   ## distribution frequences de taille
   if (FALSE) {
@@ -278,7 +292,7 @@ struct_taille <- function(
     )
     axis(
       3,
-      at = sort(unique(temp$anneeGestion)),
+      at = sort(unique(temp$anneeGestion)) - 0.2,
       labels = table(temp$anneeGestion),
       cex.axis = 0.4,
       tick = FALSE,
@@ -328,80 +342,86 @@ struct_taille <- function(
     )
   }
   ##
-  temp <- subset(donnees, espece %in% 'morue')
-  x <- vioplot::vioplot(
-    longueur ~ anneeGestion,
-    data = temp,
-    h = 20,
-    ylim = c(0, 1200),
-    at = sort(unique(temp$anneeGestion)),
-    xlim = c(1981, max(temp$anneeGestion, na.rm = TRUE) + 1),
-    col = 4,
-    lineCol = NA,
-    ## main='Morue, Saguenay',
-    xlab = xlab1,
-    ylab = ylab1,
-    xaxt = 'n'
-  )
-  axis(
-    3,
-    at = as.numeric(names(table(temp$anneeGestion))),
-    labels = table(temp$anneeGestion),
-    cex.axis = 0.4,
-    tick = FALSE,
-    line = -0.8,
-    las = 2,
-    col.axis = 4
-  )
-  ## ajouter morueSp
-  temp <- subset(donnees, espece == 'morueSp')
-  vioplot::vioplot(
-    longueur ~ anneeGestion,
-    data = temp,
-    h = 20,
-    at = sort(unique(temp$anneeGestion)),
-    add = TRUE,
-    col = 2,
-    lineCol = NA
-  )
-  axis(1)
-  axis(
-    3,
-    at = sort(unique(temp$anneeGestion)),
-    labels = table(temp$anneeGestion),
-    cex.axis = 0.4,
-    tick = FALSE,
-    line = -0.8,
-    las = 2,
-    col.axis = 2
-  )
-  legend(
-    'topleft',
-    inset = 0.03,
-    legend = paste(c('Linf', 'K', 't0'), ':', c(70, 0.2, 0))
-  )
-  ##
-  ##
-  x <- 0:13
-  y <- 70 * (1 - exp(-0.2 * (x - (0)))) * 10
-  ## lines(x+1987, y, lwd=2, lty=2)
-  ## lines(x+1994, y, lwd=2, lty=2)
-  lines(x + 2004, y, lwd = 2, lty = 2)
-  lines(x + 2011, y, lwd = 2, lty = 2)
-  lines(x + 2018, y, lwd = 2, lty = 2)
-  legend(
-    'bottomleft',
-    inset = 0.03,
-    legend = c(legend.morue, legende.gadide),
-    fill = c(4, 2)
-  )
-  text(
-    x = mean(par('usr')[1:2]),
-    y = diff(par('usr')[3:4]) * 0.9 + par('usr')[3],
-    labels = c('A', 'B', 'C', 'D')[j.text],
-    cex = 1.5
-  )
-  j.text = j.text + 1
+  if (!seulement_sebaste) {
+    temp <- subset(donnees, espece %in% 'morue')
+    x <- vioplot::vioplot(
+      longueur ~ anneeGestion,
+      data = temp,
+      h = 20,
+      ylim = c(0, 1200),
+      at = sort(unique(temp$anneeGestion)),
+      wex = table(temp$anneeGestion) / mean(table(temp$anneeGestion)),
+      xlim = c(1981, max(temp$anneeGestion, na.rm = TRUE) + 1),
+      col = 4,
+      lineCol = NA,
+      ## main='Morue, Saguenay',
+      xlab = xlab1,
+      ylab = ylab1,
+      xaxt = 'n'
+    )
+    axis(
+      3,
+      at = as.numeric(names(table(temp$anneeGestion))),
+      labels = table(temp$anneeGestion),
+      cex.axis = 0.4,
+      tick = FALSE,
+      line = -0.8,
+      las = 2,
+      col.axis = 4
+    )
+    ## ajouter morueSp
+    temp <- subset(donnees, espece == 'morueSp')
+    vioplot::vioplot(
+      longueur ~ anneeGestion,
+      data = temp,
+      h = 20,
+      at = sort(unique(temp$anneeGestion)),
+      wex = table(temp$anneeGestion) / mean(table(temp$anneeGestion)),
+      add = TRUE,
+      col = 2,
+      lineCol = NA
+    )
+    axis(1)
+    axis(
+      3,
+      at = sort(unique(temp$anneeGestion)),
+      labels = table(temp$anneeGestion),
+      cex.axis = 0.4,
+      tick = FALSE,
+      line = -0.8,
+      las = 2,
+      col.axis = 2
+    )
+    ##
+    ##
+    if (courbe_croissance) {
+      x <- 0:13
+      y <- 70 * (1 - exp(-0.2 * (x - (0)))) * 10
+      ## lines(x+1987, y, lwd=2, lty=2)
+      ## lines(x+1994, y, lwd=2, lty=2)
+      lines(x + 2004, y, lwd = 2, lty = 2)
+      lines(x + 2011, y, lwd = 2, lty = 2)
+      lines(x + 2018, y, lwd = 2, lty = 2)
+      legend(
+        'topleft',
+        inset = 0.03,
+        legend = paste(c('Linf', 'K', 't0'), ':', c(70, 0.2, 0))
+      )
+    }
+    legend(
+      'bottomleft',
+      inset = 0.03,
+      legend = c(legend.morue, legende.gadide),
+      fill = c(4, 2)
+    )
+    text(
+      x = mean(par('usr')[1:2]),
+      y = diff(par('usr')[3:4]) * 0.9 + par('usr')[3],
+      labels = c('A', 'B', 'C', 'D')[j.text],
+      cex = 1.5
+    )
+    j.text = j.text + 1
+  }
   ##
   if (FALSE) {
     ## turbot
