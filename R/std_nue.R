@@ -9,8 +9,19 @@
 #'
 #' @examples ## à venir
 std_nue <- function(ech, jb, output_dir) {
-  ##échantillonneurs
+  ##ajustement échantillonneurs
   ajustement <- std_nue_ech(ech = ech, uniteEffort = 'ue')
+  ##ajustement jb
+  jb$ue <- jb$nbLignes *
+    jb$nbHamecons *
+    (jb$nbHeureImmersion + jb$nbMinuteImmersion / 60) #unite d'effort
+  ajustement.jb <- stdNueJB(
+    donnees = jb,
+    uniteEffort = 'ue',
+    anneesFit = 2015:2023
+  )
+  save(ajustement.jb, file = file.path(dir.output, 'csv', 'nueStdJB.RData'))
+
   ##
   ##
   annees <- 1996:max(ech$anneeGestion, na.rm = TRUE)
@@ -65,15 +76,15 @@ std_nue <- function(ech, jb, output_dir) {
   nomPng <- 'propCaptJB'
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
-      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
       height = 4.5,
       width = 10,
       units = 'in',
       res = 300
     )
     par(mfrow = c(1, 2))
-    temp <- captParActJB(donnees = jb, langue = i.langue)
-    temp <- propCaptJB(donnees = jb, titre = 'B', langue = i.langue)
+    temp <- capt_par_activite_jb(donnees = jb, langue = i.langue)
+    temp <- prop_par_activite_jb(donnees = jb, titre = 'B', langue = i.langue)
     dev.off()
   }
 }
