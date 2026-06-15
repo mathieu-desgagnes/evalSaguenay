@@ -15,7 +15,11 @@
 #'
 #' @return
 #'
-struct_taille <- function(donnees, langue = c('fr', 'en', 'bil')) {
+struct_taille <- function(
+  donnees,
+  donnees_gdf = NULL,
+  langue = c('fr', 'en', 'bil')
+) {
   switch(
     langue,
     'fr' = {
@@ -126,11 +130,46 @@ struct_taille <- function(donnees, langue = c('fr', 'en', 'bil')) {
     3,
     at = sort(unique(db.sebaste$anneeGestion)),
     labels = table(db.sebaste$anneeGestion),
-    cex.axis = 0.6,
+    cex.axis = 0.4,
     tick = FALSE,
-    line = -1,
+    line = -0.8,
     las = 2
   )
+  ##
+  if (!is.null(donnees_gdf)) {
+    # donnees_gdf$taille <- donnees_gdf$taille*10
+    temp <- subset(donnees_gdf, espece == 'Sébaste' & taille < 100)
+    x <- vioplot::vioplot(
+      10 * taille ~ annee,
+      data = temp,
+      # h = 8,
+      at = sort(unique(donnees_gdf$annee)) + 0.3,
+      col = 6,
+      lineCol = NA,
+      ## main='Sébaste, Saguenay',
+      add = TRUE
+    )
+    axis(
+      3,
+      at = sort(unique(temp$annee)),
+      labels = table(temp$annee),
+      cex.axis = 0.4,
+      tick = FALSE,
+      line = -1.8,
+      las = 2,
+      col.axis = 6
+    )
+    x <- vioplot::vioplot(
+      longueur ~ anneeGestion,
+      data = db.sebaste,
+      h = 8,
+      at = sort(unique(db.sebaste$anneeGestion)),
+      col = 3,
+      lineCol = NA,
+      ## main='Sébaste, Saguenay',
+      add = TRUE
+    )
+  }
   x <- 0:60
   y <- 33 * (1 - exp(-0.11 * (x - (0)))) * 10 #; cbind(x,y)
   lines(x + 1980, y, lwd = 3, lty = 2)
@@ -222,9 +261,9 @@ struct_taille <- function(donnees, langue = c('fr', 'en', 'bil')) {
       3,
       at = sort(unique(temp$anneeGestion)),
       labels = table(temp$anneeGestion),
-      cex.axis = 0.6,
+      cex.axis = 0.4,
       tick = FALSE,
-      line = -1,
+      line = -0.8,
       col.axis = 7
     )
     ## ajouter morueSp
@@ -241,9 +280,9 @@ struct_taille <- function(donnees, langue = c('fr', 'en', 'bil')) {
       3,
       at = sort(unique(temp$anneeGestion)),
       labels = table(temp$anneeGestion),
-      cex.axis = 0.6,
+      cex.axis = 0.4,
       tick = FALSE,
-      line = -1,
+      line = -0.8,
       col.axis = 2
     )
     ## ajouter franche
@@ -308,9 +347,9 @@ struct_taille <- function(donnees, langue = c('fr', 'en', 'bil')) {
     3,
     at = as.numeric(names(table(temp$anneeGestion))),
     labels = table(temp$anneeGestion),
-    cex.axis = 0.6,
+    cex.axis = 0.4,
     tick = FALSE,
-    line = -1,
+    line = -0.8,
     las = 2,
     col.axis = 4
   )
@@ -330,9 +369,9 @@ struct_taille <- function(donnees, langue = c('fr', 'en', 'bil')) {
     3,
     at = sort(unique(temp$anneeGestion)),
     labels = table(temp$anneeGestion),
-    cex.axis = 0.6,
+    cex.axis = 0.4,
     tick = FALSE,
-    line = -1,
+    line = -0.8,
     las = 2,
     col.axis = 2
   )
