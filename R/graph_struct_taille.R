@@ -15,7 +15,7 @@
 #'
 #' @return
 #'
-struct_taille <- function(
+graph_struct_taille <- function(
   donnees,
   donnees_gdf = NULL,
   courbe_croissance = TRUE,

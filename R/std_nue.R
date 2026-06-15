@@ -83,8 +83,12 @@ std_nue <- function(ech, jb, output_dir) {
       res = 300
     )
     par(mfrow = c(1, 2))
-    temp <- capt_par_activite_jb(donnees = jb, langue = i.langue)
-    temp <- prop_par_activite_jb(donnees = jb, titre = 'B', langue = i.langue)
+    temp <- graph_capt_par_activite_jb(donnees = jb, langue = i.langue)
+    temp <- graph_prop_par_activite_jb(
+      donnees = jb,
+      titre = 'B',
+      langue = i.langue
+    )
     dev.off()
   }
 }

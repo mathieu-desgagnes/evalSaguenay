@@ -5,7 +5,7 @@
 #'
 #' @return
 #'
-capt_par_activite_jb <- function(
+graph_prop_par_activite_jb <- function(
   donnees,
   titre = 'A',
   langue = c('fr', 'en', 'bil')
@@ -47,24 +47,16 @@ capt_par_activite_jb <- function(
   temp <- donnees[, c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')]
   esp.an <- aggregate(temp, donnees['anneeGestion'], FUN = sum)
   dimnames(esp.an)[[1]] <- esp.an$anneeGestion
+  ## esp.an <- merge(esp.an, list(anneeGestion=annees), all=TRUE)
   nb.an <- aggregate(temp[, 1], donnees['anneeGestion'], FUN = length)
   x <- barplot(
-    t(esp.an[, -1] / nb.an$x),
+    t(esp.an[, -1] / apply(esp.an[, -1], 1, sum)),
     col = c(2, 3, 4, 6),
-    legend = TRUE,
     xlab = xlab1,
-    ylab = ylab1,
-    args.legend = list(
-      x = 'bottomright',
-      inset = 0.03,
-      bg = "white",
-      title = legende1,
-      legend = rev(c(espSeb, espMor, espOgac, espTur)),
-      fill = rev(c(2, 3, 4, 6))
-    )
+    ylab = 'Proportion'
   )
-  ## axis(3, at=x, labels=nb.an$x, cex.axis=0.8, tick=FALSE, line=-1, las=1)
-  ## j.text <- 1; text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
+  ## axis(1, at=x)
+  ## text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
   mtext(side = 3, text = titre)
   ##
   return(merge(esp.an, nb.an))
