@@ -19,7 +19,7 @@
 #' @examples ##À venir
 lire_pre2021 <- function(dir_input, dir_output) {
   ## données biologiques
-  db.2020etMoins <- lire_donnees_bio_pre2021(
+  db.2020etMoins <- lire_pre2021_donnees_bio(
     input_dir = file.path(dir_input, 'DB')
   )
   write.csv2(
@@ -32,7 +32,7 @@ lire_pre2021 <- function(dir_input, dir_output) {
   )
 
   ## journaux de bord
-  jb.2020etMoins <- lire_journaux_de_bord_pre2021(
+  jb.2020etMoins <- lire_pre2021_journaux_de_bord(
     input_dir = file.path(dir_input, 'JB')
   )
   write.csv2(
@@ -45,7 +45,7 @@ lire_pre2021 <- function(dir_input, dir_output) {
   )
 
   ## échantillonneurs
-  ech.2020etMoins.init <- lire_echantillonneurs_pre2021(
+  ech.2020etMoins.init <- lire_pre2021_echantillonneurs(
     input_dir = dir_input
   )
   ech.2020etMoins <- ech.2020etMoins.init[['ech']]
