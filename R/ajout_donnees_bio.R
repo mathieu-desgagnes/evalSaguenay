@@ -21,17 +21,21 @@ ajout_donnees_bio <- function(
       sheet = 'Formulaire de saisie',
       na = c('', 'NA')
     ))
+    names(db.new)[match(
+      c('site', 'longueur_mm', 'poids_g'),
+      names(db.new)
+    )] <- c('nomSite', 'longueur', 'poids')
     db <- merge(db.init, db.new, all = TRUE)
   } else {
     db <- db.init
   }
-  ## nrow(db.init); nrow(db.new); nrow(db)
+  ## dim(db.init); dim(db.new); dim(db)
 
   db$date <- as.POSIXct(
     paste(db$annee, db$mois, db$jour, sep = '-'),
     format = '%Y-%m-%d'
   )
-  db$site <- standardiser_nom_site(sites = db$site)[, 'sites']
+  db$nomSite <- standardiser_nom_site(sites = db$nomSite)[, 'sites']
   db$espece <- standardiser_nom_espece(espece = db$espece)
   ##
   return(db)
