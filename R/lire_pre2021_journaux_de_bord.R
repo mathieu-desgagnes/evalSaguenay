@@ -50,7 +50,6 @@ lire_pre2021_journaux_de_bord <- function(
       'nbAutre',
       'remarques'
     )
-
   jb.init$anneeGestion <- 2015
   for (i.an in 2016:2017) {
     print(i.an)
@@ -131,7 +130,6 @@ lire_pre2021_journaux_de_bord <- function(
     'nbAutre',
     'remarques'
   )
-
   temp$anneeGestion <- 2018
   jb.init <- merge(jb.init, temp, all = TRUE)
   for (i.an in 2019:2020) {
@@ -181,8 +179,8 @@ lire_pre2021_journaux_de_bord <- function(
   ##
   ## Nettoyer les données
   ## table(jb.init$sonar_1_0, useNA='ifany')
-  jb.init[jb.init$sonar_1_0 %in% c('O', 'o', 'oui'), 'sonar_1_0'] <- TRUE
-  jb.init[jb.init$sonar_1_0 %in% c('N', 'n', 'non'), 'sonar_1_0'] <- FALSE
+  jb.init[jb.init$sonar_1_0 %in% c('O', 'o', 'oui'), 'echosondeur'] <- TRUE
+  jb.init[jb.init$sonar_1_0 %in% c('N', 'n', 'non'), 'echosondeur'] <- FALSE
   ## table(jb.init$village, useNA='ifany')
   jb.init[jb.init$village %in% c('O', 'o', 'oui', '1'), 'village'] <- TRUE
   jb.init[jb.init$village %in% c('N', 'n', 'non', '0'), 'village'] <- FALSE
@@ -207,12 +205,12 @@ lire_pre2021_journaux_de_bord <- function(
   jb.init[which(jb.init$nbMinuteImmersion == 25), 'nbMinuteImmersion'] <- 15
   jb.init[which(jb.init$nbMinuteImmersion == 50), 'nbMinuteImmersion'] <- 30
   jb.init[which(jb.init$nbMinuteImmersion == 75), 'nbMinuteImmersion'] <- 45
-  ## table(jb.init$site,useNA='ifany')
+  ## table(jb.init$nomSite,useNA='ifany')
   ##
   ##
   ## ajuster les noms utilisés
   jb <- jb.init
-  jb$site <- standardiser_nom_site(jb$site)[, 'sites']
+  jb$nomSite <- standardiser_nom_site(jb$nomSite)[, 'sites']
   jb$espece <- standardiser_nom_espece(jb$espece)
   ##
   return(jb)

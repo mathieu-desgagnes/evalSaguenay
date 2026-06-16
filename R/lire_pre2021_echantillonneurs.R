@@ -348,7 +348,6 @@ lire_pre2021_echantillonneurs <- function(input_dir) {
     'nbPecheursSebastes',
     'especeVisee'
   )
-
   ech.init2 <- as.data.frame(readxl::read_excel(
     path = file.path(input_dir, paste0(i.an, 'PUE.xls')),
     range = 'A1371:AL1431',
@@ -1482,7 +1481,7 @@ lire_pre2021_echantillonneurs <- function(input_dir) {
   ech$nomSite.ori <- temp[, 'sites.ori']
   ##
   ## attribuer les noSite selon les site
-  ## table(ech$noSite, ech$site, useNA='ifany')
+  ## table(ech$noSite, ech$nomSite, useNA='ifany')
   ech[is.na(ech$noSite), 'noSite'] <- match(
     ech[is.na(ech$noSite), 'nomSite'],
     c(
@@ -1496,7 +1495,7 @@ lire_pre2021_echantillonneurs <- function(input_dir) {
       'AnseStJean'
     )
   )
-  ## table(ech$noSite, ech$site, useNA='ifany')
+  ## table(ech$noSite, ech$nomSite, useNA='ifany')
   ##
   ## standardiser les noms de 'secteur'
   ## table(ech$secteur)
@@ -1537,31 +1536,31 @@ lire_pre2021_echantillonneurs <- function(input_dir) {
   lesquels <- which(
     ech$secteur == 'pelag' &
       apply(
-        ech[, c('sebaste', 'morue', 'turbot', 'ogac')],
+        ech[, c('nbSebastes', 'nbMorue', 'nbTurbot', 'nbOgac')],
         1,
         sum,
         na.rm = TRUE
       ) >
-        ech$eperlan
+        ech$nbEperlan
   )
   if (FALSE) {
-    ech[lesquels, c('annee', 'eperlan', 'sebaste')]
+    ech[lesquels, c('annee', 'nbEperlan', 'nbSebastes')]
   }
   ech[lesquels, 'secteur'] <- 'fond'
   ##
   lesquels <- which(
     ech$secteur %in%
       c('fond', 'rouleau', 'brimbale') &
-      ech$eperlan >
+      ech$nbEperlan >
         apply(
-          ech[, c('sebaste', 'morue', 'turbot', 'ogac')],
+          ech[, c('nbSebastes', 'nbMorue', 'nbTurbot', 'nbOgac')],
           1,
           sum,
           na.rm = TRUE
         )
   )
   if (FALSE) {
-    ech[lesquels, c('annee', 'eperlan', 'sebaste', 'morue', 'turbot')]
+    ech[lesquels, c('annee', 'nbEperlan', 'nbSebastes', 'nbMorue', 'nbTurbot')]
   }
   ech[lesquels, 'secteur'] <- 'pelag'
   ##
