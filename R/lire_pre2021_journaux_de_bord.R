@@ -184,8 +184,8 @@ lire_pre2021_journaux_de_bord <- function(
   ## table(jb.init$village, useNA='ifany')
   jb.init[jb.init$village %in% c('O', 'o', 'oui', '1'), 'village'] <- TRUE
   jb.init[jb.init$village %in% c('N', 'n', 'non', '0'), 'village'] <- FALSE
-  ## table(jb.init$nbSebaste, useNA='ifany')
-  jb.init[which(is.na(jb.init$nbSebaste)), 'nbSebaste'] <- 0
+  ## table(jb.init$nbSebastes, useNA='ifany')
+  jb.init[which(is.na(jb.init$nbSebastes)), 'nbSebastes'] <- 0
   ## table(jb.init$nbMorue, useNA='ifany')
   jb.init[which(is.na(jb.init$nbMorue)), 'nbMorue'] <- 0
   ## table(jb.init$nbOgac, useNA='ifany')
@@ -194,7 +194,7 @@ lire_pre2021_journaux_de_bord <- function(
   jb.init[which(is.na(jb.init$nbTurbot)), 'nbTurbot'] <- 0
   ## table(jb.init$nbAutre, useNA='ifany') # pas sur quoi faire avec ca!
   jb.init$nbTot <- apply(
-    jb.init[, c('nbSebaste', 'nbMorue', 'nbOgac', 'nbTurbot')],
+    jb.init[, c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')],
     1,
     sum
   )

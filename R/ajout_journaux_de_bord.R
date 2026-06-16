@@ -22,12 +22,58 @@ ajout_journaux_de_bord <- function(
       sheet = 'Formulaire de saisie',
       na = c('', 'NA')
     ))
-    jb.new$site <- standardiser_nom_site(sites = jb.new$site)[, 'sites']
+    ##
+    names(jb.new)[match(
+      c(
+        'nom',
+        'nb_totalHH',
+        'nb_totalMM',
+        'site',
+        'montante',
+        'descendante',
+        'sonar_1_0',
+        'prof_maxSite_m',
+        'prof_min_m',
+        'typeCanne',
+        'typeAppat',
+        'nb_ligne',
+        'ng_hamecon',
+        'espece_recherche',
+        'nbSebaste',
+        'notes'
+      ),
+      names(jb.new)
+    )] <- c(
+      'echantillonneur',
+      'nbHeureImmersion',
+      'nbMinuteImmersion',
+      'nomSite',
+      'mareeMontante',
+      'mareeDescendante',
+      'echosondeur',
+      'profSite',
+      'profPeche',
+      'enginTypeCanne',
+      'appatType',
+      'nbLignes',
+      'nbHamecons',
+      'especeVisee',
+      'nbSebastes',
+      'remarques'
+    )
+    jb.new$anneeGestion <- jb.new$annee
+    jb.new$date <- as.POSIXct(
+      with(jb.new, sprintf("%04d-%02d-%02d", annee, mois, jour)),
+      format = "%Y-%m-%d",
+      tz = "UTC"
+    )
+
+    jb.new$nomSite <- standardiser_nom_site(sites = jb.new$nomSite)[, 'sites']
     jb <- merge(jb.init, jb.new, all = TRUE)
   } else {
     jb <- jb.init
   }
-  ## nrow(db.init); nrow(db.new); nrow(db)
+  ## dim(jb.init); dim(jb.new); dim(jb)
 
   return(jb)
 }
