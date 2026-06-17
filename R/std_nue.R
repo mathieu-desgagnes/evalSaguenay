@@ -19,7 +19,7 @@ std_nue <- function(ech, jb, output_dir) {
     donnees = jb,
     uniteEffort = 'ue'
   )
-  # save(ajustement.jb, file = file.path(dir.output, 'csv', 'nueStdJB.RData'))
+  # save(ajustement.jb, file = file.path(output_dir, 'csv', 'nueStdJB.RData'))
 
   ##
   ##
@@ -95,7 +95,7 @@ std_nue <- function(ech, jb, output_dir) {
   nomPng <- 'stdNueJB'
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
-      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
       height = 8,
       width = 10,
       units = 'in',
@@ -112,19 +112,19 @@ std_nue <- function(ech, jb, output_dir) {
     dev.off()
   }
   nueStd.jb <- temp
-  # save(nueStd.jb, file = file.path(dir.output, 'csv', paste0(nomPng, '.RData')))
+  # save(nueStd.jb, file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')))
   # for (i.esp in seq_along(temp)) {
   #   write.csv2(
   #     temp[[i.esp]],
   #     file = file.path(
-  #       dir.output,
+  #       output_dir,
   #       'csv',
   #       paste0(nomPng, '_', names(temp)[i.esp], '.csv')
   #     )
   #   )
   # }
   # load(
-  #   file = file.path(dir.output, 'csv', paste0(nomPng, '.RData')),
+  #   file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')),
   #   verbose = 1
   # )
 
@@ -133,7 +133,7 @@ std_nue <- function(ech, jb, output_dir) {
   nomPng <- 'stdNue2sources'
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
-      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
       height = 8,
       width = 10,
       units = 'in',
