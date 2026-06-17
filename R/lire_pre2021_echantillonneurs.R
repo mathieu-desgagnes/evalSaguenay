@@ -57,14 +57,14 @@ lire_pre2021_echantillonneurs <- function(input_dir) {
   ## ajuster le nombre de pêcheurs arbitrairement (non documenté)
   if (FALSE) {
     table(ech.init$nbPecheursPelag, useNA = 'ifany')
-    table(ech.init$nombrePecheurFond, useNA = 'ifany')
+    table(ech.init$nbPecheursFond, useNA = 'ifany')
     table(ech.init$nbCabanesOccPelag, useNA = 'ifany')
     table(ech.init$nbCabanesOccFond, useNA = 'ifany')
     table(ech.init$nbPecheursPelagSScabane, useNA = 'ifany')
     table(ech.init$nbPecheursFondSScabane, useNA = 'ifany')
   }
   lesquels <- which(
-    is.na(ech.init$nbPecheursPelag) & is.na(ech.init$nombrePecheurFond)
+    is.na(ech.init$nbPecheursPelag) & is.na(ech.init$nbPecheursFond)
   ) #aucune info sur nombre pour chaque secteur
   ech.init[lesquels, 'nbPecheursPelag'] <- ech.init[
     lesquels,
@@ -72,44 +72,44 @@ lire_pre2021_echantillonneurs <- function(input_dir) {
   ] *
     2.5 +
     ech.init[lesquels, 'nbPecheursPelagSScabane']
-  ech.init[lesquels, 'nombrePecheurFond'] <- ech.init[
+  ech.init[lesquels, 'nbPecheursFond'] <- ech.init[
     lesquels,
     'nbCabanesOccFond'
   ] *
     2.5 +
     ech.init[lesquels, 'nbPecheursFondSScabane']
   lesquels <- which(
-    is.na(ech.init$nbPecheursPelag) & is.na(ech.init$nombrePecheurFond)
+    is.na(ech.init$nbPecheursPelag) & is.na(ech.init$nbPecheursFond)
   ) #aucune info sur nombre pour chaque secteur
   ech.init[lesquels, 'nbPecheursPelag'] <- ech.init[
     lesquels,
     'nbCabanesOccPelag'
   ] *
     2.5
-  ech.init[lesquels, 'nombrePecheurFond'] <- ech.init[
+  ech.init[lesquels, 'nbPecheursFond'] <- ech.init[
     lesquels,
     'nbCabanesOccFond'
   ] *
     2.5
   lesquels <- which(
-    is.na(ech.init$nbPecheursPelag) & is.na(ech.init$nombrePecheurFond)
+    is.na(ech.init$nbPecheursPelag) & is.na(ech.init$nbPecheursFond)
   ) #aucune info sur nombre pour chaque secteur
   ech.init[lesquels, 'nbPecheursPelag'] <- ech.init[
     lesquels,
     'nbPecheursPelagSScabane'
   ]
-  ech.init[lesquels, 'nombrePecheurFond'] <- ech.init[
+  ech.init[lesquels, 'nbPecheursFond'] <- ech.init[
     lesquels,
     'nbPecheursFondSScabane'
   ]
   lesquels <- which(
-    is.na(ech.init$nbPecheursPelag) & is.na(ech.init$nombrePecheurFond)
+    is.na(ech.init$nbPecheursPelag) & is.na(ech.init$nbPecheursFond)
   ) # utilise des données non-validées, source inconnue
   ech.init[lesquels, 'nbPecheursPelag'] <- round(ech.init[
     lesquels,
     'nValideNbPecheursPelag'
   ])
-  ech.init[lesquels, 'nombrePecheurFond'] <- round(ech.init[
+  ech.init[lesquels, 'nbPecheursFond'] <- round(ech.init[
     lesquels,
     'nValideNbPecheursFond'
   ])
@@ -179,7 +179,7 @@ lire_pre2021_echantillonneurs <- function(input_dir) {
   ## ajuster le nombre de pêcheurs arbitrairement (non documenté)
   if (FALSE) {
     table(ech.init$nbPecheursPelag, useNA = 'ifany')
-    table(ech.init$nombrePecheurFond, useNA = 'ifany')
+    table(ech.init$nbPecheursFond, useNA = 'ifany')
     table(ech.init$nbCabanesOccPelag, useNA = 'ifany')
     table(ech.init$nbCabanesOccFond, useNA = 'ifany')
     table(ech.init$nbPecheursPelagSScabane, useNA = 'ifany')
@@ -199,19 +199,19 @@ lire_pre2021_echantillonneurs <- function(input_dir) {
     'nValideNbPecheursPelag'
   ])
   ech.init[
-    which(is.na(ech.init$nombrePecheurFond)),
-    'nombrePecheurFond'
+    which(is.na(ech.init$nbPecheursFond)),
+    'nbPecheursFond'
   ] <- ech.init[
-    which(is.na(ech.init$nombrePecheurFond)),
+    which(is.na(ech.init$nbPecheursFond)),
     'nbCabanesOccFond'
   ] *
     2.5 +
-    ech.init[which(is.na(ech.init$nombrePecheurFond)), 'nbPecheursFondSScabane']
+    ech.init[which(is.na(ech.init$nbPecheursFond)), 'nbPecheursFondSScabane']
   ech.init[
-    which(is.na(ech.init$nombrePecheurFond)),
-    'nombrePecheurFond'
+    which(is.na(ech.init$nbPecheursFond)),
+    'nbPecheursFond'
   ] <- round(ech.init[
-    which(is.na(ech.init$nombrePecheurFond)),
+    which(is.na(ech.init$nbPecheursFond)),
     'nValideNbPecheursFond'
   ])
   ech.init$anneeGestion <- 1996

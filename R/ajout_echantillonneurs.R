@@ -45,7 +45,8 @@ ajout_echantillonneurs <- function(
         'eperlan',
         'fletan',
         'saida',
-        'notes'
+        'notes',
+        'nombrePecheurFond'
       ),
       names(ech.new)
     )] <- c(
@@ -69,7 +70,8 @@ ajout_echantillonneurs <- function(
       'nbEperlan',
       'nbFletan',
       'nbSaida',
-      'commentaires'
+      'commentaires',
+      'nbPecheursFond'
     )
     ech.new$date <- as.POSIXct(
       paste(ech.new$annee, ech.new$mois, ech.new$jour, sep = '-'),
