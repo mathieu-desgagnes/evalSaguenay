@@ -71,7 +71,7 @@ ajout_journaux_de_bord <- function(
       'nbCrabe',
       'nbFletan',
       'nbSaida',
-      'nbEparlan',
+      'nbEperlan',
       'remarques'
     )
     jb.new$anneeGestion <- jb.new$annee
@@ -80,13 +80,45 @@ ajout_journaux_de_bord <- function(
       format = "%Y-%m-%d",
       tz = "UTC"
     )
-
+    ##
     jb.new$nomSite <- standardiser_nom_site(sites = jb.new$nomSite)[, 'sites']
     jb <- merge(jb.init, jb.new, all = TRUE)
   } else {
     jb <- jb.init
   }
   ## dim(jb.init); dim(jb.new); dim(jb)
-
+  ##
+  # table(jb$lundiAuVendredi, jb$anneeGestion, useNA='ifany')
+  jb$date <- as.POSIXct(
+    paste(jb$annee, jb$mois, jb$jour, sep = '-'),
+    format = '%Y-%m-%d'
+  )
+  jb$jourSemaine <- lubridate::wday(jb$date) #1=dimanche
+  jb$lundiAuVendredi <- jb$jourSemaine %in% 2:6
+  ##
+  # table(jb$echosondeur, jb$anneeGestion, useNA='ifany')
+  jb[
+    jb$echosondeur %in% c('O', 'o', 'oui', 'OUI', 1, TRUE),
+    'echosondeur'
+  ] <- TRUE
+  jb[
+    jb$echosondeur %in% c('N', 'n', 'non', 'NON', 0, FALSE),
+    'echosondeur'
+  ] <- FALSE
+  jb[
+    jb$echosondeur %in% c('nd', 'O/N', 'P', '?', '17', '2', '3'),
+    'echosondeur'
+  ] <- NA
+  ##
+  # table(jb$village, jb$anneeGestion, useNA='ifany')
+  jb[
+    jb$village %in% c('O', 'o', 'oui', 'OUI', 1, TRUE),
+    'village'
+  ] <- TRUE
+  jb[
+    jb$village %in% c('N', 'n', 'non', 'NON', 0, FALSE),
+    'village'
+  ] <- FALSE
+  ##
   return(jb)
 }

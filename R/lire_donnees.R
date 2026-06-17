@@ -35,7 +35,7 @@ lire_donnees <- function(
         'echantillonneurs_1995-2020.RData'
       ))
   ) {
-    data <- list()
+    data_pre2021 <- list()
     load(
       file = file.path(
         donnees_2020_et_moins_dir,
@@ -43,7 +43,7 @@ lire_donnees <- function(
       ),
       verbose = TRUE
     )
-    data$db <- db.2020etMoins
+    data_pre2021$db <- db.2020etMoins
     load(
       file = file.path(
         donnees_2020_et_moins_dir,
@@ -52,7 +52,7 @@ lire_donnees <- function(
       verbose = TRUE
     )
     ##file.info( file.path(donnees_2020_et_moins_dir,'journauxBords_2015-2020.RData'))
-    data$jb <- jb.2020etMoins
+    data_pre2021$jb <- jb.2020etMoins
     load(
       file = file.path(
         donnees_2020_et_moins_dir,
@@ -60,7 +60,7 @@ lire_donnees <- function(
       ),
       verbose = TRUE
     )
-    data$ech <- ech.2020etMoins
+    data_pre2021$ech <- ech.2020etMoins
   } else {
     stop('Vérifier la disponibilité des données pré-2021.')
   }
@@ -68,7 +68,7 @@ lire_donnees <- function(
   ##
   ## données biologiques: ajouter les données de 2021 et plus aux données historiques
   db <- ajout_donnees_bio(
-    donnees_2020_et_moins = data$db,
+    donnees_2020_et_moins = data_pre2021$db,
     input_2021_et_plus_fichier = file.path(
       dir_input,
       'Donnees_Bio.xlsx'
@@ -81,7 +81,7 @@ lire_donnees <- function(
   ##
   ## journaux de bord: ajouter les données de 2021 et plus aux données historiques
   jb <- ajout_journaux_de_bord(
-    donnees_2020_et_moins = data$jb,
+    donnees_2020_et_moins = data_pre2021$jb,
     input_2021_et_plus_fichier = file.path(
       dir_input,
       'Donnees_Journaux_de_bord.xlsx'
@@ -94,7 +94,7 @@ lire_donnees <- function(
   ##
   ## échantillonneurs: ajouter les données de 2021 et plus aux données historiques
   ech <- ajout_echantillonneurs(
-    donnees_2020_et_moins = data$ech,
+    donnees_2020_et_moins = data_pre2021$ech,
     input_2021_et_plus_fichier = file.path(
       dir_input,
       'Donnees_Echantillonneurs(PUE).xlsx'
