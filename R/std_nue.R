@@ -15,12 +15,11 @@ std_nue <- function(ech, jb, output_dir) {
   jb$ue <- jb$nbLignes *
     jb$nbHamecons *
     (jb$nbHeureImmersion + jb$nbMinuteImmersion / 60) #unite d'effort
-  ajustement.jb <- stdNueJB(
+  ajustement.jb <- std_nue_jb(
     donnees = jb,
-    uniteEffort = 'ue',
-    anneesFit = 2015:2023
+    uniteEffort = 'ue'
   )
-  save(ajustement.jb, file = file.path(dir.output, 'csv', 'nueStdJB.RData'))
+  # save(ajustement.jb, file = file.path(dir.output, 'csv', 'nueStdJB.RData'))
 
   ##
   ##
@@ -44,18 +43,18 @@ std_nue <- function(ech, jb, output_dir) {
     dev.off()
   }
   nueStd <- temp
-  save(nueStd, file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')))
-  for (i.esp in seq_along(temp)) {
-    write.csv2(
-      temp[[i.esp]],
-      file = file.path(
-        output_dir,
-        'csv',
-        paste0(nomPng, '_', names(temp)[i.esp], '.csv')
-      )
-    )
-  }
-  load(file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')))
+  # save(nueStd, file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')))
+  # for (i.esp in seq_along(temp)) {
+  #   write.csv2(
+  #     temp[[i.esp]],
+  #     file = file.path(
+  #       output_dir,
+  #       'csv',
+  #       paste0(nomPng, '_', names(temp)[i.esp], '.csv')
+  #     )
+  #   )
+  # }
+  # load(file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')))
 
   ##
   ## à faire: ajouter 'nombre heures pêchées et nombre de poissons capturés"
@@ -89,6 +88,72 @@ std_nue <- function(ech, jb, output_dir) {
       titre = 'B',
       langue = i.langue
     )
+    dev.off()
+  }
+  ##
+  ##
+  nomPng <- 'stdNueJB'
+  for (i.langue in c('fr', 'en', 'bil')) {
+    png(
+      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      height = 8,
+      width = 10,
+      units = 'in',
+      res = 300
+    )
+    temp <- graph_std_nue_jb(
+      fit = ajustement.jb$fit,
+      dat = ajustement.jb$dat,
+      anneesFit = 2015:2026,
+      limitesX = c(1996, 2026),
+      nueBrutes = FALSE,
+      langue = i.langue
+    )
+    dev.off()
+  }
+  nueStd.jb <- temp
+  # save(nueStd.jb, file = file.path(dir.output, 'csv', paste0(nomPng, '.RData')))
+  # for (i.esp in seq_along(temp)) {
+  #   write.csv2(
+  #     temp[[i.esp]],
+  #     file = file.path(
+  #       dir.output,
+  #       'csv',
+  #       paste0(nomPng, '_', names(temp)[i.esp], '.csv')
+  #     )
+  #   )
+  # }
+  # load(
+  #   file = file.path(dir.output, 'csv', paste0(nomPng, '.RData')),
+  #   verbose = 1
+  # )
+
+  ##
+  ## standardisation des ech et des jb sur même graphique
+  nomPng <- 'stdNue2sources'
+  for (i.langue in c('fr', 'en', 'bil')) {
+    png(
+      file = file.path(dir.output, i.langue, paste0(nomPng, '.png')),
+      height = 8,
+      width = 10,
+      units = 'in',
+      res = 300
+    )
+    par(mfrow = c(2, 2))
+    ##
+    j.text <- 1
+    for (i.esp in c('sebastes', 'morue', 'ogac', 'turbot')) {
+      graph_std_nue_2sources(
+        nue.ech = nueStd[[i.esp]],
+        nue.jb = nueStd.jb[[i.esp]],
+        limitesX = 1995:2026,
+        main.txt = '',
+        abcd = c('A', 'B', 'C', 'D')[j.text],
+        legende = c(TRUE, rep(FALSE, 3))[j.text],
+        langue = i.langue
+      )
+      j.text <- j.text + 1
+    }
     dev.off()
   }
 }
