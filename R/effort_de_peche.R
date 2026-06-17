@@ -15,11 +15,6 @@
 #'
 #' @examples ##À venir
 effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
-  #########
-  ###à faire: changer les lignes transformant "ech" vers le fichier "ajout_echantillonneurs.R"
-  ### et poursuivre avec capture.r et graph_capture_totale.r (où il manquait nbGadide à ech)
-  #########
-
   annees <- sort(unique(ech$anneeGestion))
   sites <- c(
     'AnseBenjamin',
@@ -202,14 +197,13 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
       "nbLycode",
       "nbSaida",
       "nbRaie",
-      "nbMerluche",
+      "nbMerlucheEcureuil",
       "nbAutre",
       "nbAutre2",
       "nbLimace",
       "nbPlie",
       "nbGoberge",
-      "nbHareng",
-      "nbMerluche"
+      "nbHareng"
     )],
     1,
     sum,
