@@ -23,6 +23,7 @@ ajout_journaux_de_bord <- function(
       na = c('', 'NA')
     ))
     ##
+    ## names(jb.new)[which(is.na(match(names(jb.new),names(jb.init))))]
     names(jb.new)[match(
       c(
         'nom',
@@ -40,6 +41,12 @@ ajout_journaux_de_bord <- function(
         'ng_hamecon',
         'espece_recherche',
         'nbSebaste',
+        'raie épineuse',
+        'lycode',
+        'crabe',
+        'flétan',
+        'saida',
+        'éperlan',
         'notes'
       ),
       names(jb.new)
@@ -59,6 +66,12 @@ ajout_journaux_de_bord <- function(
       'nbHamecons',
       'especeVisee',
       'nbSebastes',
+      'nbRaie',
+      'nbLycode',
+      'nbCrabe',
+      'nbFletan',
+      'nbSaida',
+      'nbEparlan',
       'remarques'
     )
     jb.new$anneeGestion <- jb.new$annee
