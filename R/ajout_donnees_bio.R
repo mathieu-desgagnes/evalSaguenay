@@ -25,6 +25,7 @@ ajout_donnees_bio <- function(
       c('site', 'longueur_mm', 'poids_g'),
       names(db.new)
     )] <- c('nomSite', 'longueur', 'poids')
+    db.new$anneeGestion <- db.new$annee
     db <- merge(db.init, db.new, all = TRUE)
   } else {
     db <- db.init
