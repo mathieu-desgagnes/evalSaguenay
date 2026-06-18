@@ -11,13 +11,19 @@
 std_nue <- function(ech, jb, output_dir) {
   ##ajustement échantillonneurs
   ajustement <- std_nue_ech(ech = ech, uniteEffort = 'ue')
+  # ajustement <- std_nue_ech(ech = subset(ech,nbLignes<=2), uniteEffort = 'nbHeures')
   ##ajustement jb
   jb$ue <- jb$nbLignes *
     jb$nbHamecons *
     (jb$nbHeureImmersion + jb$nbMinuteImmersion / 60) #unite d'effort
+  jb$immersion <- jb$nbHeureImmersion + jb$nbMinuteImmersion / 60 #temps d'immersion
   ajustement.jb <- std_nue_jb(
     donnees = jb,
     uniteEffort = 'ue'
+  )
+  ajustement.jb <- std_nue_jb(
+    donnees = jb,
+    uniteEffort = 'immersion'
   )
   # save(ajustement.jb, file = file.path(output_dir, 'csv', 'nueStdJB.RData'))
 
@@ -157,3 +163,4 @@ std_nue <- function(ech, jb, output_dir) {
     dev.off()
   }
 }
+

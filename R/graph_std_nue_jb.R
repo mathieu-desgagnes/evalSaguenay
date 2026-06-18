@@ -51,7 +51,7 @@ graph_std_nue_jb <- function(
     ## abline(a=0,b=1, col=2)
     ##
     yr.ref <- 2023
-    mod.variab <- c("anneeGestion", "nomSite", "sfs")
+    mod.variab <- c("anneeGestion", "echantillonneur")
     pred.grid <- dat.esp[dat.esp$anneeGestion == yr.ref, mod.variab]
     pred.grid <- dat.esp[, mod.variab]
     tmp <- rep(
@@ -72,9 +72,8 @@ graph_std_nue_jb <- function(
     pred <- predict(
       fit[[especes[i.esp]]],
       newdata = list(
-        anneeGestion = as.factor(c(1996:2020, 2022, 2023)),
-        nomSite = as.factor('GrandeBaie'),
-        sfs = as.factor(1)
+        anneeGestion = as.factor(c(2015:2026)),
+        echantillonneur = as.factor('Alain Gagnon'),
       ),
       type = "response",
       se = TRUE
@@ -154,12 +153,11 @@ graph_std_nue_jb <- function(
         x = "anneeGestion",
         data = data.secteur
       )
-      coeffGraph$nomSite <- coeffModel(
+      coeffGraph$echantillonneur <- coeffModel(
         fit[[especes[i.esp]]],
-        "nomSite",
+        "echantillonneur",
         data.secteur
       )
-      coeffGraph$sfs <- coeffModel(fit[[especes[i.esp]]], "sfs", data.secteur)
     }
     if (nueBrutes) {
       ## calcul des nue brutes

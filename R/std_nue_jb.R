@@ -26,71 +26,63 @@ std_nue_jb <- function(donnees, uniteEffort, anneesFit = NULL) {
     'nbOgac',
     'nbTurbot',
     'anneeGestion',
-    'nomSite',
-    'lundiAuVendredi',
-    'village',
-    'echosondeur'
+    'echantillonneur'
   )]
   dat$uniteEffort <- log(donnees[, uniteEffort])
-  temp <- nrow(dat)
-  dat <- dat[-which(!is.finite(dat$uniteEffort)), ]
-  if (nrow(dat) < temp) {
-    print(paste(
-      temp - nrow(dat),
-      'enregistrements sur',
-      temp,
-      'ont été retiré pour effort invalide'
-    ))
-  }
-  dat[which(dat$nbMorue == 0.5), 'nbMorue'] <- 1 #données de décompte
+  # nrow(dat)
+  dat <- subset(dat, uniteEffort>0)
+  # nrow(dat)
+  # temp <- nrow(dat)
+  # dat <- dat[-which(!is.finite(dat$uniteEffort)), ]
+  # if (nrow(dat) < temp) {
+  #   print(paste(
+  #     temp - nrow(dat),
+  #     'enregistrements sur',
+  #     temp,
+  #     'ont été retiré pour effort invalide'
+  #   ))
+  # }
   dat$anneeGestion <- as.factor(dat$anneeGestion)
-  dat$nomSite <- as.factor(dat$nomSite)
-  dat$sfs <- as.factor(dat$lundiAuVendredi)
-  dat$village <- as.factor(dat$village)
-  dat$echosondeur <- as.factor(dat$echosondeur)
+  dat$echantillonneur <- as.factor(dat$echantillonneur)
   ##
   ## formules de standardisation selon les trois facteurs et l'unité d'effort
   formule <- list()
   formule[[especes[1]]] <- nbSebastes ~ offset(uniteEffort) +
     anneeGestion +
-    nomSite +
-    sfs
+    echantillonneur
   formule[[especes[2]]] <- nbMorue ~ offset(uniteEffort) +
     anneeGestion +
-    nomSite +
-    sfs
+    echantillonneur
   formule[[especes[3]]] <- nbOgac ~ offset(uniteEffort) +
     anneeGestion +
-    nomSite +
-    sfs
+    echantillonneur
   formule[[especes[4]]] <- nbTurbot ~ offset(uniteEffort) +
     anneeGestion +
-    nomSite +
-    sfs
-  formule[[especes[1]]] <- nbSebastes ~ offset(uniteEffort) +
-    anneeGestion +
-    nomSite +
-    sfs +
-    village +
-    echosondeur
-  formule[[especes[2]]] <- nbMorue ~ offset(uniteEffort) +
-    anneeGestion +
-    nomSite +
-    sfs +
-    village +
-    echosondeur
-  formule[[especes[3]]] <- nbOgac ~ offset(uniteEffort) +
-    anneeGestion +
-    nomSite +
-    sfs +
-    village +
-    echosondeur
-  formule[[especes[4]]] <- nbTurbot ~ offset(uniteEffort) +
-    anneeGestion +
-    nomSite +
-    sfs +
-    village +
-    echosondeur
+    echantillonneur
+  # formule[[especes[1]]] <- nbSebastes ~ offset(uniteEffort) +
+  #   anneeGestion +
+  #   nomSite +
+  #   sfs +
+  #   village +
+  #   echosondeur
+  # formule[[especes[2]]] <- nbMorue ~ offset(uniteEffort) +
+  #   anneeGestion +
+  #   nomSite +
+  #   sfs +
+  #   village +
+  #   echosondeur
+  # formule[[especes[3]]] <- nbOgac ~ offset(uniteEffort) +
+  #   anneeGestion +
+  #   nomSite +
+  #   sfs +
+  #   village +
+  #   echosondeur
+  # formule[[especes[4]]] <- nbTurbot ~ offset(uniteEffort) +
+  #   anneeGestion +
+  #   nomSite +
+  #   sfs +
+  #   village +
+  #   echosondeur
   ##
   ##
   ## ajustement du modèle
@@ -122,8 +114,7 @@ std_nue_jb <- function(donnees, uniteEffort, anneesFit = NULL) {
       'nbOgac',
       'nbTurbot',
       'anneeGestion',
-      'nomSite',
-      'sfs',
+      'echantillonneur',
       'uniteEffort'
     )]
   ))
