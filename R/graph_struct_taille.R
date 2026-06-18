@@ -3,11 +3,11 @@
 #' valeurs de croissance du sébaste dans le golfe (Senay, C., Rousseau, S., Brule, C., Chavarria, C., Isabel, L., Parent, G.J., Chabot, D., and Duplisea, D. 2023. Unit 1 Redfish (Sebastes mentella and S. fasciatus) stock status in 2021. DFO Can. Sci. Advis. Sec. Res. Doc. 2023/036. xi + 125.:
 #' Data          Linf constraint Linfinity k      t0   Curve
 #' 1980          42-50 cm        42        0.086 -1.57 Black
-#' 2011          42-50 cm        42        0.079 -1.81 Blue
-#' 1980 and 2011 42-50 cm        42        0.085 -1.52 Orange
-#' 1980          Unconstrained   37        0.153  0.07 Black dotted
-#' 2011          Unconstrained   28        0.200 -0.17 Blue dotted
-#' 1980 and 2011 Unconstrained   37        0.132 -0.24 Orange dotted
+#' 2011          42-50 cm        42        0.062 -3.466 Blue
+#' 1980 and 2011 42-50 cm        42        0.081 -1.741 Orange
+#' 1980          Unconstrained   36        0.153  0.070 Black dotted
+#' 2011          Unconstrained   27        0.200 -0.365 Blue dotted
+#' 1980 and 2011 Unconstrained   38        0.116 -0.621 Orange dotted
 #'
 #' @param db données
 #'
@@ -19,6 +19,7 @@ graph_struct_taille <- function(
   donnees,
   donnees_gdf = NULL,
   courbe_croissance = TRUE,
+  courbe_croissance_alt = FALSE,
   seulement_sebaste = FALSE,
   langue = c('fr', 'en', 'bil')
 ) {
@@ -57,6 +58,7 @@ graph_struct_taille <- function(
       longueur ~ anneeGestion,
       data = temp,
       h = 8,
+      pchMed = 18,
       at = sort(unique(temp$anneeGestion)),
       main = 'Sébaste, Saguenay',
       xlab = 'Année',
@@ -187,23 +189,42 @@ graph_struct_taille <- function(
     y <- 33 * (1 - exp(-0.11 * (x - (0)))) * 10 #; cbind(x,y)
     lines(x + 1980, y, lwd = 3, lty = 2)
     lines(x + 2011, y, lwd = 3, lty = 2)
-    if (FALSE) {
+    if (courbe_croissance_alt) {
       #données du GSL
       x <- 0:60 #1980, non-contraint
-      y <- 37 * (1 - exp(-0.153 * (x - (0.07)))) * 10 #; cbind(x,y)
+      y <- 36 * (1 - exp(-0.153 * (x - (0.07)))) * 10 #; cbind(x,y)
       lines(x + 1980, y, lwd = 3, lty = 3, col = 2)
       x <- 0:60 #2011, non-contraint
-      y <- 28 * (1 - exp(-0.2 * (x - (-0.17)))) * 10 #; cbind(x,y)
-      lines(x + 2011, y, lwd = 3, lty = 3, col = 2)
-      x <- 0:60 #1980, contraint
-      y <- 42 * (1 - exp(-0.086 * (x - (-1.57)))) * 10 #; cbind(x,y)
-      lines(x + 1980, y, lwd = 3, lty = 3, col = 4)
+      y <- 27 * (1 - exp(-0.2 * (x - (-0.365)))) * 10 #; cbind(x,y)
+      lines(x + 2011, y, lwd = 3, lty = 3, col = 4)
+      # lines(x + 1980, y, lwd = 3, lty = 3, col = 4)
+      # x <- 0:60 #1980, contraint
+      # y <- 42 * (1 - exp(-0.086 * (x - (-1.57)))) * 10 #; cbind(x,y)
+      # lines(x + 1980, y, lwd = 3, lty = 3, col = 4)
+      legend(
+        'bottomleft',
+        inset = 0.03,
+        legend = paste(
+          rep(c('Linf', 'K', 't0'), 2),
+          ':',
+          c(36, 0.153, 0.07, 27, 0.2, -0.365)
+        ),
+        bg = 'white',
+        lty = 3,
+        col = c(rep(2, 3), rep(4, 3)),
+        lwd = 3,
+        cex = 0.7
+      )
     }
     legend(
       'topleft',
       inset = 0.03,
       legend = paste(c('Linf', 'K', 't0'), ':', c(33, 0.11, 0)),
-      bg = 'white'
+      bg = 'white',
+      lty = 2,
+      col = 1,
+      lwd = 3,
+      cex = 0.7
     )
   }
   j.text <- 1
@@ -267,6 +288,7 @@ graph_struct_taille <- function(
       at = sort(unique(temp$anneeGestion)),
       xlim = c(1995, max(temp$anneeGestion, na.rm = TRUE) + 1),
       col = 7,
+      pchMed = 18,
       ## main='Morue, Saguenay',
       xlab = 'Année',
       ylab = 'Longueur (mm)'
@@ -286,6 +308,7 @@ graph_struct_taille <- function(
       longueur ~ anneeGestion,
       data = temp,
       h = 20,
+      pchMed = 18,
       at = sort(unique(temp$anneeGestion)),
       add = TRUE,
       col = 2
@@ -305,6 +328,7 @@ graph_struct_taille <- function(
       longueur ~ anneeGestion,
       data = temp,
       h = 20,
+      pchMed = 18,
       at = sort(unique(temp$anneeGestion)) + 0.2,
       add = TRUE,
       col = 4
@@ -333,12 +357,14 @@ graph_struct_taille <- function(
       'bottomleft',
       inset = 0.03,
       legend = c('Morue franche', 'Ogac', 'Gadidé non-spécifié'),
-      fill = c(4, 7, 2)
+      fill = c(4, 7, 2),
+      cex = 0.7
     )
     legend(
       'bottomright',
       inset = 0.03,
-      legend = paste(c('Linf', 'K', 't0'), ':', c(70, 0.2, 0))
+      legend = paste(c('Linf', 'K', 't0'), ':', c(70, 0.2, 0)),
+      cex = 0.7
     )
   }
   ##
@@ -354,6 +380,7 @@ graph_struct_taille <- function(
       xlim = c(1981, max(temp$anneeGestion, na.rm = TRUE) + 1),
       col = 4,
       lineCol = NA,
+      pchMed = 18,
       ## main='Morue, Saguenay',
       xlab = xlab1,
       ylab = ylab1,
@@ -375,6 +402,7 @@ graph_struct_taille <- function(
       longueur ~ anneeGestion,
       data = temp,
       h = 20,
+      pchMed = 18,
       at = sort(unique(temp$anneeGestion)),
       wex = table(temp$anneeGestion) / mean(table(temp$anneeGestion)),
       add = TRUE,
@@ -405,14 +433,16 @@ graph_struct_taille <- function(
       legend(
         'topleft',
         inset = 0.03,
-        legend = paste(c('Linf', 'K', 't0'), ':', c(70, 0.2, 0))
+        legend = paste(c('Linf', 'K', 't0'), ':', c(70, 0.2, 0)),
+        cex = 0.7
       )
     }
     legend(
       'bottomleft',
       inset = 0.03,
       legend = c(legend.morue, legende.gadide),
-      fill = c(4, 2)
+      fill = c(4, 2),
+      cex = 0.7
     )
     text(
       x = mean(par('usr')[1:2]),
@@ -430,6 +460,7 @@ graph_struct_taille <- function(
       longueur ~ anneeGestion,
       data = temp,
       at = sort(unique(temp$anneeGestion)),
+      pchMed = 18,
       main = 'Turbot, Saguenay',
       xlab = 'Année',
       ylab = 'Longueur (mm)',
@@ -449,7 +480,8 @@ graph_struct_taille <- function(
       'bottomright',
       inset = 0.03,
       legend = paste(c('Linf', 'K', 't0'), ':', c(53, 0.25, 0.5)),
-      bg = 'white'
+      bg = 'white',
+      cex = 0.7
     )
     x <- 0:18
     y <- 53 * (1 - exp(-0.25 * (x - (-0.5)))) * 10
