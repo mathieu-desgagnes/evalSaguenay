@@ -120,5 +120,49 @@ ajout_journaux_de_bord <- function(
     'village'
   ] <- FALSE
   ##
+  jb[
+    jb$echantillonneur %in%
+      c('Alain Gagnon', 'Alain Gagnon et Doris Boudreault'),
+    'echantillonneur'
+  ] <- 'Alain Gagnon'
+  jb[
+    jb$echantillonneur %in%
+      c(
+        'André-a Gagné',
+        'André-Anne Gagné',
+        'André Gagné',
+        'André-Anne  Gagné'
+      ),
+    'echantillonneur'
+  ] <- 'André-Anne Gagné'
+  jb[
+    jb$echantillonneur %in% c('Jean-Paul corbin', 'Jean-Paul Corbin'),
+    'echantillonneur'
+  ] <- 'Jean-Paul Corbin'
+  jb[
+    jb$echantillonneur %in%
+      c(
+        'Jean-Sébastien Hardy',
+        'Jean-Sébastien Hardy-Pinchault',
+        'Jean-Sébastien Painchaud',
+        'Jean-Sébastien Painchaud/Marie-Ève B. Théberge',
+        'Marie-Ève Théberge',
+        'Marie-Ève B Théberge'
+      ),
+    'echantillonneur'
+  ] <- 'Jean-Sébastien Hardy-Painchaud'
+  jb[
+    jb$echantillonneur %in% c('Michel tremblay', 'Michel Tremblay'),
+    'echantillonneur'
+  ] <- 'Michel Tremblay'
+  jb[
+    jb$echantillonneur %in% c('Robert Menier', 'Robert Menier/Réjean Patry'),
+    'echantillonneur'
+  ] <- 'Robert Menier'
+  jb[
+    jb$echantillonneur %in% c('Yanis', 'Yannis Taderent'),
+    'echantillonneur'
+  ] <- 'Yannis Taderent'
+  ##
   return(jb)
 }

@@ -30,7 +30,7 @@ std_nue_jb <- function(donnees, uniteEffort, anneesFit = NULL) {
   )]
   dat$uniteEffort <- log(donnees[, uniteEffort])
   # nrow(dat)
-  dat <- subset(dat, uniteEffort>0)
+  dat <- subset(dat, uniteEffort > 0)
   # nrow(dat)
   # temp <- nrow(dat)
   # dat <- dat[-which(!is.finite(dat$uniteEffort)), ]
@@ -44,6 +44,12 @@ std_nue_jb <- function(donnees, uniteEffort, anneesFit = NULL) {
   # }
   dat$anneeGestion <- as.factor(dat$anneeGestion)
   dat$echantillonneur <- as.factor(dat$echantillonneur)
+  table_ech <- table(dat$echantillonneur, dat$anneeGestion)
+  names(table_ech)[3] <- 'nb_heures_tot'
+  temp2 <- apply(table_ech, 1, function(x) {
+    sum(x > 0)
+  })
+  dat <- subset(dat, echantillonneur %in% names(temp2)[which(temp2 > 1)])
   ##
   ## formules de standardisation selon les trois facteurs et l'unité d'effort
   formule <- list()
@@ -105,6 +111,11 @@ std_nue_jb <- function(donnees, uniteEffort, anneesFit = NULL) {
     )
   }
   ##
+  table_ech <- aggregate(
+    dat$uniteEffort,
+    dat[, c('anneeGestion', 'echantillonneur')],
+    FUN = sum
+  )
   ##
   return(list(
     fit = fit,
@@ -116,6 +127,7 @@ std_nue_jb <- function(donnees, uniteEffort, anneesFit = NULL) {
       'anneeGestion',
       'echantillonneur',
       'uniteEffort'
-    )]
+    )],
+    echantillonneurs = table_ech
   ))
 }

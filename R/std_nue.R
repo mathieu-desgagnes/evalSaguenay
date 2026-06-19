@@ -17,10 +17,10 @@ std_nue <- function(ech, jb, output_dir) {
     jb$nbHamecons *
     (jb$nbHeureImmersion + jb$nbMinuteImmersion / 60) #unite d'effort
   jb$immersion <- jb$nbHeureImmersion + jb$nbMinuteImmersion / 60 #temps d'immersion
-  ajustement.jb <- std_nue_jb(
-    donnees = jb,
-    uniteEffort = 'ue'
-  )
+  # ajustement.jb <- std_nue_jb(
+  #   donnees = jb,
+  #   uniteEffort = 'ue'
+  # )
   ajustement.jb <- std_nue_jb(
     donnees = jb,
     uniteEffort = 'immersion'
@@ -70,10 +70,10 @@ std_nue <- function(ech, jb, output_dir) {
   ## à faire: corriger "différents" noms d'un même pêcheur
   ##
   if (FALSE) {
-    table(jb$anneeGestion, jb$nomSite, useNA = 'ifany')
-    table(jb$echantillonneur, jb$nomSite, useNA = 'ifany')
+    # table(jb$anneeGestion, jb$nomSite, useNA = 'ifany')
+    # table(jb$echantillonneur, jb$nomSite, useNA = 'ifany')
     table(jb$echantillonneur, jb$anneeGestion, useNA = 'ifany')
-    table(jb$nomSite)
+    # table(jb$nomSite)
   }
   ##
   ## proportion des espèces capturées
@@ -163,4 +163,3 @@ std_nue <- function(ech, jb, output_dir) {
     dev.off()
   }
 }
-
