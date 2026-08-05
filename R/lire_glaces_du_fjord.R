@@ -28,7 +28,7 @@ lire_glaces_du_fjord <- function(
       "heure_debut",
       "heure_fin",
       "duree_minutes",
-      "identifiant_peche",
+      "identifiant_activite",
       "identifiant_utilisateur",
       "espece",
       "quantite",
