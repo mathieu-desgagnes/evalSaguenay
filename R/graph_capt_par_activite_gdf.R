@@ -5,9 +5,10 @@
 #'
 #' @return
 #'
-graph_capt_par_activite_jb <- function(
+graph_capt_par_activite_gdf <- function(
   donnees,
   titre = 'A',
+  max.y = NULL,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(
@@ -95,11 +96,11 @@ graph_capt_par_activite_jb <- function(
   especes <- unique(temp1$espece)
   # Couleurs pour les espèces
   couleurs <- c(
-    "Sébaste" = "red",
-    "Autre" = "gray",
-    "Morue franche" = "green",
-    "Ogac" = "blue",
-    "Turbot" = "purple"
+    "Sébaste" = 2,
+    "Autre" = 8,
+    "Morue franche" = 3,
+    "Ogac" = 4,
+    "Turbot" = 6
   )
   # Convertir en matrice pour le graphique
   matrice <- matrix(
@@ -113,12 +114,16 @@ graph_capt_par_activite_jb <- function(
     c('Sébaste', 'Morue franche', 'Ogac', 'Turbot', 'Autre'),
   ]
 
+  if (is.null(max.y)) {
+    max.y <- max(apply(matrice, 2, sum))
+  }
   x <- barplot(
     matrice,
     col = couleurs[rownames(matrice)],
     legend.text = TRUE,
     xlab = xlab1,
     ylab = ylab1,
+    ylim = c(0, max.y),
     args.legend = list(
       x = 'bottomright',
       inset = 0.03,

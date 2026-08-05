@@ -47,15 +47,26 @@ graph_capt_par_activite_jb <- function(
     }
   )
   op <- par(mar = c(4, 4, 1, 1) + 0.1)
-  # donnees$espece2 <- donnees$espece
-  # donnees[!donnees$espece%in%c('Morue franche','Ogac','Sébaste','Turbot'),'espece2'] <- 'Autre'
-  temp <- donnees[, c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')]
+  # donnees$nbToutAutre <- apply(donnees[,c('nbSaida','nbFletan','nbCrabe','nbLycode','nbRaie','nbAutre')], 1, sum, na.rm=TRUE)
+  donnees$nbToutAutre <- apply(
+    donnees[, c('nbSaida', 'nbFletan', 'nbCrabe', 'nbLycode', 'nbRaie')],
+    1,
+    sum,
+    na.rm = TRUE
+  )
+  temp <- donnees[, c(
+    'nbSebastes',
+    'nbMorue',
+    'nbOgac',
+    'nbTurbot',
+    'nbToutAutre'
+  )]
   esp.an <- aggregate(temp, donnees['anneeGestion'], FUN = sum)
   dimnames(esp.an)[[1]] <- esp.an$anneeGestion
   nb.an <- aggregate(temp[, 1], donnees['anneeGestion'], FUN = length)
   x <- barplot(
     t(esp.an[, -1] / nb.an$x),
-    col = c(2, 3, 4, 6),
+    col = c(2, 3, 4, 6, 8),
     legend = TRUE,
     xlab = xlab1,
     ylab = ylab1,
@@ -64,13 +75,13 @@ graph_capt_par_activite_jb <- function(
       inset = 0.03,
       bg = "white",
       title = legende1,
-      legend = rev(c(espSeb, espMor, espOgac, espTur)),
-      fill = rev(c(2, 3, 4, 6))
+      legend = rev(c(espSeb, espMor, espOgac, espTur, espAutre)),
+      fill = rev(c(2, 3, 4, 6, 8))
     )
   )
   ## axis(3, at=x, labels=nb.an$x, cex.axis=0.8, tick=FALSE, line=-1, las=1)
   ## j.text <- 1; text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
   mtext(side = 3, text = titre)
   ##
-  max(apply(t(esp.an[, -1] / nb.an$x), 2, sum))
+  par('usr')[4]
 }
