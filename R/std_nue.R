@@ -155,6 +155,42 @@ std_nue <- function(ech, jb, gdf, output_dir) {
   #   file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')),
   #   verbose = 1
   # )
+  #
+  nomPng <- 'stdNueGDF'
+  for (i.langue in c('fr', 'en', 'bil')) {
+    png(
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
+      height = 8,
+      width = 10,
+      units = 'in',
+      res = 300
+    )
+    temp <- graph_std_nue_gdf(
+      fit = ajustement.gdf$fit,
+      dat = ajustement.gdf$dat,
+      anneesFit = 2025:2026,
+      limitesX = c(1996, 2026),
+      nueBrutes = FALSE,
+      langue = i.langue
+    )
+    dev.off()
+  }
+  nueStd.jb <- temp
+  # save(nueStd.jb, file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')))
+  # for (i.esp in seq_along(temp)) {
+  #   write.csv2(
+  #     temp[[i.esp]],
+  #     file = file.path(
+  #       output_dir,
+  #       'csv',
+  #       paste0(nomPng, '_', names(temp)[i.esp], '.csv')
+  #     )
+  #   )
+  # }
+  # load(
+  #   file = file.path(output_dir, 'csv', paste0(nomPng, '.RData')),
+  #   verbose = 1
+  # )
 
   ##
   ## standardisation des ech et des jb sur même graphique
