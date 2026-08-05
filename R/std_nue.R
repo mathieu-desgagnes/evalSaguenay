@@ -8,22 +8,43 @@
 #' @export
 #'
 #' @examples ## à venir
-std_nue <- function(ech, jb, output_dir) {
+std_nue <- function(ech, jb, gdf, output_dir) {
   ##ajustement échantillonneurs
+  if (FALSE) {
+    #par défaut
+    ech$ue <- ech$nbLignes * ech$nbHamecons * ech$nbHeures #unite d'effort
+    ech$ue <- ech$nbLignes * ech$nbHeures #unite d'effort
+    ech$ue <- ech$nbHeures #unite d'effort
+  }
   ajustement <- std_nue_ech(ech = ech, uniteEffort = 'ue')
   # ajustement <- std_nue_ech(ech = subset(ech,nbLignes<=2), uniteEffort = 'nbHeures')
   ##ajustement jb
-  jb$ue <- jb$nbLignes *
-    jb$nbHamecons *
-    (jb$nbHeureImmersion + jb$nbMinuteImmersion / 60) #unite d'effort
-  jb$immersion <- jb$nbHeureImmersion + jb$nbMinuteImmersion / 60 #temps d'immersion
+  # jb$ue <- jb$nbLignes *
+  #   jb$nbHamecons *
+  #   (jb$nbHeureImmersion + jb$nbMinuteImmersion / 60) #unite d'effort
   # ajustement.jb <- std_nue_jb(
   #   donnees = jb,
   #   uniteEffort = 'ue'
   # )
+  jb$immersion <- jb$nbHeureImmersion + jb$nbMinuteImmersion / 60 #temps d'immersion
   ajustement.jb <- std_nue_jb(
     donnees = jb,
     uniteEffort = 'immersion'
+  )
+  # save(ajustement.jb, file = file.path(output_dir, 'csv', 'nueStdJB.RData'))
+  ##
+  ##ajustement gdf
+  gdf$ue <- gdf$nombre_lignes_actives *
+    gdf$nombre_hamecons *
+    gdf$duree_minutes #unite d'effort
+  # ajustement.gdf <- std_nue_gdf(
+  #   donnees = gdf,
+  #   uniteEffort = 'ue'
+  # )
+  gdf$duree_heures <- gdf$duree_minutes / 60
+  ajustement.gdf <- std_nue_gdf(
+    donnees = gdf,
+    uniteEffort = 'duree_heures'
   )
   # save(ajustement.jb, file = file.path(output_dir, 'csv', 'nueStdJB.RData'))
 
