@@ -21,6 +21,7 @@ graph_capt_par_activite_jb <- function(
       espOgac = 'Ogac'
       espGad = 'Gadide'
       espTur = 'Turbot'
+      espAutre = 'Autre'
     },
     'en' = {
       xlab1 <- 'Year'
@@ -31,6 +32,7 @@ graph_capt_par_activite_jb <- function(
       espOgac = 'Ogac'
       espGad = 'Gadide'
       espTur = 'Turbot'
+      espAutre = 'Other'
     },
     'bil' = {
       xlab1 <- 'Année/Year'
@@ -41,9 +43,12 @@ graph_capt_par_activite_jb <- function(
       espOgac = 'Ogac'
       espGad = 'Gadide'
       espTur = 'Turbot'
+      espAutre = 'Autre/Other'
     }
   )
   op <- par(mar = c(4, 4, 1, 1) + 0.1)
+  # donnees$espece2 <- donnees$espece
+  # donnees[!donnees$espece%in%c('Morue franche','Ogac','Sébaste','Turbot'),'espece2'] <- 'Autre'
   temp <- donnees[, c('nbSebastes', 'nbMorue', 'nbOgac', 'nbTurbot')]
   esp.an <- aggregate(temp, donnees['anneeGestion'], FUN = sum)
   dimnames(esp.an)[[1]] <- esp.an$anneeGestion
@@ -67,5 +72,5 @@ graph_capt_par_activite_jb <- function(
   ## j.text <- 1; text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
   mtext(side = 3, text = titre)
   ##
-  return(merge(esp.an, nb.an))
+  max(apply(t(esp.an[, -1] / nb.an$x), 2, sum))
 }
