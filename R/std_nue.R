@@ -16,6 +16,7 @@ std_nue <- function(ech, jb, gdf, output_dir) {
     ech$ue <- ech$nbLignes * ech$nbHeures #unite d'effort
     ech$ue <- ech$nbHeures #unite d'effort
   }
+  ech$ue <- ech$nbHeures #unite d'effort
   ajustement <- std_nue_ech(ech = ech, uniteEffort = 'ue')
   # ajustement <- std_nue_ech(ech = subset(ech,nbLignes<=2), uniteEffort = 'nbHeures')
   ##ajustement jb
