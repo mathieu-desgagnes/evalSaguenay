@@ -125,7 +125,7 @@ graph_capt_par_activite_gdf <- function(
     ylab = ylab1,
     ylim = c(0, max.y),
     args.legend = list(
-      x = 'bottomright',
+      x = 'topleft',
       inset = 0.03,
       bg = "white",
       title = legende1,
@@ -137,5 +137,5 @@ graph_capt_par_activite_gdf <- function(
   ## j.text <- 1; text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
   mtext(side = 3, text = titre)
   ##
-  return(NA)
+  par('usr')[4]
 }

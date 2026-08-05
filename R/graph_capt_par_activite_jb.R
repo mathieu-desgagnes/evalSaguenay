@@ -8,6 +8,7 @@
 graph_capt_par_activite_jb <- function(
   donnees,
   titre = 'A',
+  max.y = NULL,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(
@@ -64,14 +65,19 @@ graph_capt_par_activite_jb <- function(
   esp.an <- aggregate(temp, donnees['anneeGestion'], FUN = sum)
   dimnames(esp.an)[[1]] <- esp.an$anneeGestion
   nb.an <- aggregate(temp[, 1], donnees['anneeGestion'], FUN = length)
+
+  if (is.null(max.y)) {
+    max.y <- max(apply(t(esp.an[, -1] / nb.an$x), 2, sum))
+  }
   x <- barplot(
     t(esp.an[, -1] / nb.an$x),
     col = c(2, 3, 4, 6, 8),
     legend = TRUE,
     xlab = xlab1,
     ylab = ylab1,
+    ylim = c(0, max.y),
     args.legend = list(
-      x = 'bottomright',
+      x = 'topleft',
       inset = 0.03,
       bg = "white",
       title = legende1,
