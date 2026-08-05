@@ -220,4 +220,200 @@ std_nue <- function(ech, jb, gdf, output_dir) {
     }
     dev.off()
   }
+
+  if (FALSE) {
+    ## sébaste
+    nue <- aggregate(
+      ech$nbSebastes / ech$nbHeures,
+      ech['anneeGestion'],
+      FUN = mean,
+      na.rm = TRUE
+    )
+    names(nue) <- c('annee', 'ech')
+    jb.temp <- subset(jb, immersion >= 0.2)
+    nue <- merge(
+      nue,
+      aggregate(
+        jb.temp$nbSebastes / jb.temp$immersion,
+        jb.temp['annee'],
+        FUN = mean,
+        na.rm = TRUE
+      ),
+      by = 'annee',
+      all = TRUE
+    )
+    names(nue) <- c(head(names(nue), -1), 'jb')
+    gdf.temp <- subset(gdf, duree_heures >= 0.2)
+    nue <- merge(
+      nue,
+      aggregate(
+        gdf.temp$nbSebastes / gdf.temp$duree_heures,
+        gdf.temp['annee'],
+        FUN = mean,
+        na.rm = TRUE
+      ),
+      by = 'annee',
+      all = TRUE
+    )
+    names(nue) <- c(head(names(nue), -1), 'gdf')
+
+    temp <- apply(na.omit(nue[, c('ech', 'jb')]), 2, mean)
+    ratio1 <- temp[1] / temp[2]
+    temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
+    ratio2 <- temp[1] / temp[2]
+
+    plot(
+      nue[, c('annee', 'ech')],
+      type = 'o',
+      ylim = c(0, 1.4),
+      yaxs = 'i',
+      col = 2,
+      xlab = 'Année',
+      ylab = 'Nombre par heure de pêche'
+    )
+    lines(nue$annee, nue$jb, type = 'o', col = 3)
+    lines(nue[, c('annee', 'gdf')], type = 'o', col = 4)
+    legend(
+      'bottomleft',
+      inset = 0.03,
+      legend = c('Echant.', 'Journaux', 'Appli.'),
+      pch = 1,
+      lty = 1,
+      col = c(2, 3, 4),
+      title = 'Source'
+    )
+
+    #ratio de mise à l'échelle
+    plot(
+      nue[, c('annee', 'ech')],
+      type = 'o',
+      ylim = c(0, max(nue$ech, na.rm = TRUE) * 1.05),
+      yaxs = 'i',
+      col = 2,
+      xlab = 'Année',
+      ylab = 'Nombre par heure de pêche'
+    )
+    lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
+    lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
+    lines(
+      smooth.spline(
+        na.omit(cbind(
+          annee = rep(nue$annee, 3),
+          val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+        )),
+        df = 8
+      ),
+      lwd = 2
+    )
+    legend(
+      'topright',
+      inset = 0.03,
+      legend = paste(
+        c('Ech =', 'JB =', 'Appli ='),
+        round(1 / c(1, ratio1, ratio2), 2)
+      ),
+      pch = 1,
+      lty = 1,
+      col = c(2, 3, 4),
+      title = 'Multiplicateur'
+    )
+  }
+
+  if (FALSE) {
+    ## morue
+    nue <- aggregate(
+      ech$nbMorue / ech$nbHeures,
+      ech['anneeGestion'],
+      FUN = mean,
+      na.rm = TRUE
+    )
+    names(nue) <- c('annee', 'ech')
+    jb.temp <- subset(jb, immersion >= 0.2)
+    nue <- merge(
+      nue,
+      aggregate(
+        jb.temp$nbMorue / jb.temp$immersion,
+        jb.temp['annee'],
+        FUN = mean,
+        na.rm = TRUE
+      ),
+      by = 'annee',
+      all = TRUE
+    )
+    names(nue) <- c(head(names(nue), -1), 'jb')
+    gdf.temp <- subset(gdf, duree_heures >= 0.2)
+    nue <- merge(
+      nue,
+      aggregate(
+        gdf.temp$nbMorue / gdf.temp$duree_heures,
+        gdf.temp['annee'],
+        FUN = mean,
+        na.rm = TRUE
+      ),
+      by = 'annee',
+      all = TRUE
+    )
+    names(nue) <- c(head(names(nue), -1), 'gdf')
+
+    temp <- apply(na.omit(nue[, c('ech', 'jb')]), 2, mean)
+    ratio1 <- temp[1] / temp[2]
+    temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
+    ratio2 <- temp[1] / temp[2]
+
+    plot(
+      nue[, c('annee', 'ech')],
+      type = 'o',
+      ylim = c(0, .09),
+      yaxs = 'i',
+      col = 2,
+      xlab = 'Année',
+      ylab = 'Nombre par heure de pêche'
+    )
+    lines(nue$annee, nue$jb, type = 'o', col = 3)
+    lines(nue[, c('annee', 'gdf')], type = 'o', col = 4)
+    legend(
+      'topleft',
+      inset = 0.03,
+      legend = c('Echant.', 'Journaux', 'Appli.'),
+      pch = 1,
+      lty = 1,
+      col = c(2, 3, 4),
+      title = 'Source'
+    )
+
+    #ratio de mise à l'échelle
+    plot(
+      nue[, c('annee', 'ech')],
+      type = 'o',
+      ylim = c(0, max(nue$ech, na.rm = TRUE) * 1.15),
+      yaxs = 'i',
+      col = 2,
+      xlab = 'Année',
+      ylab = 'Nombre par heure de pêche'
+    )
+    lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
+    lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
+    lines(
+      smooth.spline(
+        na.omit(cbind(
+          annee = rep(nue$annee, 3),
+          val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+        )),
+        df = 8
+      ),
+      lwd = 2
+    )
+    legend(
+      'bottomleft',
+      inset = 0.03,
+      legend = paste(
+        c('Ech =', 'JB =', 'Appli ='),
+        round(1 / c(1, ratio1, ratio2), 2)
+      ),
+      pch = 1,
+      lty = 1,
+      col = c(2, 3, 4),
+      title = 'Multiplicateur'
+    )
+  }
 }
