@@ -153,6 +153,7 @@ capture <- function(
     temp <- graph_capture_prop_esp(
       capt = captTot.site.sfs,
       langue = i.langue,
+      titre = '',
       legend = TRUE
     )
     dev.off()
