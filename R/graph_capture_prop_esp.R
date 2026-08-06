@@ -8,6 +8,7 @@
 graph_capture_prop_esp <- function(
   capt,
   titre = 'A',
+  legend = FALSE,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(
@@ -54,15 +55,39 @@ graph_capture_prop_esp <- function(
   ## ajuster 'gadide'
   temp[as.character(2001:2023), 'gadide'] <- 0
   temp[as.character(1996:2000), c('morue', 'ogac')] <- 0
-  x <- barplot(
-    t(temp),
-    col = c(2, 3, 4, 5, 6),
-    xlab = xlab1,
-    ylab = ylab1 #, legend=TRUE,
-    ## args.legend=list(x='topright',inset=0.03,bg="white",title=legende1,
-    ##                  legend=rev(c(espSeb,espMor,espOgac,paste0(espMor,'+',espOgac),espTur)),
-    ##                  fill=rev(c(2,3,4,0,5)))
-  )
+  if (legend) {
+    x <- barplot(
+      t(temp),
+      col = c(2, 3, 4, 5, 6),
+      xlab = xlab1,
+      ylab = ylab1,
+      legend = TRUE,
+      args.legend = list(
+        x = 'topright',
+        inset = 0.03,
+        bg = "white",
+        title = legende1,
+        legend = rev(c(
+          espSeb,
+          espMor,
+          espOgac,
+          paste0(espMor, '+', espOgac),
+          espTur
+        )),
+        fill = rev(c(2, 3, 4, 0, 5))
+      )
+    )
+  } else {
+    x <- barplot(
+      t(temp),
+      col = c(2, 3, 4, 5, 6),
+      xlab = xlab1,
+      ylab = ylab1 #, legend=TRUE,
+      ## args.legend=list(x='topright',inset=0.03,bg="white",title=legende1,
+      ##                  legend=rev(c(espSeb,espMor,espOgac,paste0(espMor,'+',espOgac),espTur)),
+      ##                  fill=rev(c(2,3,4,0,5)))
+    )
+  }
   mtext(side = 3, text = titre)
   ## j.text <- 1; text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
   ##

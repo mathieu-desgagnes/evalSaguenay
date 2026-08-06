@@ -150,7 +150,11 @@ capture <- function(
       units = 'in',
       res = 300
     )
-    temp <- graph_capture_prop_esp(capt = captTot.site.sfs, langue = i.langue)
+    temp <- graph_capture_prop_esp(
+      capt = captTot.site.sfs,
+      langue = i.langue,
+      legend = TRUE
+    )
     dev.off()
   }
   write.csv2(temp, file = file.path(output_dir, 'csv', paste0(nomPng, '.csv')))
