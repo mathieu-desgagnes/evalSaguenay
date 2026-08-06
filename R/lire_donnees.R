@@ -87,6 +87,7 @@ lire_donnees <- function(
       'Donnees_Journaux_de_bord.xlsx'
     )
   )
+  jb$village <- as.logical(jb$village)
   # ## sauvegarder la base de donnée consolidée
   # save(jb, file = file.path(dir_output, 'donnees_JB.RData'))
   # write.csv2(jb, file = file.path(dir_output, 'donnees_JB.csv'))
