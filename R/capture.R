@@ -139,4 +139,21 @@ capture <- function(
   }
   write.csv2(temp, file = file.path(output_dir, 'csv', paste0(nomPng, '.csv')))
   ##
+  ## nbTot 1x1
+  ##
+  nomPng <- 'capt_totale'
+  for (i.langue in c('fr', 'en', 'bil')) {
+    png(
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
+      height = 5,
+      width = 8,
+      units = 'in',
+      res = 300
+    )
+    temp <- graph_capture_prop_esp(capt = captTot.site.sfs, langue = i.langue)
+    dev.off()
+  }
+  write.csv2(temp, file = file.path(output_dir, 'csv', paste0(nomPng, '.csv')))
+  ##
+  ##
 }

@@ -221,6 +221,7 @@ std_nue <- function(ech, jb, gdf, output_dir) {
     dev.off()
   }
 
+  ### rendements bruts selon les sources et par espèce
   if (FALSE) {
     ## sébaste
     nue <- aggregate(
@@ -230,6 +231,7 @@ std_nue <- function(ech, jb, gdf, output_dir) {
       na.rm = TRUE
     )
     names(nue) <- c('annee', 'ech')
+    ##
     jb.temp <- subset(jb, immersion >= 0.2)
     nue <- merge(
       nue,
@@ -243,6 +245,36 @@ std_nue <- function(ech, jb, gdf, output_dir) {
       all = TRUE
     )
     names(nue) <- c(head(names(nue), -1), 'jb')
+    ## jb village
+    table(jb$village, useNA = 'ifany')
+    jb.temp <- subset(jb, immersion >= 0.2 & jb$village)
+    nue <- merge(
+      nue,
+      aggregate(
+        jb.temp$nbSebastes / jb.temp$immersion,
+        jb.temp['annee'],
+        FUN = mean,
+        na.rm = TRUE
+      ),
+      by = 'annee',
+      all = TRUE
+    )
+    names(nue) <- c(head(names(nue), -1), 'jb.village')
+    ## jb non-village
+    jb.temp <- subset(jb, immersion >= 0.2 & !jb$village)
+    nue <- merge(
+      nue,
+      aggregate(
+        jb.temp$nbSebastes / jb.temp$immersion,
+        jb.temp['annee'],
+        FUN = mean,
+        na.rm = TRUE
+      ),
+      by = 'annee',
+      all = TRUE
+    )
+    names(nue) <- c(head(names(nue), -1), 'jb.non_village')
+    ## gdf
     gdf.temp <- subset(gdf, duree_heures >= 0.2)
     nue <- merge(
       nue,
@@ -261,6 +293,8 @@ std_nue <- function(ech, jb, gdf, output_dir) {
     ratio1 <- temp[1] / temp[2]
     temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
     ratio2 <- temp[1] / temp[2]
+    temp <- apply(na.omit(nue[, c('ech', 'jb.village')]), 2, mean)
+    ratio3 <- temp[1] / temp[2]
 
     plot(
       nue[, c('annee', 'ech')],
@@ -272,6 +306,8 @@ std_nue <- function(ech, jb, gdf, output_dir) {
       ylab = 'Nombre par heure de pêche'
     )
     lines(nue$annee, nue$jb, type = 'o', col = 3)
+    # lines(nue$annee, nue$jb.village, type = 'o', col = 3, lty=3)
+    # lines(nue$annee, nue$jb.non_village, type = 'o', col = 3, lty=3)
     lines(nue[, c('annee', 'gdf')], type = 'o', col = 4)
     legend(
       'bottomleft',
