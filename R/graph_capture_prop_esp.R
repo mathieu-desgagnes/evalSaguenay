@@ -74,7 +74,7 @@ graph_capture_prop_esp <- function(
           paste0(espMor, '+', espOgac),
           espTur
         )),
-        fill = rev(c(2, 3, 4, 0, 5))
+        fill = rev(c(2, 3, 4, 5, 6))
       )
     )
   } else {
