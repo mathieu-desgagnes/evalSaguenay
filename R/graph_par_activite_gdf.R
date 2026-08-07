@@ -91,7 +91,9 @@ graph_par_activite_gdf <- function(
   )
   temp1$x_par_activite <- temp1$x / temp3$x
   temp1$prop <- temp1$x / temp2$x
-
+  if (!autre_esp) {
+    temp1 <- subset(temp1, espece != 'Autre')
+  }
   # Calculer les totaux par année et espèce
   totaux <- aggregate(x_par_activite ~ annee + espece, data = temp1, sum)
   # Ordre des espèces pour la légende
@@ -112,9 +114,10 @@ graph_par_activite_gdf <- function(
   )
   colnames(matrice) <- unique(temp1$espece)
   rownames(matrice) <- unique(temp1$annee)
-  matrice <- t(matrice)[
-    c('Sébaste', 'Morue franche', 'Ogac', 'Turbot', 'Autre'),
-  ]
+  matrice <- t(matrice[, match(
+    colnames(matrice),
+    c('Sébaste', 'Morue franche', 'Ogac', 'Turbot', 'Autre')
+  )])
 
   if (proportion) {
     matrice <- apply(matrice, 2, function(x) {
@@ -139,7 +142,10 @@ graph_par_activite_gdf <- function(
         inset = 0.03,
         bg = "white",
         title = legende1,
-        legend = rev(c(espSeb, espMor, espOgac, espTur, espAutre)),
+        legend = rev(c(espSeb, espMor, espOgac, espTur, espAutre)[match(
+          rownames(matrice),
+          c('Sébaste', 'Morue franche', 'Ogac', 'Turbot', 'Autre')
+        )]),
         fill = rev(couleurs[rownames(matrice)])
       )
     )

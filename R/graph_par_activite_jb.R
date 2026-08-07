@@ -11,6 +11,7 @@ graph_par_activite_jb <- function(
   titre = 'A',
   legende = FALSE,
   max.y = NULL,
+  autre_esp = TRUE,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(
@@ -57,13 +58,24 @@ graph_par_activite_jb <- function(
     sum,
     na.rm = TRUE
   )
-  temp <- donnees[, c(
-    'nbSebastes',
-    'nbMorue',
-    'nbOgac',
-    'nbTurbot',
-    'nbToutAutre'
-  )]
+  if (autre_esp) {
+    temp <- donnees[, c(
+      'nbSebastes',
+      'nbMorue',
+      'nbOgac',
+      'nbTurbot',
+      'nbToutAutre'
+    )]
+    nom_legende <- rev(c(espSeb, espMor, espOgac, espTur, espAutre))
+  } else {
+    temp <- donnees[, c(
+      'nbSebastes',
+      'nbMorue',
+      'nbOgac',
+      'nbTurbot'
+    )]
+    nom_legende <- rev(c(espSeb, espMor, espOgac, espTur))
+  }
   esp.an <- aggregate(temp, donnees['anneeGestion'], FUN = sum)
   dimnames(esp.an)[[1]] <- esp.an$anneeGestion
   ## esp.an <- merge(esp.an, list(anneeGestion=annees), all=TRUE)
@@ -86,13 +98,14 @@ graph_par_activite_jb <- function(
       xlab = xlab1,
       ylab = 'Proportion',
       ylim = c(0, max.y),
+      legend.text = TRUE,
       args.legend = list(
         x = 'bottomright',
         inset = 0.03,
         bg = "white",
         title = legende1,
-        legend = rev(c(espSeb, espMor, espOgac, espTur, espAutre)),
-        fill = rev(c(2, 3, 4, 6, 8))
+        legend = nom_legende,
+        fill = rev(c(2, 3, 4, 6, 8)[1:length(nom_legende)])
       )
     )
   } else {
