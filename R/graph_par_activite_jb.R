@@ -113,7 +113,8 @@ graph_par_activite_jb <- function(
       t(esp.an[, -1] / apply(esp.an[, -1], 1, sum)),
       col = c(2, 3, 4, 6, 8),
       xlab = xlab1,
-      ylab = 'Proportion'
+      ylab = 'Proportion',
+      ylim = c(0, max.y)
     )
   }
   ## axis(1, at=x)

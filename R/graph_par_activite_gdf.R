@@ -11,6 +11,7 @@ graph_par_activite_gdf <- function(
   titre = 'A',
   legende = FALSE,
   max.y = NULL,
+  autre_esp = TRUE,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(
