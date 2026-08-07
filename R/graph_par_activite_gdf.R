@@ -12,6 +12,7 @@ graph_par_activite_gdf <- function(
   legende = FALSE,
   max.y = NULL,
   autre_esp = TRUE,
+  range.x = NULL,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(
@@ -63,12 +64,15 @@ graph_par_activite_gdf <- function(
     donnees2[, c('annee', 'espece')],
     FUN = sum
   )
+  if (is.null(range.x)) {
+    range.x <- range(donnees$annee)
+  }
   temp1 <- merge(
     expand.grid(
-      annee = 2015:max(donnees$annee),
+      annee = range.x[1]:range.x[2],
       espece = unique(donnees2$espece)
     ),
-    temp1,
+    subset(temp1, annee %in% range.x[1]:range.x[2]),
     by = c('annee', 'espece'),
     all.x = TRUE
   )
