@@ -12,6 +12,7 @@ graph_par_activite_jb <- function(
   legende = FALSE,
   max.y = NULL,
   autre_esp = TRUE,
+  range.x = NULL,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(

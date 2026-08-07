@@ -12,6 +12,7 @@ graph_par_activite_ech <- function(
   legende = FALSE,
   max.y = NULL,
   autre_esp = TRUE,
+  range.x = NULL,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(
@@ -128,7 +129,7 @@ graph_par_activite_ech <- function(
 
   if (legende) {
     x <- barplot(
-      val,
+      val2,
       col = c(2, 3, 4, 6, 8),
       xlab = xlab1,
       ylab = 'Proportion',
@@ -145,7 +146,7 @@ graph_par_activite_ech <- function(
     )
   } else {
     x <- barplot(
-      t(esp.an[, -1] / apply(esp.an[, -1], 1, sum)),
+      val2,
       col = c(2, 3, 4, 6, 8),
       xlab = xlab1,
       ylab = 'Proportion',

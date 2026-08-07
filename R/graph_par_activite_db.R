@@ -1,0 +1,170 @@
+#' Produit le graphique des proportion d'especes dans les captures rapportées dans les données biologiques
+#'
+#' @param donnees data.frame() contenant les données de captures de l'application "Glaces du Fjord"
+#' @param langue trois choix de langue du texte dans le graphique, soit français ('fr'), anglais('en') ou bilingue('bil')
+#'
+#' @return
+#'
+graph_par_activite_db <- function(
+  donnees,
+  proportion = TRUE,
+  titre = 'A',
+  legende = FALSE,
+  max.y = NULL,
+  autre_esp = TRUE,
+  range.x = NULL,
+  langue = c('fr', 'en', 'bil')
+) {
+  switch(
+    langue,
+    'fr' = {
+      xlab1 <- 'Année'
+      ylab1 <- 'Nombre par activité'
+      legende1 = 'Espèce'
+      espSeb = 'Sébastes'
+      espMor = 'Morue'
+      espOgac = 'Ogac'
+      espGad = 'Gadide'
+      espTur = 'Turbot'
+      espAutre = 'Autre'
+    },
+    'en' = {
+      xlab1 <- 'Year'
+      ylab1 <- 'Number per activity'
+      legende1 = 'Species'
+      espSeb = 'Sebastes'
+      espMor = 'Cod'
+      espOgac = 'Ogac'
+      espGad = 'Gadide'
+      espTur = 'Turbot'
+      espAutre = 'Other'
+    },
+    'bil' = {
+      xlab1 <- 'Année/Year'
+      ylab1 <- 'Nombre apr activity/Number per activity'
+      legende1 = 'Espèce/Species'
+      espSeb = 'Sebastes'
+      espMor = 'Morue/Cod'
+      espOgac = 'Ogac'
+      espGad = 'Gadide'
+      espTur = 'Turbot'
+      espAutre = 'Autre/Other'
+    }
+  )
+  # op <- par(mar = c(4, 4, 1, 1) + 0.1)
+  donnees2 <- donnees
+  donnees2[
+    !donnees2$espece %in% c('turbot', 'sebastes', 'ogac', 'morueSp', 'morue'),
+    'espece'
+  ] <- 'autre'
+  temp1 <- aggregate(
+    donnees2$longueur,
+    donnees2[, c('annee', 'espece')],
+    FUN = length
+  )
+  if (is.null(range.x)) {
+    range.x <- range(donnees$annee)
+  }
+  temp1 <- merge(
+    expand.grid(
+      annee = range.x[1]:range.x[2],
+      espece = unique(donnees2$espece),
+      stringsAsFactors = FALSE
+    ),
+    subset(temp1, annee %in% range.x[1]:range.x[2]),
+    by = c('annee', 'espece'),
+    all.x = TRUE
+  )
+  temp1$x[is.na(temp1$x)] <- 0
+  # temp2 <- aggregate(
+  #   donnees2$quantite_par_ligne,
+  #   donnees2[, c('identifiant_activite', 'annee', 'espece')],
+  #   FUN = sum
+  # )
+  ##regrouper par activité de pêche
+  temp2 <- aggregate(
+    temp1$x,
+    temp1[c('annee')],
+    FUN = sum
+  )
+  # test <- unique(donnees2[, c('identifiant_activite', 'annee')])
+  # temp3 <- aggregate(
+  #   test$identifiant_activite,
+  #   test[c('annee')],
+  #   FUN = length
+  # )
+  # temp1$x_par_activite <- temp1$x / temp3$x
+  temp1$prop <- temp1$x / temp2$x
+  temp1 <- subset(temp1, espece != 'morueSp')
+  if (!autre_esp) {
+    temp1 <- subset(temp1, espece != 'autre')
+  }
+  # Ordre des espèces pour la légende
+  especes <- unique(temp1$espece)
+  # Couleurs pour les espèces
+  couleurs <- c(
+    "sebastes" = 2,
+    "autre" = 8,
+    "morue" = 3,
+    "ogac" = 4,
+    "turbot" = 6
+  )
+  # Convertir en matrice pour le graphique
+  matrice <- t(matrix(
+    temp1$x,
+    ncol = length(unique(temp1$annee)),
+    nrow = length(unique(temp1$espece))
+  ))
+  colnames(matrice) <- unique(temp1$espece)
+  rownames(matrice) <- unique(temp1$annee)
+  matrice <- t(matrice[, match(
+    colnames(matrice),
+    c('sebastes', 'morue', 'ogac', 'turbot')
+  )])[c('sebastes', 'morue', 'ogac', 'turbot'), ]
+
+  if (proportion) {
+    matrice <- apply(matrice, 2, function(x) {
+      x / sum(x)
+    })
+    max.y <- 1
+  } else {
+    if (is.null(max.y)) {
+      max.y <- max(apply(matrice, 2, sum))
+    }
+  }
+  if (legende) {
+    x <- barplot(
+      matrice,
+      col = couleurs[rownames(matrice)],
+      legend.text = TRUE,
+      xlab = xlab1,
+      ylab = ylab1,
+      ylim = c(0, max.y),
+      args.legend = list(
+        x = 'bottomright',
+        inset = 0.03,
+        bg = "white",
+        title = legende1,
+        legend = rev(c(espSeb, espMor, espOgac, espTur, espAutre)[match(
+          rownames(matrice),
+          c('sebastes', 'morue', 'ogac', 'turbot', 'autre')
+        )]),
+        fill = rev(couleurs[rownames(matrice)])
+      )
+    )
+  } else {
+    x <- barplot(
+      matrice,
+      col = couleurs[rownames(matrice)],
+      legend.text = TRUE,
+      xlab = xlab1,
+      ylab = ylab1,
+      ylim = c(0, max.y),
+    )
+  }
+  ## axis(3, at=x, labels=nb.an$x, cex.axis=0.8, tick=FALSE, line=-1, las=1)
+  ## j.text <- 1; text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
+  mtext(side = 3, text = titre)
+  ##
+  par('usr')[4]
+}
