@@ -5,11 +5,11 @@
 #'
 #' @return
 #'
-graph_prop_par_activite_jb <- function(
+graph_par_activite_jb <- function(
   donnees,
   proportion = TRUE,
   titre = 'A',
-  legend = FALSE,
+  legende = FALSE,
   max.y = NULL,
   langue = c('fr', 'en', 'bil')
 ) {
@@ -79,7 +79,7 @@ graph_prop_par_activite_jb <- function(
     }
   }
 
-  if (legend) {
+  if (legende) {
     x <- barplot(
       val,
       col = c(2, 3, 4, 6, 8),
@@ -87,7 +87,7 @@ graph_prop_par_activite_jb <- function(
       ylab = 'Proportion',
       ylim = c(0, max.y),
       args.legend = list(
-        x = 'topleft',
+        x = 'bottomright',
         inset = 0.03,
         bg = "white",
         title = legende1,
@@ -107,5 +107,5 @@ graph_prop_par_activite_jb <- function(
   ## text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
   mtext(side = 3, text = titre)
   ##
-  return(merge(esp.an, nb.an))
+  par('usr')[4]
 }

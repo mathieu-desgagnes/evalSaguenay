@@ -5,9 +5,11 @@
 #'
 #' @return
 #'
-graph_capt_par_activite_gdf <- function(
+graph_par_activite_gdf <- function(
   donnees,
+  proportion = TRUE,
   titre = 'A',
+  legende = FALSE,
   max.y = NULL,
   langue = c('fr', 'en', 'bil')
 ) {
@@ -47,7 +49,7 @@ graph_capt_par_activite_gdf <- function(
       espAutre = 'Autre/Other'
     }
   )
-  op <- par(mar = c(4, 4, 1, 1) + 0.1)
+  # op <- par(mar = c(4, 4, 1, 1) + 0.1)
   donnees$quantite_par_pecheur <- donnees$quantite / donnees$nombre_pecheurs
   donnees$quantite_par_ligne <- donnees$quantite / donnees$nombre_lignes_actives
   donnees2 <- donnees
@@ -114,25 +116,43 @@ graph_capt_par_activite_gdf <- function(
     c('Sébaste', 'Morue franche', 'Ogac', 'Turbot', 'Autre'),
   ]
 
-  if (is.null(max.y)) {
-    max.y <- max(apply(matrice, 2, sum))
+  if (proportion) {
+    matrice <- apply(matrice, 2, function(x) {
+      x / sum(x)
+    })
+    max.y <- 1
+  } else {
+    if (is.null(max.y)) {
+      max.y <- max(apply(matrice, 2, sum))
+    }
   }
-  x <- barplot(
-    matrice,
-    col = couleurs[rownames(matrice)],
-    legend.text = TRUE,
-    xlab = xlab1,
-    ylab = ylab1,
-    ylim = c(0, max.y),
-    args.legend = list(
-      x = 'topleft',
-      inset = 0.03,
-      bg = "white",
-      title = legende1,
-      legend = rev(c(espSeb, espMor, espOgac, espTur, espAutre)),
-      fill = rev(couleurs[rownames(matrice)])
+  if (legende) {
+    x <- barplot(
+      matrice,
+      col = couleurs[rownames(matrice)],
+      legend.text = TRUE,
+      xlab = xlab1,
+      ylab = ylab1,
+      ylim = c(0, max.y),
+      args.legend = list(
+        x = 'bottomright',
+        inset = 0.03,
+        bg = "white",
+        title = legende1,
+        legend = rev(c(espSeb, espMor, espOgac, espTur, espAutre)),
+        fill = rev(couleurs[rownames(matrice)])
+      )
     )
-  )
+  } else {
+    x <- barplot(
+      matrice,
+      col = couleurs[rownames(matrice)],
+      legend.text = TRUE,
+      xlab = xlab1,
+      ylab = ylab1,
+      ylim = c(0, max.y),
+    )
+  }
   ## axis(3, at=x, labels=nb.an$x, cex.axis=0.8, tick=FALSE, line=-1, las=1)
   ## j.text <- 1; text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
   mtext(side = 3, text = titre)
