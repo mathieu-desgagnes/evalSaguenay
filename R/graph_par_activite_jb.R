@@ -5,9 +5,11 @@
 #'
 #' @return
 #'
-graph_capt_par_activite_jb <- function(
+graph_prop_par_activite_jb <- function(
   donnees,
+  proportion = TRUE,
   titre = 'A',
+  legend = FALSE,
   max.y = NULL,
   langue = c('fr', 'en', 'bil')
 ) {
@@ -47,8 +49,8 @@ graph_capt_par_activite_jb <- function(
       espAutre = 'Autre/Other'
     }
   )
-  op <- par(mar = c(4, 4, 1, 1) + 0.1)
-  # donnees$nbToutAutre <- apply(donnees[,c('nbSaida','nbFletan','nbCrabe','nbLycode','nbRaie','nbAutre')], 1, sum, na.rm=TRUE)
+  # op <- par(mar = c(4, 4, 1, 1) + 0.1)
+  ##
   donnees$nbToutAutre <- apply(
     donnees[, c('nbSaida', 'nbFletan', 'nbCrabe', 'nbLycode', 'nbRaie')],
     1,
@@ -64,30 +66,46 @@ graph_capt_par_activite_jb <- function(
   )]
   esp.an <- aggregate(temp, donnees['anneeGestion'], FUN = sum)
   dimnames(esp.an)[[1]] <- esp.an$anneeGestion
+  ## esp.an <- merge(esp.an, list(anneeGestion=annees), all=TRUE)
   nb.an <- aggregate(temp[, 1], donnees['anneeGestion'], FUN = length)
 
-  if (is.null(max.y)) {
-    max.y <- max(apply(t(esp.an[, -1] / nb.an$x), 2, sum))
+  if (proportion) {
+    val <- t(esp.an[, -1] / apply(esp.an[, -1], 1, sum))
+    max.y <- 1
+  } else {
+    val <- t(esp.an[, -1] / nb.an$x)
+    if (is.null(max.y)) {
+      max.y <- max(apply(t(esp.an[, -1] / nb.an$x), 2, sum))
+    }
   }
-  x <- barplot(
-    t(esp.an[, -1] / nb.an$x),
-    col = c(2, 3, 4, 6, 8),
-    legend = TRUE,
-    xlab = xlab1,
-    ylab = ylab1,
-    ylim = c(0, max.y),
-    args.legend = list(
-      x = 'topleft',
-      inset = 0.03,
-      bg = "white",
-      title = legende1,
-      legend = rev(c(espSeb, espMor, espOgac, espTur, espAutre)),
-      fill = rev(c(2, 3, 4, 6, 8))
+
+  if (legend) {
+    x <- barplot(
+      val,
+      col = c(2, 3, 4, 6, 8),
+      xlab = xlab1,
+      ylab = 'Proportion',
+      ylim = c(0, max.y),
+      args.legend = list(
+        x = 'topleft',
+        inset = 0.03,
+        bg = "white",
+        title = legende1,
+        legend = rev(c(espSeb, espMor, espOgac, espTur, espAutre)),
+        fill = rev(c(2, 3, 4, 6, 8))
+      )
     )
-  )
-  ## axis(3, at=x, labels=nb.an$x, cex.axis=0.8, tick=FALSE, line=-1, las=1)
-  ## j.text <- 1; text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
+  } else {
+    x <- barplot(
+      t(esp.an[, -1] / apply(esp.an[, -1], 1, sum)),
+      col = c(2, 3, 4, 6, 8),
+      xlab = xlab1,
+      ylab = 'Proportion'
+    )
+  }
+  ## axis(1, at=x)
+  ## text(x=mean(par('usr')[1:2]), y=diff(par('usr')[3:4])*0.9+par('usr')[3], labels=c('A','B','C','D')[j.text], cex=1.5); j.text=j.text+1
   mtext(side = 3, text = titre)
   ##
-  par('usr')[4]
+  return(merge(esp.an, nb.an))
 }
