@@ -234,6 +234,7 @@ graph_struct_taille <- function(
     labels = c('A', 'B', 'C', 'D')[j.text],
     cex = 1.5
   )
+  j.text <- j.text + 1
 
   ##
   ## distribution frequences de taille
