@@ -110,6 +110,22 @@ graph_par_activite_ech <- function(
     }
   }
 
+  if (is.null(range.x)) {
+    range.x <- range(donnees$annee, na.rm = TRUE)
+  }
+  val2 <- array(
+    0,
+    dim = c(nrow(val), diff(range.x) + 1),
+    dimnames = list(
+      espece = unique(rownames(val)),
+      annee = range.x[1]:range.x[2]
+    )
+  )
+  val2[, na.omit(match(colnames(val), colnames(val2)))] <- val[, na.omit(match(
+    colnames(val2),
+    colnames(val)
+  ))]
+
   if (legende) {
     x <- barplot(
       val,

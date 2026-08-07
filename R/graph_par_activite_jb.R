@@ -91,9 +91,25 @@ graph_par_activite_jb <- function(
     }
   }
 
+  if (is.null(range.x)) {
+    range.x <- range(donnees$annee)
+  }
+  val2 <- array(
+    0,
+    dim = c(nrow(val), diff(range.x) + 1),
+    dimnames = list(
+      espece = unique(rownames(val)),
+      annee = range.x[1]:range.x[2]
+    )
+  )
+  val2[, na.omit(match(colnames(val), colnames(val2)))] <- val[, na.omit(match(
+    colnames(val2),
+    colnames(val)
+  ))]
+
   if (legende) {
     x <- barplot(
-      val,
+      val2,
       col = c(2, 3, 4, 6, 8),
       xlab = xlab1,
       ylab = 'Proportion',
@@ -110,7 +126,7 @@ graph_par_activite_jb <- function(
     )
   } else {
     x <- barplot(
-      t(esp.an[, -1] / apply(esp.an[, -1], 1, sum)),
+      val2,
       col = c(2, 3, 4, 6, 8),
       xlab = xlab1,
       ylab = 'Proportion',
