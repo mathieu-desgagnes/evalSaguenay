@@ -221,8 +221,18 @@ std_nue <- function(ech, jb, gdf, output_dir) {
     dev.off()
   }
 
-  ### rendements bruts selon les sources et par espèce
-  if (FALSE) {
+  nomPng <- 'nueBrut'
+  for (i.langue in c('fr', 'en', 'bil')) {
+    png(
+      file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
+      height = 8,
+      width = 10,
+      units = 'in',
+      res = 300
+    )
+    par(mfrow = c(2, 2))
+    ##
+    ### rendements bruts selon les sources et par espèce
     ## sébaste
     nue <- aggregate(
       ech$nbSebastes / ech$nbHeures,
@@ -245,41 +255,41 @@ std_nue <- function(ech, jb, gdf, output_dir) {
       all = TRUE
     )
     names(nue) <- c(head(names(nue), -1), 'jb')
-    ## jb village
-    table(jb$village, useNA = 'ifany')
-    jb.temp <- subset(jb, immersion >= 0.2 & jb$village)
-    nue <- merge(
-      nue,
-      aggregate(
-        jb.temp$nbSebastes / jb.temp$immersion,
-        jb.temp['annee'],
-        FUN = mean,
-        na.rm = TRUE
-      ),
-      by = 'annee',
-      all = TRUE
-    )
-    names(nue) <- c(head(names(nue), -1), 'jb.village')
-    ## jb non-village
-    jb.temp <- subset(jb, immersion >= 0.2 & !jb$village)
-    nue <- merge(
-      nue,
-      aggregate(
-        jb.temp$nbSebastes / jb.temp$immersion,
-        jb.temp['annee'],
-        FUN = mean,
-        na.rm = TRUE
-      ),
-      by = 'annee',
-      all = TRUE
-    )
-    names(nue) <- c(head(names(nue), -1), 'jb.non_village')
+    # ## jb village
+    # table(jb$village, useNA = 'ifany')
+    # jb.temp <- subset(jb, immersion >= 0.2 & jb$village)
+    # nue <- merge(
+    #   nue,
+    #   aggregate(
+    #     jb.temp$nbSebastes / jb.temp$immersion,
+    #     jb.temp['annee'],
+    #     FUN = mean,
+    #     na.rm = TRUE
+    #   ),
+    #   by = 'annee',
+    #   all = TRUE
+    # )
+    # names(nue) <- c(head(names(nue), -1), 'jb.village')
+    # ## jb non-village
+    # jb.temp <- subset(jb, immersion >= 0.2 & !jb$village)
+    # nue <- merge(
+    #   nue,
+    #   aggregate(
+    #     jb.temp$nbSebastes / jb.temp$immersion,
+    #     jb.temp['annee'],
+    #     FUN = mean,
+    #     na.rm = TRUE
+    #   ),
+    #   by = 'annee',
+    #   all = TRUE
+    # )
+    # names(nue) <- c(head(names(nue), -1), 'jb.non_village')
     ## gdf
-    gdf.temp <- subset(gdf, duree_heures >= 0.2)
+    gdf.temp <- subset(gdf, duree_minutes / 60 >= 0.2)
     nue <- merge(
       nue,
       aggregate(
-        gdf.temp$nbSebastes / gdf.temp$duree_heures,
+        gdf.temp$nbSebastes / (gdf.temp$duree_minutes / 60),
         gdf.temp['annee'],
         FUN = mean,
         na.rm = TRUE
@@ -293,8 +303,8 @@ std_nue <- function(ech, jb, gdf, output_dir) {
     ratio1 <- temp[1] / temp[2]
     temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
     ratio2 <- temp[1] / temp[2]
-    temp <- apply(na.omit(nue[, c('ech', 'jb.village')]), 2, mean)
-    ratio3 <- temp[1] / temp[2]
+    # temp <- apply(na.omit(nue[, c('ech', 'jb.village')]), 2, mean)
+    # ratio3 <- temp[1] / temp[2]
 
     plot(
       nue[, c('annee', 'ech')],
@@ -353,9 +363,7 @@ std_nue <- function(ech, jb, gdf, output_dir) {
       col = c(2, 3, 4),
       title = 'Multiplicateur'
     )
-  }
 
-  if (FALSE) {
     ## morue
     nue <- aggregate(
       ech$nbMorue / ech$nbHeures,
@@ -377,11 +385,11 @@ std_nue <- function(ech, jb, gdf, output_dir) {
       all = TRUE
     )
     names(nue) <- c(head(names(nue), -1), 'jb')
-    gdf.temp <- subset(gdf, duree_heures >= 0.2)
+    gdf.temp <- subset(gdf, duree_minutes / 60 >= 0.2)
     nue <- merge(
       nue,
       aggregate(
-        gdf.temp$nbMorue / gdf.temp$duree_heures,
+        gdf.temp$nbMorue / (gdf.temp$duree_minutes / 60),
         gdf.temp['annee'],
         FUN = mean,
         na.rm = TRUE
@@ -451,5 +459,6 @@ std_nue <- function(ech, jb, gdf, output_dir) {
       col = c(2, 3, 4),
       title = 'Multiplicateur'
     )
+    dev.off()
   }
 }
