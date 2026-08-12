@@ -82,6 +82,15 @@ ajout_journaux_de_bord <- function(
     )
     ##
     jb.new$nomSite <- standardiser_nom_site(sites = jb.new$nomSite)[, 'sites']
+    jb.new$immersion <- jb.new$fin_HH +
+      jb.new$fin_MM / 60 -
+      jb.new$debut_HH -
+      jb.new$debut_MM / 60
+    jb.new[which(jb.new$immersion < 0), 'immersion'] <- jb.new[
+      which(jb.new$immersion < 0),
+      'immersion'
+    ] +
+      24
     jb <- merge(jb.init, jb.new, all = TRUE)
   } else {
     jb <- jb.init
