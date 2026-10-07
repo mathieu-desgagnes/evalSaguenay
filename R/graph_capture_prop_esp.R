@@ -53,7 +53,7 @@ graph_capture_prop_esp <- function(
     'turbot'
   )]
   ## ajuster 'gadide'
-  temp[as.character(2001:2023), 'gadide'] <- 0
+  temp[which(as.numeric(dimnames(temp)[[1]]) >= 2001), 'gadide'] <- 0
   temp[as.character(1996:2000), c('morue', 'ogac')] <- 0
   if (legend) {
     x <- barplot(
