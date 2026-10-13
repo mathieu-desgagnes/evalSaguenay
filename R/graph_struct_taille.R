@@ -153,7 +153,7 @@ graph_struct_taille <- function(
   ##
   if (!is.null(donnees_gdf)) {
     # donnees_gdf$taille <- donnees_gdf$taille*10
-    temp <- subset(donnees_gdf, espece == 'Sébaste' & taille < 100 & taille > 7)
+    temp <- subset(donnees_gdf, espece == 'Morue franche')
     x <- vioplot::vioplot(
       10 * taille ~ annee,
       data = temp,
@@ -176,19 +176,8 @@ graph_struct_taille <- function(
       las = 2,
       col.axis = 6
     )
-    # x <- vioplot::vioplot(
-    #   longueur ~ anneeGestion,
-    #   data = db.sebaste,
-    #   h = 6,
-    #   wex=table(db.sebaste$anneeGestion)/mean(table(db.sebaste$anneeGestion)),
-    #   at = sort(unique(db.sebaste$anneeGestion)),
-    #   col = 3,
-    #   lineCol = NA,
-    #   pchMed=18,
-    #   ## main='Sébaste, Saguenay',
-    #   add = TRUE
-    # )
   }
+  ##
   if (courbe_croissance) {
     x <- 0:60
     y <- 33 * (1 - exp(-0.11 * (x - (0)))) * 10 #; cbind(x,y)
