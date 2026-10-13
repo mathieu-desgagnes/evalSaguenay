@@ -9,7 +9,12 @@
 #' 2011          Unconstrained   27        0.200 -0.365 Blue dotted
 #' 1980 and 2011 Unconstrained   38        0.116 -0.621 Orange dotted
 #'
-#' @param db données
+#' @param donnees Data.frame des données biologique
+#' @param donnees_gdf data.frame des données récoltées par l'application "Glaces du Fjord". Accepte NULL.
+#' @param courbe_croissance TRUE si une courbe est ajoutée pour souligner la croissance des cohortes
+#' @param courbe_croissance_alt TRUE si les courbes de croissance des deux principales cohortes du golfe sont présentées sur le graphique approprié.
+#' @param seulement_sebaste TRUE si uniquement le graphique du sébase est affiché (1x1)
+#' @param langue
 #'
 #' @import vioplot
 #'
