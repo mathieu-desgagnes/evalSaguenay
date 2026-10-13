@@ -153,7 +153,7 @@ graph_struct_taille <- function(
   ##
   if (!is.null(donnees_gdf)) {
     # donnees_gdf$taille <- donnees_gdf$taille*10
-    temp <- subset(donnees_gdf, espece == 'Morue franche')
+    temp <- subset(donnees_gdf, espece == 'Sébaste')
     x <- vioplot::vioplot(
       10 * taille ~ annee,
       data = temp,
