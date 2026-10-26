@@ -87,7 +87,11 @@ graph_struct_taille <- function(
     legend(
       'bottomleft',
       inset = 0.03,
-      legend = paste(c('Linf', 'K', 't0'), ':', c(33, 0.105, 0))
+      legend = paste(c('Linf', 'K', 't0'), ':', c(33, 0.105, 0)),
+      title = "von Bertalanffy",
+      lty = 2,
+      lwd = 3,
+      col = 3
     )
   }
   ##
@@ -218,7 +222,8 @@ graph_struct_taille <- function(
       lty = 2,
       col = 1,
       lwd = 3,
-      cex = 0.7
+      cex = 0.7,
+      title = "von Bertalanffy"
     )
   }
   j.text <- 1
@@ -359,7 +364,10 @@ graph_struct_taille <- function(
       'bottomright',
       inset = 0.03,
       legend = paste(c('Linf', 'K', 't0'), ':', c(70, 0.2, 0)),
-      cex = 0.7
+      cex = 0.7,
+      title = "von Bertalanffy",
+      lty = 2,
+      lwd = 3
     )
   }
   ##
@@ -416,6 +424,33 @@ graph_struct_taille <- function(
       col.axis = 2
     )
     ##
+    if (!is.null(donnees_gdf)) {
+      # donnees_gdf$taille <- donnees_gdf$taille*10
+      temp <- subset(donnees_gdf, espece == 'Morue franche')
+      x <- vioplot::vioplot(
+        10 * taille ~ annee,
+        data = temp,
+        h = 6,
+        wex = table(donnees_gdf$annee) / max(table(donnees_gdf$annee)),
+        at = sort(unique(donnees_gdf$annee)) + 0.3,
+        col = 6,
+        lineCol = NA,
+        pchMed = 18,
+        ## main='Sébaste, Saguenay',
+        add = TRUE
+      )
+      axis(
+        3,
+        at = sort(unique(temp$annee)) + 0.3,
+        labels = table(temp$annee),
+        cex.axis = 0.4,
+        tick = FALSE,
+        line = -1.8,
+        las = 2,
+        col.axis = 6
+      )
+    }
+    ##
     ##
     if (courbe_croissance) {
       x <- 0:13
@@ -429,7 +464,11 @@ graph_struct_taille <- function(
         'topleft',
         inset = 0.03,
         legend = paste(c('Linf', 'K', 't0'), ':', c(70, 0.2, 0)),
-        cex = 0.7
+        cex = 0.7,
+        title = "von Bertalanffy",
+        lty = 2,
+        lwd = 3,
+        col = 1
       )
     }
     legend(
@@ -476,7 +515,11 @@ graph_struct_taille <- function(
       inset = 0.03,
       legend = paste(c('Linf', 'K', 't0'), ':', c(53, 0.25, 0.5)),
       bg = 'white',
-      cex = 0.7
+      cex = 0.7,
+      title = "von Bertalanffy",
+      lty = 2,
+      lwd = 3,
+      col = 1
     )
     x <- 0:18
     y <- 53 * (1 - exp(-0.25 * (x - (-0.5)))) * 10
