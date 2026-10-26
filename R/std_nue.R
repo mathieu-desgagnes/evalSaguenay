@@ -333,15 +333,23 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
       # )
 
       #ratio de mise à l'échelle
+      par(mar = c(5, 4, 1, 5) + 0.1)
       plot(
         nue[, c('annee', 'ech')],
         type = 'o',
-        ylim = c(0, max(nue$ech, na.rm = TRUE) * 1.05),
+        ylim = c(
+          0,
+          max(c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2), na.rm = TRUE) *
+            1.05
+        ),
         yaxs = 'i',
         col = 2,
         xlab = 'Année',
-        ylab = 'Nombre par heure de pêche'
+        ylab = 'Nombre par heure de pêche',
+        axes = FALSE
       )
+      box()
+      axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
       lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
       lines(
@@ -360,17 +368,47 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
         labels = 'A',
         cex = 1.5
       )
+      # legend(
+      #   'topright',
+      #   inset = 0.03,
+      #   legend = paste(
+      #     c('Ech =', 'JB =', 'Appli ='),
+      #     round(1 / c(1, ratio1, ratio2), 2)
+      #   ),
+      #   pch = 1,
+      #   lty = 1,
+      #   col = c(2, 3, 4),
+      #   title = 'Multiplicateur'
+      # )
       legend(
         'topright',
         inset = 0.03,
-        legend = paste(
-          c('Ech =', 'JB =', 'Appli ='),
-          round(1 / c(1, ratio1, ratio2), 2)
-        ),
+        legend = c('Ech', 'JB', 'Appli'),
         pch = 1,
         lty = 1,
         col = c(2, 3, 4),
-        title = 'Multiplicateur'
+      )
+      axis(
+        2,
+        at = pretty(par('usr')[3:4]),
+        labels = pretty(par('usr')[3:4]),
+        col = 2,
+        col.axis = 2
+      )
+      axis(
+        4,
+        at = pretty(par('usr')[3:4] / ratio1) * ratio1,
+        labels = pretty(par('usr')[3:4] / ratio1),
+        col = 3,
+        col.axis = 3
+      )
+      axis(
+        4,
+        at = pretty(par('usr')[3:4] / ratio2) * ratio2,
+        labels = pretty(par('usr')[3:4] / ratio2),
+        col = 4,
+        col.axis = 4,
+        line = 2
       )
 
       ##
@@ -442,12 +480,19 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
       plot(
         nue[, c('annee', 'ech')],
         type = 'o',
-        ylim = c(0, max(nue$ech, na.rm = TRUE) * 1.15),
+        ylim = c(
+          0,
+          max(c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2), na.rm = TRUE) *
+            1.05
+        ),
         yaxs = 'i',
         col = 2,
         xlab = 'Année',
-        ylab = 'Nombre par heure de pêche'
+        ylab = 'Nombre par heure de pêche',
+        axes = FALSE
       )
+      box()
+      axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
       lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
       lines(
@@ -466,17 +511,47 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
         labels = 'B',
         cex = 1.5
       )
+      # legend(
+      #   'bottomleft',
+      #   inset = 0.03,
+      #   legend = paste(
+      #     c('Ech =', 'JB =', 'Appli ='),
+      #     round(1 / c(1, ratio1, ratio2), 2)
+      #   ),
+      #   pch = 1,
+      #   lty = 1,
+      #   col = c(2, 3, 4),
+      #   title = 'Multiplicateur'
+      # )
       legend(
         'bottomleft',
         inset = 0.03,
-        legend = paste(
-          c('Ech =', 'JB =', 'Appli ='),
-          round(1 / c(1, ratio1, ratio2), 2)
-        ),
+        legend = c('Ech', 'JB', 'Appli'),
         pch = 1,
         lty = 1,
         col = c(2, 3, 4),
-        title = 'Multiplicateur'
+      )
+      axis(
+        2,
+        at = pretty(par('usr')[3:4]),
+        labels = pretty(par('usr')[3:4]),
+        col = 2,
+        col.axis = 2
+      )
+      axis(
+        4,
+        at = pretty(par('usr')[3:4] / ratio1) * ratio1,
+        labels = pretty(par('usr')[3:4] / ratio1),
+        col = 3,
+        col.axis = 3
+      )
+      axis(
+        4,
+        at = pretty(par('usr')[3:4] / ratio2) * ratio2,
+        labels = pretty(par('usr')[3:4] / ratio2),
+        col = 4,
+        col.axis = 4,
+        line = 2
       )
 
       ##
@@ -526,12 +601,19 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
       plot(
         nue[, c('annee', 'ech')],
         type = 'o',
-        ylim = c(0, max(nue$ech, na.rm = TRUE) * 1.15),
+        ylim = c(
+          0,
+          max(c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2), na.rm = TRUE) *
+            1.05
+        ),
         yaxs = 'i',
         col = 2,
         xlab = 'Année',
-        ylab = 'Nombre par heure de pêche'
+        ylab = 'Nombre par heure de pêche',
+        axes = FALSE
       )
+      box()
+      axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
       lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
       lines(
@@ -550,17 +632,47 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
         labels = 'C',
         cex = 1.5
       )
+      # legend(
+      #   'topright',
+      #   inset = 0.03,
+      #   legend = paste(
+      #     c('Ech =', 'JB =', 'Appli ='),
+      #     round(1 / c(1, ratio1, ratio2), 2)
+      #   ),
+      #   pch = 1,
+      #   lty = 1,
+      #   col = c(2, 3, 4),
+      #   title = 'Multiplicateur'
+      # )
       legend(
         'topright',
         inset = 0.03,
-        legend = paste(
-          c('Ech =', 'JB =', 'Appli ='),
-          round(1 / c(1, ratio1, ratio2), 2)
-        ),
+        legend = c('Ech', 'JB', 'Appli'),
         pch = 1,
         lty = 1,
         col = c(2, 3, 4),
-        title = 'Multiplicateur'
+      )
+      axis(
+        2,
+        at = pretty(par('usr')[3:4]),
+        labels = pretty(par('usr')[3:4]),
+        col = 2,
+        col.axis = 2
+      )
+      axis(
+        4,
+        at = pretty(par('usr')[3:4] / ratio1) * ratio1,
+        labels = pretty(par('usr')[3:4] / ratio1),
+        col = 3,
+        col.axis = 3
+      )
+      axis(
+        4,
+        at = pretty(par('usr')[3:4] / ratio2) * ratio2,
+        labels = pretty(par('usr')[3:4] / ratio2),
+        col = 4,
+        col.axis = 4,
+        line = 2
       )
 
       ##
@@ -610,12 +722,19 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
       plot(
         nue[, c('annee', 'ech')],
         type = 'o',
-        ylim = c(0, max(nue$ech, na.rm = TRUE) * 1.15),
+        ylim = c(
+          0,
+          max(c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2), na.rm = TRUE) *
+            1.05
+        ),
         yaxs = 'i',
         col = 2,
         xlab = 'Année',
-        ylab = 'Nombre par heure de pêche'
+        ylab = 'Nombre par heure de pêche',
+        axes = FALSE
       )
+      box()
+      axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
       lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
       lines(
@@ -634,20 +753,51 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
         labels = 'D',
         cex = 1.5
       )
+      # legend(
+      #   'topleft',
+      #   inset = 0.03,
+      #   legend = paste(
+      #     c('Ech =', 'JB =', 'Appli ='),
+      #     round(1 / c(1, ratio1, ratio2), 2)
+      #   ),
+      #   pch = 1,
+      #   lty = 1,
+      #   col = c(2, 3, 4),
+      #   title = 'Multiplicateur'
+      # )
       legend(
         'topleft',
         inset = 0.03,
-        legend = paste(
-          c('Ech =', 'JB =', 'Appli ='),
-          round(1 / c(1, ratio1, ratio2), 2)
-        ),
+        legend = c('Ech', 'JB', 'Appli'),
         pch = 1,
         lty = 1,
         col = c(2, 3, 4),
-        title = 'Multiplicateur'
+      )
+      axis(
+        2,
+        at = pretty(par('usr')[3:4]),
+        labels = pretty(par('usr')[3:4]),
+        col = 2,
+        col.axis = 2
+      )
+      axis(
+        4,
+        at = pretty(par('usr')[3:4] / ratio1) * ratio1,
+        labels = pretty(par('usr')[3:4] / ratio1),
+        col = 3,
+        col.axis = 3
+      )
+      axis(
+        4,
+        at = pretty(par('usr')[3:4] / ratio2) * ratio2,
+        labels = pretty(par('usr')[3:4] / ratio2),
+        col = 4,
+        col.axis = 4,
+        line = 2
       )
 
       dev.off()
+      par(mar = c(5, 4, 4, 2) + 0.1)
     }
   }
 }
