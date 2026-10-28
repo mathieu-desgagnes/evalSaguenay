@@ -50,7 +50,7 @@ graph_effort_peche_barplot <- function(
     col = 1 + 1:ncol(nbPec),
     legend = TRUE,
     args.legend = list(
-      x = 'bottomright',
+      x = 'bottomleft',
       inset = 0.03,
       bg = "white",
       legend = legend1
