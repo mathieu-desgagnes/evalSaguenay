@@ -33,7 +33,7 @@ graph_effort_peche <- function(
   )
   val <- array(
     dim = c(3, length(annees)),
-    dimnames = list(site = c('Tout', 'LaBaie', 'PMSSL'), annee = annees)
+    dimnames = list(site = c('Tout', 'HorsPMSSL', 'PMSSL'), annee = annees)
   )
   for (i.an in seq_along(annees)) {
     if (
@@ -52,10 +52,10 @@ graph_effort_peche <- function(
             nbJours[as.character(annees[i.an]), 'fds'],
           na.rm = TRUE
         )
-      ## LaBaie
-      val['LaBaie', as.character(annees[i.an])] <- sum(
+      ## Hors PMSSL
+      val['HorsPMSSL', as.character(annees[i.an])] <- sum(
         nbPecheurs[
-          c('AnseBenjamin', 'GrandeBaie', 'LesBattures'),
+          c('AnseBenjamin', 'GrandeBaie', 'LesBattures', 'StFulgence'),
           as.character(annees[i.an]),
           'semaine',
           'moyenne'
@@ -65,7 +65,7 @@ graph_effort_peche <- function(
       ) +
         sum(
           nbPecheurs[
-            c('AnseBenjamin', 'GrandeBaie', 'LesBattures'),
+            c('AnseBenjamin', 'GrandeBaie', 'LesBattures', 'StFulgence'),
             as.character(annees[i.an]),
             'fds',
             'moyenne'
@@ -107,11 +107,11 @@ graph_effort_peche <- function(
     pch = 16,
     yaxs = 'i'
   )
-  lines(annees, val['LaBaie', ] / 1000, type = 'o', pch = 15, col = 4)
+  lines(annees, val['HorsPMSSL', ] / 1000, type = 'o', pch = 15, col = 4)
   lines(annees, val['PMSSL', ] / 1000, type = 'o', pch = 17, col = 3)
   legend(
     'topright',
-    legend = c('Saguenay', 'La Baie', 'PMSSL'),
+    legend = c('Saguenay', 'Hors PMSSL', 'PMSSL'),
     col = c(1, 4, 3),
     pch = c(16, 15, 17),
     lty = 1
@@ -123,7 +123,7 @@ graph_effort_peche <- function(
   )
   lines(
     2023 + c(-14, 0),
-    rep(mean(tail(val['LaBaie', ], 15) / 1000, na.rm = TRUE), 2),
+    rep(mean(tail(val['HorsPMSSL', ], 15) / 1000, na.rm = TRUE), 2),
     col = 4,
     lwd = 2
   )

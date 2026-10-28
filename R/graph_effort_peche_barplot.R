@@ -17,24 +17,24 @@ graph_effort_peche_barplot <- function(
       xlab1 <- 'Année'
       ylab1 <- 'Nombre de pêcheurs-jours (milliers)'
       ylab2 <- "Proportion de l'effort"
-      legend1 <- c('PMSSL', 'La Baie', 'Autre')
+      legend1 <- c('PMSSL', 'Hors PMSSL')
     },
     'en' = {
       xlab1 <- 'Year'
       ylab1 <- 'Number of fishermen - days (thousands)'
       ylab2 <- "Proportion of effort"
-      legend1 <- c('PMSSL', 'La Baie', 'Other')
+      legend1 <- c('PMSSL', 'Outside SSLMP')
     },
     'bil' = {
       xlab1 <- 'Année/Year'
       ylab1 <- 'Pêcheurs-jour / Fishermen-day'
       ylab2 <- "Proportion"
-      legend1 <- c('PMSSL', 'La Baie', 'Autre/Other')
+      legend1 <- c('PMSSL/SSLMP', 'Hors PMSSL/Outside SSLMP')
     }
   )
   op <- par(mfrow = c(1, 2), mar = c(4, 4, 1, 1) + 0.1)
   nbPec <- nbPecheursTot
-  nbPec$Tout <- round(nbPec$Tout - (nbPec$LaBaie + nbPec$PMSSL), 2)
+  nbPec$Tout <- round(nbPec$Tout - (nbPec$HorsPMSSL + nbPec$PMSSL), 2)
   x <- barplot(
     t(nbPec) / 1000,
     col = 1 + 1:ncol(nbPec),
