@@ -33,26 +33,29 @@ graph_struct_taille <- function(
     'fr' = {
       xlab1 <- 'Année'
       ylab1 <- 'Longueur (mm)'
-      legend.morue <- 'Morue franche'
+      legende.morue <- 'Morue franche'
       legende.gadide <- 'Gadidé non-spécifié'
+      legende.sebaste <- 'Sébastes'
     },
     'en' = {
       xlab1 <- 'Year'
       ylab1 <- 'Length (mm)'
-      legend.morue <- 'Atlantic cod'
+      legende.morue <- 'Atlantic cod'
       legende.gadide <- 'Unspecified Gadidae'
+      legende.sebaste <- 'Sebastes'
     },
     'bil' = {
       xlab1 <- 'Année/Year'
       ylab1 <- 'Longueur/Length (mm)'
-      legend.morue <- 'Morue franche/Atlantic cod'
+      legende.morue <- 'Morue franche/Atlantic cod'
       legende.gadide <- 'Gadidae, non-spécifié/unspecified '
+      legende.sebaste <- 'Sébastes'
     }
   )
   if (seulement_sebaste) {
-    op <- par(mfrow = c(1, 1), mar = c(4, 4, 1, 1) + 0.1)
+    op <- par(mfrow = c(1, 1), mar = c(4, 4, 2, 1) + 0.1)
   } else {
-    op <- par(mfrow = c(1, 2), mar = c(4, 4, 1, 1) + 0.1)
+    op <- par(mfrow = c(1, 2), mar = c(4, 4, 2, 1) + 0.1)
   }
   ##
   ## Sébastes
@@ -149,7 +152,7 @@ graph_struct_taille <- function(
     3,
     at = sort(unique(db.sebaste$anneeGestion)),
     labels = table(db.sebaste$anneeGestion),
-    cex.axis = 0.4,
+    cex.axis = 0.5,
     tick = FALSE,
     line = -0.8,
     las = 2
@@ -174,7 +177,7 @@ graph_struct_taille <- function(
       3,
       at = sort(unique(temp$annee)) + 0.3,
       labels = table(temp$annee),
-      cex.axis = 0.4,
+      cex.axis = 0.5,
       tick = FALSE,
       line = -1.8,
       las = 2,
@@ -234,6 +237,13 @@ graph_struct_taille <- function(
     cex = 1.5
   )
   j.text <- j.text + 1
+  legend(
+    'bottomleft',
+    inset = 0.03,
+    legend = c(legende.sebaste),
+    fill = c(3),
+    cex = 0.7
+  )
 
   ##
   ## distribution frequences de taille
@@ -297,7 +307,7 @@ graph_struct_taille <- function(
       3,
       at = sort(unique(temp$anneeGestion)),
       labels = table(temp$anneeGestion),
-      cex.axis = 0.4,
+      cex.axis = 0.5,
       tick = FALSE,
       line = -0.8,
       col.axis = 7
@@ -317,7 +327,7 @@ graph_struct_taille <- function(
       3,
       at = sort(unique(temp$anneeGestion)) - 0.2,
       labels = table(temp$anneeGestion),
-      cex.axis = 0.4,
+      cex.axis = 0.5,
       tick = FALSE,
       line = -0.8,
       col.axis = 2
@@ -337,7 +347,7 @@ graph_struct_taille <- function(
       3,
       at = sort(unique(temp$anneeGestion)),
       labels = table(temp$anneeGestion),
-      cex.axis = 0.6,
+      cex.axis = 0.5,
       tick = FALSE,
       line = 0,
       col.axis = 4
@@ -393,7 +403,7 @@ graph_struct_taille <- function(
       3,
       at = as.numeric(names(table(temp$anneeGestion))),
       labels = table(temp$anneeGestion),
-      cex.axis = 0.4,
+      cex.axis = 0.5,
       tick = FALSE,
       line = -0.8,
       las = 2,
@@ -417,7 +427,7 @@ graph_struct_taille <- function(
       3,
       at = sort(unique(temp$anneeGestion)),
       labels = table(temp$anneeGestion),
-      cex.axis = 0.4,
+      cex.axis = 0.5,
       tick = FALSE,
       line = -0.8,
       las = 2,
@@ -443,7 +453,7 @@ graph_struct_taille <- function(
         3,
         at = sort(unique(temp$annee)) + 0.3,
         labels = table(temp$annee),
-        cex.axis = 0.4,
+        cex.axis = 0.5,
         tick = FALSE,
         line = -1.8,
         las = 2,
@@ -474,7 +484,7 @@ graph_struct_taille <- function(
     legend(
       'bottomleft',
       inset = 0.03,
-      legend = c(legend.morue, legende.gadide),
+      legend = c(legende.morue, legende.gadide),
       fill = c(4, 2),
       cex = 0.7
     )
@@ -504,7 +514,7 @@ graph_struct_taille <- function(
       3,
       at = sort(unique(temp$anneeGestion)),
       labels = table(temp$anneeGestion),
-      cex.axis = 0.8,
+      cex.axis = 0.5,
       tick = FALSE,
       line = -1,
       las = 2
