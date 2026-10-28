@@ -15,23 +15,23 @@ graph_capture_prop_esp <- function(
     langue,
     'fr' = {
       xlab1 <- 'Année'
-      ylab1 <- 'Nombre'
+      ylab1 <- 'Nombre de poissons'
       legende1 = 'Espèce'
       espSeb = 'Sébastes'
       espMor = 'Morue'
       espOgac = 'Ogac'
-      espGad = 'Gadide'
-      espTur = 'Turbot'
+      espGad = 'Gadide non-spéc.'
+      espTur = 'Flétan Groenland'
     },
     'en' = {
       xlab1 <- 'Year'
-      ylab1 <- 'Number'
+      ylab1 <- 'Number fo fish'
       legende1 = 'Species'
       espSeb = 'Sebastes'
       espMor = 'Cod'
       espOgac = 'Ogac'
-      espGad = 'Gadide'
-      espTur = 'Turbot'
+      espGad = 'Un-spec. Gadide'
+      espTur = 'Greenland Halibut'
     },
     'bil' = {
       xlab1 <- 'Année/Year'
@@ -41,7 +41,7 @@ graph_capture_prop_esp <- function(
       espMor = 'Morue/Cod'
       espOgac = 'Ogac'
       espGad = 'Gadide'
-      espTur = 'Turbot'
+      espTur = 'Flétan G./G. Halibut'
     }
   )
   op <- par(mar = c(4, 4, 1, 1) + 0.1)
@@ -71,7 +71,7 @@ graph_capture_prop_esp <- function(
           espSeb,
           espMor,
           espOgac,
-          paste0(espMor, '+', espOgac),
+          espGad,
           espTur
         )),
         fill = rev(c(2, 3, 4, 5, 6))
