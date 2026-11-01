@@ -302,10 +302,10 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
 
       temp <- apply(na.omit(nue[, c('ech', 'jb')]), 2, mean)
       ratio1 <- temp[1] / temp[2]
-      temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
-      ratio2 <- temp[1] / temp[2]
-      # temp <- apply(na.omit(nue[, c('ech', 'jb.village')]), 2, mean)
-      # ratio3 <- temp[1] / temp[2]
+      # temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
+      # ratio2 <- temp[1] / temp[2]
+      temp <- apply(na.omit(nue[, c('ech', 'jb', 'gdf')]), 2, mean)
+      ratio2 <- mean(c(temp[1], temp[2] * ratio1)) / temp[3]
 
       # Valeur absolue
       #
@@ -352,16 +352,23 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
       axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
       lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
-      lines(
-        smooth.spline(
-          na.omit(cbind(
-            annee = rep(nue$annee, 3),
-            val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
-          )),
-          df = 8
-        ),
-        lwd = 2
-      )
+      temp <- as.data.frame(list(
+        annee = rep(nue$annee, 3),
+        val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+      ))
+      temp2 <- aggregate(temp$val, by = temp['annee'], FUN = mean, na.rm = TRUE)
+      # lines(head(tail(temp2$annee,-1),-1), zoo::rollmean(temp2$x, k=3), lw=2)
+      lines(temp2, lwd = 2)
+      # lines(
+      #   smooth.spline(
+      #     na.omit(cbind(
+      #       annee = rep(nue$annee, 3),
+      #       val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+      #     )),
+      #     df = 8
+      #   ),
+      #   lwd = 2
+      # )
       text(
         x = mean(par('usr')[1:2]),
         y = diff(par('usr')[3:4]) * 0.9 + par('usr')[3],
@@ -451,8 +458,10 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
 
       temp <- apply(na.omit(nue[, c('ech', 'jb')]), 2, mean)
       ratio1 <- temp[1] / temp[2]
-      temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
-      ratio2 <- temp[1] / temp[2]
+      # temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
+      # ratio2 <- temp[1] / temp[2]
+      temp <- apply(na.omit(nue[, c('ech', 'jb', 'gdf')]), 2, mean)
+      ratio2 <- mean(c(temp[1], temp[2] * ratio1)) / temp[3]
 
       #valeur absolue
       # plot(
@@ -495,16 +504,23 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
       axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
       lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
-      lines(
-        smooth.spline(
-          na.omit(cbind(
-            annee = rep(nue$annee, 3),
-            val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
-          )),
-          df = 8
-        ),
-        lwd = 2
-      )
+      temp <- as.data.frame(list(
+        annee = rep(nue$annee, 3),
+        val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+      ))
+      temp2 <- aggregate(temp$val, by = temp['annee'], FUN = mean, na.rm = TRUE)
+      # lines(head(tail(temp2$annee,-1),-1), zoo::rollmean(temp2$x, k=3), lw=2)
+      lines(temp2, lwd = 2)
+      # lines(
+      #   smooth.spline(
+      #     na.omit(cbind(
+      #       annee = rep(nue$annee, 3),
+      #       val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+      #     )),
+      #     df = 8
+      #   ),
+      #   lwd = 2
+      # )
       text(
         x = mean(par('usr')[1:2]),
         y = diff(par('usr')[3:4]) * 0.9 + par('usr')[3],
@@ -594,8 +610,10 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
 
       temp <- apply(na.omit(nue[, c('ech', 'jb')]), 2, mean)
       ratio1 <- temp[1] / temp[2]
-      temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
-      ratio2 <- temp[1] / temp[2]
+      # temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
+      # ratio2 <- temp[1] / temp[2]
+      temp <- apply(na.omit(nue[, c('ech', 'jb', 'gdf')]), 2, mean)
+      ratio2 <- mean(c(temp[1], temp[2] * ratio1)) / temp[3]
 
       #ratio de mise à l'échelle
       plot(
@@ -616,16 +634,23 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
       axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
       lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
-      lines(
-        smooth.spline(
-          na.omit(cbind(
-            annee = rep(nue$annee, 3),
-            val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
-          )),
-          df = 8
-        ),
-        lwd = 2
-      )
+      temp <- as.data.frame(list(
+        annee = rep(nue$annee, 3),
+        val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+      ))
+      temp2 <- aggregate(temp$val, by = temp['annee'], FUN = mean, na.rm = TRUE)
+      # lines(head(tail(temp2$annee,-1),-1), zoo::rollmean(temp2$x, k=3), lw=2)
+      lines(temp2, lwd = 2)
+      # lines(
+      #   smooth.spline(
+      #     na.omit(cbind(
+      #       annee = rep(nue$annee, 3),
+      #       val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+      #     )),
+      #     df = 8
+      #   ),
+      #   lwd = 2
+      # )
       text(
         x = mean(par('usr')[1:2]),
         y = diff(par('usr')[3:4]) * 0.9 + par('usr')[3],
@@ -715,8 +740,10 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
 
       temp <- apply(na.omit(nue[, c('ech', 'jb')]), 2, mean)
       ratio1 <- temp[1] / temp[2]
-      temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
-      ratio2 <- temp[1] / temp[2]
+      # temp <- apply(na.omit(nue[, c('ech', 'gdf')]), 2, mean)
+      # ratio2 <- temp[1] / temp[2]
+      temp <- apply(na.omit(nue[, c('ech', 'jb', 'gdf')]), 2, mean)
+      ratio2 <- mean(c(temp[1], temp[2] * ratio1)) / temp[3]
 
       #ratio de mise à l'échelle
       plot(
@@ -737,16 +764,23 @@ std_nue <- function(ech, jb, gdf, output_dir, brut = FALSE) {
       axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
       lines(nue$annee, nue$gdf * ratio2, type = 'o', col = 4)
-      lines(
-        smooth.spline(
-          na.omit(cbind(
-            annee = rep(nue$annee, 3),
-            val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
-          )),
-          df = 8
-        ),
-        lwd = 2
-      )
+      temp <- as.data.frame(list(
+        annee = rep(nue$annee, 3),
+        val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+      ))
+      temp2 <- aggregate(temp$val, by = temp['annee'], FUN = mean, na.rm = TRUE)
+      # lines(head(tail(temp2$annee,-1),-1), zoo::rollmean(temp2$x, k=3), lw=2)
+      lines(temp2, lwd = 2)
+      # lines(
+      #   smooth.spline(
+      #     na.omit(cbind(
+      #       annee = rep(nue$annee, 3),
+      #       val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+      #     )),
+      #     df = 8
+      #   ),
+      #   lwd = 2
+      # )
       text(
         x = mean(par('usr')[1:2]),
         y = diff(par('usr')[3:4]) * 0.9 + par('usr')[3],
