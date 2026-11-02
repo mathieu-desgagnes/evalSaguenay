@@ -14,6 +14,7 @@ std_nue <- function(
   gdf,
   output_dir,
   tendance = 'aucune',
+  anneeMax = NULL,
   brut = FALSE
 ) {
   if (!brut) {
@@ -308,6 +309,9 @@ std_nue <- function(
         all = TRUE
       )
       names(nue) <- c(head(names(nue), -1), 'gdf')
+      if (!is.null(anneeMax)) {
+        nue <- nue[nue$annee <= anneeMax, ]
+      }
 
       temp <- apply(na.omit(nue[, c('ech', 'jb')]), 2, mean)
       ratio1 <- temp[1] / temp[2]

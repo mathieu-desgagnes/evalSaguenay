@@ -167,7 +167,7 @@ graph_struct_taille <- function(
     x <- vioplot::vioplot(
       10 * taille ~ annee,
       data = temp,
-      h = 15,
+      h = 12,
       wex = table(donnees_gdf$annee) / max(table(donnees_gdf$annee)),
       at = sort(unique(donnees_gdf$annee)) + 0.3,
       col = 6,
