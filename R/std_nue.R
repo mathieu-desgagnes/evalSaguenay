@@ -297,7 +297,9 @@ std_nue <- function(
       nue <- merge(
         nue,
         aggregate(
-          gdf.temp$nbSebastes / (gdf.temp$duree_minutes / 60),
+          gdf.temp$nbSebastes /
+            gdf.temp$nombre_pecheurs /
+            (gdf.temp$duree_minutes / 60),
           gdf.temp['annee'],
           FUN = mean,
           na.rm = TRUE
@@ -379,7 +381,7 @@ std_nue <- function(
                 annee = rep(nue$annee, 3),
                 val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
               )),
-              df = 8
+              df = 10
             ),
             lwd = 2
           )
@@ -462,7 +464,9 @@ std_nue <- function(
       nue <- merge(
         nue,
         aggregate(
-          gdf.temp$nbMorue / (gdf.temp$duree_minutes / 60),
+          gdf.temp$nbMorue /
+            gdf.temp$nombre_pecheurs /
+            (gdf.temp$duree_minutes / 60),
           gdf.temp['annee'],
           FUN = mean,
           na.rm = TRUE
@@ -540,7 +544,7 @@ std_nue <- function(
                 annee = rep(nue$annee, 3),
                 val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
               )),
-              df = 8
+              df = 10
             ),
             lwd = 2
           )
@@ -623,7 +627,9 @@ std_nue <- function(
       nue <- merge(
         nue,
         aggregate(
-          gdf.temp$nbOgac / (gdf.temp$duree_minutes / 60),
+          gdf.temp$nbOgac /
+            gdf.temp$nombre_pecheurs /
+            (gdf.temp$duree_minutes / 60),
           gdf.temp['annee'],
           FUN = mean,
           na.rm = TRUE
@@ -679,7 +685,7 @@ std_nue <- function(
                 annee = rep(nue$annee, 3),
                 val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
               )),
-              df = 8
+              df = 10
             ),
             lwd = 2
           )
@@ -762,7 +768,9 @@ std_nue <- function(
       nue <- merge(
         nue,
         aggregate(
-          gdf.temp$nbTurbot / (gdf.temp$duree_minutes / 60),
+          gdf.temp$nbTurbot /
+            gdf.temp$nombre_pecheurs /
+            (gdf.temp$duree_minutes / 60),
           gdf.temp['annee'],
           FUN = mean,
           na.rm = TRUE
@@ -818,7 +826,7 @@ std_nue <- function(
                 annee = rep(nue$annee, 3),
                 val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
               )),
-              df = 8
+              df = 10
             ),
             lwd = 2
           )

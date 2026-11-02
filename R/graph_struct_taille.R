@@ -26,6 +26,7 @@ graph_struct_taille <- function(
   courbe_croissance = TRUE,
   courbe_croissance_alt = FALSE,
   seulement_sebaste = FALSE,
+  anMin = 1980,
   langue = c('fr', 'en', 'bil')
 ) {
   switch(
@@ -53,15 +54,15 @@ graph_struct_taille <- function(
     }
   )
   if (seulement_sebaste) {
-    op <- par(mfrow = c(1, 1), mar = c(4, 4, 2, 1) + 0.1)
+    op <- par(mfrow = c(1, 1), mar = c(4, 4, 2, 2) + 0.1)
   } else {
-    op <- par(mfrow = c(1, 2), mar = c(4, 4, 2, 1) + 0.1)
+    op <- par(mfrow = c(1, 2), mar = c(4, 4, 2, 2) + 0.1)
   }
   ##
   ## Sébastes
   if (FALSE) {
     #sans Talbot1991
-    temp <- subset(donnees, espece == 'sebastes')
+    temp <- subset(donnees, espece == 'sebastes' & anneeGestion >= anMin)
     x <- vioplot::vioplot(
       longueur ~ anneeGestion,
       data = temp,
@@ -99,7 +100,7 @@ graph_struct_taille <- function(
   }
   ##
   ## en incluant (hard coded) les données reprises de talbot 1991
-  db.sebaste <- subset(donnees, espece == 'sebastes')
+  db.sebaste <- subset(donnees, espece == 'sebastes' & anneeGestion >= anMin)
   talbot <- c(
     16,
     rep(17, 2),
@@ -126,7 +127,9 @@ graph_struct_taille <- function(
   ))
   test$longueur <- as.numeric(test$longueur)
   test$anneeGestion <- as.numeric(test$anneeGestion)
-  db.sebaste <- merge(db.sebaste, test, all = TRUE)
+  if (anMin < 1992) {
+    db.sebaste <- merge(db.sebaste, test, all = TRUE)
+  }
   x <- vioplot::vioplot(
     longueur ~ anneeGestion,
     data = db.sebaste,
@@ -139,7 +142,7 @@ graph_struct_taille <- function(
     ## main='Sébaste, Saguenay',
     xlab = xlab1,
     ylab = ylab1,
-    xlim = c(1981, max(db.sebaste$anneeGestion, na.rm = TRUE) + 1),
+    xlim = c(anMin, max(db.sebaste$anneeGestion, na.rm = TRUE) + 1),
     ylim = c(0, 500),
     xaxt = 'n'
   )
@@ -164,7 +167,7 @@ graph_struct_taille <- function(
     x <- vioplot::vioplot(
       10 * taille ~ annee,
       data = temp,
-      h = 6,
+      h = 15,
       wex = table(donnees_gdf$annee) / max(table(donnees_gdf$annee)),
       at = sort(unique(donnees_gdf$annee)) + 0.3,
       col = 6,
@@ -183,6 +186,8 @@ graph_struct_taille <- function(
       las = 2,
       col.axis = 6
     )
+    # if(anMin>=2018){ axis(4, at=pretty(par('usr')[3:4]/25.4)*25.4, labels=pretty(par('usr')[3:4]/25.4)) }
+    # abline(h=6:12*25.4)
   }
   ##
   if (courbe_croissance) {
@@ -289,7 +294,7 @@ graph_struct_taille <- function(
   ## gadidés
   if (FALSE) {
     #ogac et morue supperposé
-    temp <- subset(donnees, espece %in% 'ogac')
+    temp <- subset(donnees, espece %in% 'ogac' & anneeGestion >= anMin)
     x <- vioplot::vioplot(
       longueur ~ anneeGestion,
       data = temp,
@@ -313,7 +318,7 @@ graph_struct_taille <- function(
       col.axis = 7
     )
     ## ajouter morueSp
-    temp <- subset(donnees, espece == 'morueSp')
+    temp <- subset(donnees, espece == 'morueSp' & anneeGestion >= anMin)
     vioplot::vioplot(
       longueur ~ anneeGestion,
       data = temp,
@@ -333,7 +338,7 @@ graph_struct_taille <- function(
       col.axis = 2
     )
     ## ajouter franche
-    temp <- subset(donnees, espece == 'morue')
+    temp <- subset(donnees, espece == 'morue' & anneeGestion >= anMin)
     vioplot::vioplot(
       longueur ~ anneeGestion,
       data = temp,
@@ -382,7 +387,7 @@ graph_struct_taille <- function(
   }
   ##
   if (!seulement_sebaste) {
-    temp <- subset(donnees, espece %in% 'morue')
+    temp <- subset(donnees, espece %in% 'morue' & anneeGestion >= anMin)
     x <- vioplot::vioplot(
       longueur ~ anneeGestion,
       data = temp,
@@ -410,7 +415,7 @@ graph_struct_taille <- function(
       col.axis = 4
     )
     ## ajouter morueSp
-    temp <- subset(donnees, espece == 'morueSp')
+    temp <- subset(donnees, espece == 'morueSp' & anneeGestion >= anMin)
     vioplot::vioplot(
       longueur ~ anneeGestion,
       data = temp,
@@ -499,7 +504,7 @@ graph_struct_taille <- function(
   ##
   if (FALSE) {
     ## turbot
-    temp <- subset(donnees, espece == 'turbot')
+    temp <- subset(donnees, espece == 'turbot' & anneeGestion >= anMin)
     vioplot::vioplot(
       longueur ~ anneeGestion,
       data = temp,
