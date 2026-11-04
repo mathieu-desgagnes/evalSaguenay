@@ -243,7 +243,7 @@ graph_struct_taille <- function(
   )
   j.text <- j.text + 1
   legend(
-    'bottomleft',
+    'bottomright',
     inset = 0.03,
     legend = c(legende.sebaste),
     fill = c(3),
