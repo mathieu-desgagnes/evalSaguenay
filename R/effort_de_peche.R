@@ -266,6 +266,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
     sep = '-'
   ))
   nomPng <- 'date_ech'
+  print(paste0('Écriture de ', nomPng, '.png'))
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
       file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
@@ -292,6 +293,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
   ## effort de pêche par site
   ##
   nomPng <- 'effort_peche_par_site'
+  print(paste0('Écriture de ', nomPng, '.png'))
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
       file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
@@ -361,6 +363,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
   ## effort de pêche total
   ##
   nomPng <- 'effort_peche'
+  print(paste0('Écriture de ', nomPng, '.png'))
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
       file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
@@ -392,6 +395,7 @@ effort_de_peche <- function(ech, dates_officielles_fichier, output_dir) {
   ## effort de pêche total, en barplot, 1x2
   ##
   nomPng <- 'effort_peche_barplot'
+  print(paste0('Écriture de ', nomPng, '.png'))
   for (i.langue in c('fr', 'en', 'bil')) {
     png(
       file = file.path(output_dir, i.langue, paste0(nomPng, '.png')),
