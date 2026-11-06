@@ -109,6 +109,52 @@ ajout_echantillonneurs <- function(
   # plot(ech$annee, ech$anneeGestion)
   ech$nbHeures[which(ech$nbHeures < 0.25)] <- 0.25 #si le nombre d'heure est inférieur à 0.25 alors on met 0.25
   ech$nbGadide <- ech$nbMorue + ech$nbOgac
+  ## additionner toutes les autres especes
+  ech$nbTousLesAutres_plusPelago <- apply(
+    ech[, c(
+      "nbEperlan",
+      "nbFletan",
+      "nbLycode",
+      "nbSaida",
+      "nbRaie",
+      "nbMerlucheEcureuil",
+      "nbLimace",
+      "nbTruite",
+      "nbPoulamon",
+      "nbPlie",
+      "nbGoberge",
+      "nbHareng",
+      "nbAnguille",
+      "nbCapelan",
+      "nbOursin",
+      "nbSole",
+      "nbCrabe"
+    )],
+    1,
+    sum,
+    na.rm = TRUE
+  )
+  ech$nbTousLesAutres <- apply(
+    ech[, c(
+      "nbFletan",
+      "nbLycode",
+      "nbSaida",
+      "nbRaie",
+      "nbMerlucheEcureuil",
+      "nbLimace",
+      "nbTruite",
+      "nbPoulamon",
+      "nbPlie",
+      "nbGoberge",
+      "nbAnguille",
+      "nbOursin",
+      "nbSole",
+      "nbCrabe"
+    )],
+    1,
+    sum,
+    na.rm = TRUE
+  )
   ech[which(ech$anneeGestion < 2001), c('nbMorue', 'nbOgac')] <- NA
   ech$nbHeures <- as.numeric(ech$nbHeures)
   ech$ue <- ech$nbLignes * ech$nbHamecons * ech$nbHeures #unite d'effort
@@ -119,6 +165,7 @@ ajout_echantillonneurs <- function(
   ## as.numeric(wday(as.POSIXct('2023-10-29')) %in% c(1,7))
   ## which(ech$sfs.ori != ech$sfs)
   ##plot(wday(ech[ech$annee==2022,'date']), ech[ech$annee==2022,'sfs.ori'])
+
   if (FALSE) {
     #exploration du nombre d'heures de pêche
     nrow(ech[which(ech$secteur == "fond"), ])
