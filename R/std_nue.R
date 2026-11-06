@@ -349,7 +349,7 @@ std_nue <- function(
       par(mar = c(5, 4, 1, 5) + 0.1)
       plot(
         nue[, c('annee', 'ech')],
-        type = 'o',
+        type = 'p',
         ylim = c(
           0,
           max(c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2), na.rm = TRUE) *
@@ -361,6 +361,9 @@ std_nue <- function(
         ylab = 'Nombre par heure de pêche',
         axes = FALSE
       )
+      lines(nue[nue$annee <= 2003, c('annee', 'ech')], col = 2)
+      lines(nue[nue$annee >= 2004, c('annee', 'ech')], col = 2)
+      abline(v = 2003.5, lty = 3)
       box()
       axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
@@ -379,14 +382,21 @@ std_nue <- function(
         ),
         'moyenne' = lines(temp2, lwd = 2),
         'smoothSpline' = {
+          test <- smooth.spline(
+            na.omit(cbind(
+              annee = rep(nue$annee, 3),
+              val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+            )),
+            df = 10
+          )
           lines(
-            smooth.spline(
-              na.omit(cbind(
-                annee = rep(nue$annee, 3),
-                val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
-              )),
-              df = 10
-            ),
+            test$x[which(test$x <= 2003)],
+            test$y[which(test$x <= 2003)],
+            lwd = 2
+          )
+          lines(
+            test$x[which(test$x >= 2004)],
+            test$y[which(test$x >= 2004)],
             lwd = 2
           )
         }
@@ -515,7 +525,7 @@ std_nue <- function(
       #ratio de mise à l'échelle
       plot(
         nue[, c('annee', 'ech')],
-        type = 'o',
+        type = 'p',
         ylim = c(
           0,
           max(c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2), na.rm = TRUE) *
@@ -527,6 +537,9 @@ std_nue <- function(
         ylab = 'Nombre par heure de pêche',
         axes = FALSE
       )
+      lines(nue[nue$annee <= 2003, c('annee', 'ech')], col = 2)
+      lines(nue[nue$annee >= 2004, c('annee', 'ech')], col = 2)
+      abline(v = 2003.5, lty = 3)
       box()
       axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
@@ -545,14 +558,21 @@ std_nue <- function(
         ),
         'moyenne' = lines(temp2, lwd = 2),
         'smoothSpline' = {
+          test <- smooth.spline(
+            na.omit(cbind(
+              annee = rep(nue$annee, 3),
+              val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+            )),
+            df = 10
+          )
           lines(
-            smooth.spline(
-              na.omit(cbind(
-                annee = rep(nue$annee, 3),
-                val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
-              )),
-              df = 10
-            ),
+            test$x[which(test$x <= 2003)],
+            test$y[which(test$x <= 2003)],
+            lwd = 2
+          )
+          lines(
+            test$x[which(test$x >= 2004)],
+            test$y[which(test$x >= 2004)],
             lwd = 2
           )
         }
@@ -659,7 +679,7 @@ std_nue <- function(
       #ratio de mise à l'échelle
       plot(
         nue[, c('annee', 'ech')],
-        type = 'o',
+        type = 'p',
         ylim = c(
           0,
           max(c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2), na.rm = TRUE) *
@@ -671,6 +691,9 @@ std_nue <- function(
         ylab = 'Nombre par heure de pêche',
         axes = FALSE
       )
+      lines(nue[nue$annee <= 2003, c('annee', 'ech')], col = 2)
+      lines(nue[nue$annee >= 2004, c('annee', 'ech')], col = 2)
+      abline(v = 2003.5, lty = 3)
       box()
       axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
@@ -689,14 +712,21 @@ std_nue <- function(
         ),
         'moyenne' = lines(temp2, lwd = 2),
         'smoothSpline' = {
+          test <- smooth.spline(
+            na.omit(cbind(
+              annee = rep(nue$annee, 3),
+              val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+            )),
+            df = 10
+          )
           lines(
-            smooth.spline(
-              na.omit(cbind(
-                annee = rep(nue$annee, 3),
-                val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
-              )),
-              df = 10
-            ),
+            test$x[which(test$x <= 2003)],
+            test$y[which(test$x <= 2003)],
+            lwd = 2
+          )
+          lines(
+            test$x[which(test$x >= 2004)],
+            test$y[which(test$x >= 2004)],
             lwd = 2
           )
         }
@@ -803,7 +833,7 @@ std_nue <- function(
       #ratio de mise à l'échelle
       plot(
         nue[, c('annee', 'ech')],
-        type = 'o',
+        type = 'p',
         ylim = c(
           0,
           max(c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2), na.rm = TRUE) *
@@ -815,6 +845,9 @@ std_nue <- function(
         ylab = 'Nombre par heure de pêche',
         axes = FALSE
       )
+      lines(nue[nue$annee <= 2003, c('annee', 'ech')], col = 2)
+      lines(nue[nue$annee >= 2004, c('annee', 'ech')], col = 2)
+      abline(v = 2003.5, lty = 3)
       box()
       axis(1)
       lines(nue$annee, nue$jb * ratio1, type = 'o', col = 3)
@@ -833,14 +866,21 @@ std_nue <- function(
         ),
         'moyenne' = lines(temp2, lwd = 2),
         'smoothSpline' = {
+          test <- smooth.spline(
+            na.omit(cbind(
+              annee = rep(nue$annee, 3),
+              val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
+            )),
+            df = 10
+          )
           lines(
-            smooth.spline(
-              na.omit(cbind(
-                annee = rep(nue$annee, 3),
-                val = c(nue$ech, nue$jb * ratio1, nue$gdf * ratio2)
-              )),
-              df = 10
-            ),
+            test$x[which(test$x <= 2003)],
+            test$y[which(test$x <= 2003)],
+            lwd = 2
+          )
+          lines(
+            test$x[which(test$x >= 2004)],
+            test$y[which(test$x >= 2004)],
             lwd = 2
           )
         }
