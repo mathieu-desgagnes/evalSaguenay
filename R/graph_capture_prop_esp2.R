@@ -19,7 +19,7 @@ graph_capture_prop_esp2 <- function(
       espSeb = 'Sébastes'
       espMor = 'Morue'
       espOgac = 'Ogac'
-      espGad = 'Gadide'
+      espGad = 'Gadidé non-spéc.'
       espTur = 'Turbot'
     },
     'en' = {
@@ -29,7 +29,7 @@ graph_capture_prop_esp2 <- function(
       espSeb = 'Sebastes'
       espMor = 'Cod'
       espOgac = 'Ogac'
-      espGad = 'Gadide'
+      espGad = 'Un-spec. Gadide'
       espTur = 'Turbot'
     },
     'bil' = {
