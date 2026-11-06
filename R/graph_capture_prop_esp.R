@@ -22,6 +22,7 @@ graph_capture_prop_esp <- function(
       espOgac = 'Ogac'
       espGad = 'Gadide non-spéc.'
       espTur = 'Flétan Groenland'
+      espAutre = 'Autres'
     },
     'en' = {
       xlab1 <- 'Year'
@@ -32,6 +33,7 @@ graph_capture_prop_esp <- function(
       espOgac = 'Ogac'
       espGad = 'Un-spec. Gadide'
       espTur = 'Greenland Halibut'
+      espAutre = 'Others'
     },
     'bil' = {
       xlab1 <- 'Année/Year'
@@ -42,6 +44,7 @@ graph_capture_prop_esp <- function(
       espOgac = 'Ogac'
       espGad = 'Gadide'
       espTur = 'Flétan G./G. Halibut'
+      espAutre = 'Autres/Others'
     }
   )
   op <- par(mar = c(4, 4, 1, 1) + 0.1)
@@ -58,7 +61,7 @@ graph_capture_prop_esp <- function(
   if (legend) {
     x <- barplot(
       t(temp),
-      col = c(2, 3, 4, 5, 6),
+      col = c(2, 3, 4, 5, 6, 7),
       xlab = xlab1,
       ylab = ylab1,
       legend = TRUE,
@@ -72,9 +75,10 @@ graph_capture_prop_esp <- function(
           espMor,
           espOgac,
           espGad,
-          espTur
+          espTur,
+          espAutre
         )),
-        fill = rev(c(2, 3, 4, 5, 6))
+        fill = rev(c(2, 3, 4, 5, 6, 7))
       )
     )
   } else {

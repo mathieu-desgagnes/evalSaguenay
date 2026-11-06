@@ -37,7 +37,8 @@ capture <- function(
         'nbMorue',
         'nbOgac',
         'nbTurbot',
-        'nbGadide'
+        'nbGadide',
+        'nbTousLesAutres'
       )],
       nbPecheursMoy.strate = nb_pecheurs_moy_par_strate[,,, 'moyenne'],
       nbJour.strate = nb_jours_par_strate,

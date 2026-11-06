@@ -20,7 +20,7 @@ graph_capture_prop_esp2 <- function(
       espMor = 'Morue'
       espOgac = 'Ogac'
       espGad = 'Gadidé non-spéc.'
-      espTur = 'Turbot'
+      espTur = 'Flétan Groenland'
     },
     'en' = {
       xlab1 <- 'Year'
@@ -30,7 +30,7 @@ graph_capture_prop_esp2 <- function(
       espMor = 'Cod'
       espOgac = 'Ogac'
       espGad = 'Un-spec. Gadide'
-      espTur = 'Turbot'
+      espTur = 'Greenland Halibut'
     },
     'bil' = {
       xlab1 <- 'Année/Year'
@@ -40,7 +40,7 @@ graph_capture_prop_esp2 <- function(
       espMor = 'Morue/Cod'
       espOgac = 'Ogac'
       espGad = 'Gadide'
-      espTur = 'Turbot'
+      espTur = 'Flétan Gr./Gr. Halibut'
     }
   )
   op <- par(mar = c(4, 4, 1, 1) + 0.1)

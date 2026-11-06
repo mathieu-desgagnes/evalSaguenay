@@ -26,7 +26,7 @@ graph_capture_totale <- function(
       espSeb = 'Sébastes'
       espMor = 'Morue'
       espOgac = 'Ogac'
-      espTur = 'Turbot'
+      espTur = 'Flétan du Groenland'
     },
     'en' = {
       xlab1 <- 'Year'
@@ -34,7 +34,7 @@ graph_capture_totale <- function(
       espSeb = 'Sebastes'
       espMor = 'Cod'
       espOgac = 'Ogac'
-      espTur = 'Turbot'
+      espTur = 'Greenland Halibut'
     },
     'bil' = {
       xlab1 <- 'Année/Year'
@@ -42,14 +42,14 @@ graph_capture_totale <- function(
       espSeb = 'Sebastes'
       espMor = 'Morue/Cod'
       espOgac = 'Ogac'
-      espTur = 'Turbot'
+      espTur = 'Flétan Gr./Gr. Halibut'
     }
   )
   op <- par(mfrow = c(2, 2), mar = c(4, 4, 1, 1) + 0.1)
   ##
   annees <- as.numeric(dimnames(nbPecheursMoy.strate)$annee)
   sites <- dimnames(nbPecheursMoy.strate)$site
-  especes <- c('sebastes', 'morue', 'ogac', 'turbot', 'gadide')
+  especes <- c('sebastes', 'morue', 'ogac', 'turbot', 'gadide', 'autres')
   sfs <- dimnames(nbPecheursMoy.strate)$sfs
   ##
   capt <- array(
@@ -78,9 +78,16 @@ graph_capture_totale <- function(
           for (i.sfs in seq_along(sfs)) {
             nomColEsp <- paste0(
               'nb',
-              c('Sebastes', 'Morue', 'Ogac', 'Turbot', 'Gadide')[match(
+              c(
+                'Sebastes',
+                'Morue',
+                'Ogac',
+                'Turbot',
+                'Gadide',
+                'TousLesAutres'
+              )[match(
                 especes[i.esp],
-                c('sebastes', 'morue', 'ogac', 'turbot', 'gadide')
+                c('sebastes', 'morue', 'ogac', 'turbot', 'gadide', 'autres')
               )]
             )
             capt[

@@ -25,7 +25,7 @@ graph_capture_totale2 <- function(
       espSeb = 'Sébastes'
       espMor = 'Morue'
       espOgac = 'Ogac'
-      espTur = 'Turbot'
+      espTur = 'Flétan Groenland'
     },
     'en' = {
       xlab1 <- 'Year'
@@ -33,7 +33,7 @@ graph_capture_totale2 <- function(
       espSeb = 'Sebastes'
       espMor = 'Cod'
       espOgac = 'Ogac'
-      espTur = 'Turbot'
+      espTur = 'Greenland Halibut'
     },
     'bil' = {
       xlab1 <- 'Année/Year'
@@ -41,7 +41,7 @@ graph_capture_totale2 <- function(
       espSeb = 'Sebastes'
       espMor = 'Morue/Cod'
       espOgac = 'Ogac'
-      espTur = 'Turbot'
+      espTur = 'Flétan Gr./Gr. Halibut'
     }
   )
   op <- par(mfrow = c(2, 2), mar = c(4, 4, 1, 1) + 0.1)
